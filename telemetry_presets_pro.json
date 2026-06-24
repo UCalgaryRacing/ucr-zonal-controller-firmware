@@ -1,0 +1,46 @@
+{
+  "presets": [
+    {
+      "name": "Accel",
+      "plots": [
+        [
+          "APPS.APPS1PercentTravel",
+          "MotorRequest.TorqueRequestPercent",
+          "FrontBSE.FrontBSEPressurePSI"
+        ],
+        [
+          "AccumulatorMeasurements.BatteryPower",
+          "MotorRequest.PowerLimitActive",
+          "AccumulatorMeasurements.TSVoltage"
+        ],
+        [
+          "FrontWheelSpeed.FrontLeftWheelRPM",
+          "MotorData.MotorRPM"
+        ]
+      ]
+    },
+    {
+      "name": "Endurance",
+      "plots": [
+        [
+          "APPS.APPS1PercentTravel",
+          "MotorRequest.TorqueRequestPercent",
+          "FrontBSE.FrontBSEPressurePSI"
+        ],
+        [
+          "AccumulatorMeasurements.BatteryPower",
+          "MotorRequest.PowerLimitActive",
+          "AccumulatorMeasurements.TSVoltage"
+        ],
+        [
+          "FrontWheelSpeed.FrontLeftWheelRPM",
+          "MotorData.MotorRPM"
+        ],
+        [
+          "MotorData.MotorTempC",
+          "MotorData.InverterTempC"
+        ]
+      ]
+    }
+  ]
+}

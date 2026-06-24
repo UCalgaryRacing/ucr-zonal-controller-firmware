@@ -1,0 +1,1 @@
+void rco_svc_fan_update();

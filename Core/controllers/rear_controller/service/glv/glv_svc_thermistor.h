@@ -1,0 +1,1 @@
+float glv_svc_convert_voltage_to_temperature(float temp_sensor_voltage);

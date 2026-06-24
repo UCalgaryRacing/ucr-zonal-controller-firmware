@@ -1,0 +1,6 @@
+#ifndef FRONT_TCU_CONFIG_PINOUT_H_
+#define FRONT_TCU_CONFIG_PINOUT_H_
+
+
+
+#endif /* FRONT_TCU_CONFIG_PINOUT_H_ */
