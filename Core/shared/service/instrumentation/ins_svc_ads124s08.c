@@ -1,0 +1,90 @@
+/*
+ * ins_svc_ads124s08.c
+ *
+ *  Created on: Apr 29, 2026
+ *      Author: f-dunnwolbaum
+ */
+
+#include "ins_svc_ads124s08.h"
+#include "ins_drv_ads124s08.h"
+#include "ins_drv_ads124s08_regs.h"
+#include "ins_config.h"
+#include <string.h>
+#include <stdbool.h>
+#include "cmsis_os2.h"
+
+static float convert_raw_to_voltage(uint8_t *data_buffer);
+static bool init_error = false;
+
+void ins_svc_ads124s08_init(ads124s08_hw_t *hw)
+{   
+    uint8_t command = ADS124S08_RESET_COMMAND;
+    ins_drv_ads124s08_send_command(hw, &command, 1);
+    osDelay(10);
+
+    // write defaults to the shadow register
+    ins_drv_shadow_init_default(hw);
+    ins_drv_ads124s08_write_shadow(hw);
+
+    ads124s08_shawdow_t readback_shadow;
+    ads124s08_hw_t readback = *hw;
+    readback.shadow = &readback_shadow;
+    ins_drv_ads124s08_read_shadow(&readback);
+    // update the device ID in the shadow register with the value read back from the device   
+    hw->shadow->device_id = readback.shadow->device_id; 
+
+    // readback the calibration registers
+    hw->shadow->fs_cal_0 = readback.shadow->fs_cal_0;
+    hw->shadow->fs_cal_1 = readback.shadow->fs_cal_1;
+    hw->shadow->fs_cal_2 = readback.shadow->fs_cal_2;
+
+    hw->shadow->off_cal_0 = readback.shadow->off_cal_0;
+    hw->shadow->off_cal_1 = readback.shadow->off_cal_1;
+    hw->shadow->off_cal_2 = readback.shadow->off_cal_2;
+
+    if(memcmp(hw->shadow, readback.shadow, sizeof(ads124s08_shawdow_t)) != 0)
+    {
+        init_error = true;
+    }
+
+    // start the calibration for the adc
+    ins_drv_ads124s08_start_internal_calibration(hw);
+
+}
+
+float ins_svc_ads124s08_read_channel(instrumentation_channel_t channel)
+{   
+    uint8_t command;
+    float converted_value;
+
+    osDelay(10);
+    //set the input mux and start the conversion
+    ins_drv_ads124s08_start_conversion(channel.input_pos_pin, channel.input_neg_pin, channel.hw);
+
+    osDelay(5);
+
+    //send command to read data from the adc
+    command = ADS124S08_READ_DATA_COMMAND;
+    ins_drv_ads124s08_send_command(channel.hw, &command, 1);
+
+    //actually read the data
+    uint8_t data_buffer[3];
+    ins_drv_ads124s08_read_data(channel.hw, data_buffer, 3);
+
+    //convert raw value to a float
+    converted_value = convert_raw_to_voltage(data_buffer);
+    
+    return converted_value;
+}
+
+static float convert_raw_to_voltage(uint8_t *data_buffer)
+{
+    int32_t raw_data;
+    float converted_value;
+
+    raw_data = ins_drv_ads124s08_format_data(data_buffer);
+
+    converted_value = (float) raw_data * INSTRUMENTATION_EXTERNAL_REFERENCE / ADS124S08_MAX_VALUE;
+    
+    return converted_value;
+}
