@@ -55,6 +55,14 @@ void task_manager_loop(void)
 
 	//TODO move all this into proper services 
 	g_requested_torque = tcu_data_get_apps_percent();
+	bool regen_requested = whl_data_get_button_2();
+	float wheel_rpm = ins_data_get_wheel_rpm(INS_WHEEL_SPEED_SENSOR_FRONT_LEFT);
+	bool regen_active = (regen_requested && (wheel_rpm > 100.0f));
+
+	if (regen_active)
+	{
+		g_requested_torque = -5.0f;
+	}
 
 	if (tcu_data_get_fault_active())
 	{
@@ -64,7 +72,7 @@ void task_manager_loop(void)
 	{
 		g_requested_torque = 0.0f;
 	}
-	if (g_requested_torque < 3.0f)
+	if (-1.0f < g_requested_torque && g_requested_torque < 3.0f)
 	{
 		g_requested_torque = 0.0f;
 	}
@@ -78,6 +86,8 @@ void task_manager_loop(void)
 		g_requested_torque = 0.0f;
 	}
 
+	if (!regen_active)
+	{
 	//---------------- TRACTION CONTROL ----------------//
 	// Enable exactly ONE method below before reflashing (comment out the other).
 	mco_svc_traction_control_calculate_motor_speed_slip_ratio();
@@ -92,6 +102,8 @@ void task_manager_loop(void)
 	float torque_before_pl = g_requested_torque;
 	g_requested_torque = mco_svc_power_limit_limit_torque_percent(g_requested_torque);
 	bool power_limit_active = (g_requested_torque < (torque_before_pl - 0.01f));
+	}
+
 
 	mco_svc_can_tx_motor_request_data(g_requested_torque, power_limit_active, traction_control_active);
 
