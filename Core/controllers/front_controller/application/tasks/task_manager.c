@@ -18,6 +18,9 @@
 #include "cmsis_os2.h"
 #include "mco_svc_bamocar_regs.h"
 
+//Remove later
+#include "ins_data.h"
+
 
 #include "tcu_app_state_manager.h"
 
