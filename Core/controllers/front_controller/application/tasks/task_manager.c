@@ -20,6 +20,7 @@
 
 //Remove later
 #include "ins_data.h"
+#include "whl_data.h"
 
 
 #include "tcu_app_state_manager.h"
@@ -61,10 +62,16 @@ void task_manager_loop(void)
 	bool regen_requested = whl_data_get_button_2();
 	float wheel_rpm = ins_data_get_wheel_rpm(INS_WHEEL_SPEED_SENSOR_FRONT_LEFT);
 	bool regen_active = (regen_requested && (wheel_rpm > 100.0f));
+	//tcu_bse_data_t bse_data;
+    //tcu_data_get_bse(&bse_data);
+
+	//#define REGEN_TORQUE_SCALING_FACTOR       10.0f
 
 	if (regen_active)
 	{
-		g_requested_torque = -5.0f;
+		g_requested_torque = -10.0f;
+		//g_requested_torque = bse_data.sensor.percent * REGEN_TORQUE_SCALING_FACTOR / 100.0f;
+
 	}
 
 	if (tcu_data_get_fault_active())
@@ -89,12 +96,14 @@ void task_manager_loop(void)
 		g_requested_torque = 0.0f;
 	}
 
+	bool traction_control_active = false;
+	bool power_limit_active = false;
+
 	if (!regen_active)
 	{
 	//---------------- TRACTION CONTROL ----------------//
 	// Enable exactly ONE method below before reflashing (comment out the other).
 	mco_svc_traction_control_calculate_motor_speed_slip_ratio();
-	bool traction_control_active = false;
 
 //	  float torque_before_tc = g_requested_torque;
 //	  g_requested_torque = mco_svc_traction_control_limit_torque_percent(g_requested_torque);
@@ -104,7 +113,7 @@ void task_manager_loop(void)
 	//---------------- POWER LIMIT ----------------//
 	float torque_before_pl = g_requested_torque;
 	g_requested_torque = mco_svc_power_limit_limit_torque_percent(g_requested_torque);
-	bool power_limit_active = (g_requested_torque < (torque_before_pl - 0.01f));
+	power_limit_active = (g_requested_torque < (torque_before_pl - 0.01f));
 	}
 
 
