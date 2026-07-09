@@ -17,6 +17,7 @@
 #include "tcu_svc_fault.h"
 #include "cmsis_os2.h"
 #include "mco_svc_bamocar_regs.h"
+#include "mco_svc_regen.h"
 
 //Remove later
 #include "ins_data.h"
@@ -29,6 +30,8 @@ static float g_requested_torque = 0;
 
 static const uint32_t period = 10;
 static uint32_t nextWakeTime;
+
+static bool regen_active = false;
 
 void task_manager_init(void)
 {
@@ -61,11 +64,10 @@ void task_manager_loop(void)
 	g_requested_torque = tcu_data_get_apps_percent();
 	bool regen_requested = whl_data_get_button_2();
 	float wheel_rpm = ins_data_get_wheel_rpm(INS_WHEEL_SPEED_SENSOR_FRONT_LEFT);
-	bool regen_active = (regen_requested && (wheel_rpm > 100.0f));
-	//tcu_bse_data_t bse_data;
-    //tcu_data_get_bse(&bse_data);
+	regen_active = (regen_requested && (wheel_rpm > 100.0f));
+	
+	//bool regen_active = mco_svc_regen_is_active();
 
-	//#define REGEN_TORQUE_SCALING_FACTOR       10.0f
 
 	if (regen_active)
 	{
