@@ -11,6 +11,11 @@ extern TIM_HandleTypeDef htim2;
 extern SPI_HandleTypeDef hspi1;
 
 #define INS_SPI_HANDLE (&hspi1)
-// mcu v1.0 does not support chip select pins for the instrumentation module
+
+#define INS_CS_0_PORT GPIOI
+#define INS_CS_0_PIN GPIO_PIN_4
+
+#define INS_CS_1_PORT GPIOG
+#define INS_CS_1_PIN GPIO_PIN_10
 
 #endif

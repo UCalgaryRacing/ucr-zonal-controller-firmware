@@ -65,8 +65,8 @@
 typedef struct 
 {   
     SPI_HandleTypeDef *spi_handle;
-    // GPIO_TypeDef *cs_port;               // Chip Select GPIO Port. Not supported on MCU V1.0
-    // uint16_t      cs_pin;                // Chip Select GPIO Pin. Not supported on MCU V1.0
+    GPIO_TypeDef *cs_port;               // Chip Select GPIO Port. Not supported on MCU V1.0
+    uint16_t      cs_pin;                // Chip Select GPIO Pin. Not supported on MCU V1.0
     ads124s08_shawdow_t *shadow;
 } ads124s08_hw_t;
 

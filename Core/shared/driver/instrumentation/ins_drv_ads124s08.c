@@ -177,16 +177,16 @@ static void read_register(const ads124s08_hw_t *hw, uint8_t reg_address, uint8_t
 
 void ins_drv_ads124s08_send_command(const ads124s08_hw_t *hw, uint8_t *command, uint16_t length)
 {
-    // HAL_GPIO_WritePin(hw->cs_port, hw->cs_pin, GPIO_PIN_RESET); Not supported on MCU V1.0
+    HAL_GPIO_WritePin(hw->cs_port, hw->cs_pin, GPIO_PIN_RESET); 
     HAL_SPI_Transmit(hw->spi_handle, command, length, HAL_MAX_DELAY);
-    // HAL_GPIO_WritePin(hw->cs_port, hw->cs_pin, GPIO_PIN_SET); Not supported on MCU V1.0
+    HAL_GPIO_WritePin(hw->cs_port, hw->cs_pin, GPIO_PIN_SET);
 }
 
 void ins_drv_ads124s08_read_data(const ads124s08_hw_t *hw, uint8_t *data_dest, uint16_t length)
 {
-    // HAL_GPIO_WritePin(hw->cs_port, hw->cs_pin, GPIO_PIN_RESET); Not supported on MCU V1.0
+    HAL_GPIO_WritePin(hw->cs_port, hw->cs_pin, GPIO_PIN_RESET); 
     HAL_SPI_Receive(hw->spi_handle, data_dest, length, HAL_MAX_DELAY);
-    // HAL_GPIO_WritePin(hw->cs_port, hw->cs_pin, GPIO_PIN_SET); Not supported on MCU V1.0
+    HAL_GPIO_WritePin(hw->cs_port, hw->cs_pin, GPIO_PIN_SET);
 }
 
 int32_t ins_drv_ads124s08_format_data(uint8_t * data_buffer)

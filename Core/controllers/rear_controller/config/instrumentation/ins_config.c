@@ -17,14 +17,23 @@
 // These will be updated when the driver layer does the default configuations
 // and during operation to reflect the current state of the devices
 static ads124s08_shawdow_t ads124s08_0_shadow = {0};
-
+static ads124s08_shawdow_t ads124s08_1_shadow = {0};
 
 static ads124s08_hw_t adc_0 = 
 {
     .spi_handle = INS_SPI_HANDLE,
+    .cs_port = INS_CS_0_PORT,
+    .cs_pin = INS_CS_0_PIN,
     .shadow = &ads124s08_0_shadow
 };
 
+static ads124s08_hw_t adc_1 = 
+{
+    .spi_handle = INS_SPI_HANDLE,
+    .cs_port = INS_CS_1_PORT,
+    .cs_pin = INS_CS_1_PIN,
+    .shadow = &ads124s08_0_shadow
+};
 
 /*============================================================================*/
 /*Channel Configuration                                                       */
