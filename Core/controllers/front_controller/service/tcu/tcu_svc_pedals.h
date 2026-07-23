@@ -2,7 +2,7 @@
 #define TCU_SVC_PEDALS_H_
 
 #include "com_typ_common.h"
-#include "mcu_analog_channels.h"
+#include "mcu_config_analog_channels.h"
 #include "tcu_data.h"
 
 void tcu_svc_apps_update(mcu_analog_channel_id_t apps_1_channel_id, mcu_analog_channel_id_t apps_2_channel_id);

@@ -2,60 +2,62 @@
 #include "mcu_config.h"
 #include "glv_config.h"
 #include "mcu_svc_hsd.h"
-//TODO is this fine to couple configs with shared types like this or should move to seperate shared types?
+
 #include "pdm_config.h"
 
 
 
 const mcu_channel_config_t mcu_hsd_default_config[MCU_HSD_TOTAL_CHANNELS] =
 {
-    [DOUT_1] = {
+    [ACCU_FAN_PWM] = {
 
         .enabled     = true,
         .hw = {
-                .input_port   = MCU_TPS4XXXX_1_IN1_GPIO_Port,
-                .input_pin    = MCU_TPS4XXXX_1_IN1_Pin,
+                .input_port   = HSD_5V_FAST_1_CTL_GPIO_Port,
+                .input_pin    = HSD_5V_FAST_1_CTL_GPIO_Pin,
             }
         },
-    [DOUT_2] = {
+    [TS_FAN_PWM] = {
 
         .enabled     = true,
         .hw = {
-                .input_port   = MCU_TPS4XXXX_1_IN2_GPIO_Port,
-                .input_pin    = MCU_TPS4XXXX_1_IN2_Pin,
+                .input_port   = HSD_5V_FAST_2_CTL_GPIO_Port,
+                .input_pin    = HSD_5V_FAST_2_CTL_GPIO_Pin,
             }
         },
-    [DOUT_3] = {
+    [BAMOCAR_RFE] = {
 
         .enabled     = true,
         .hw = {
-                .input_port   = MCU_TPS4XXXX_1_IN3_GPIO_Port,
-                .input_pin    = MCU_TPS4XXXX_1_IN3_Pin,
+                .input_port   = HSD_12V_1_CTL_GPIO_Port,
+                .input_pin    = HSD_12V_1_CTL_GPIO_Pin,
             }
         },
-    [DOUT_4] = {
+    [BAMOCAR_FRG] = {
 
         .enabled     = true,
         .hw = {
-                .input_port   = MCU_TPS4XXXX_1_IN4_GPIO_Port,
-                .input_pin    = MCU_TPS4XXXX_1_IN4_Pin,
+                .input_port   = HSD_12V_2_CTL_GPIO_Port,
+                .input_pin    = HSD_12V_2_CTL_GPIO_Pin,
+            }
+        },
+    [DRS_PULSE] = {
+
+        .enabled     = true,
+        .hw = {
+                .input_port   = HSD_5V_SLOW_CTL_GPIO_Port,
+                .input_pin    = HSD_5V_SLOW_CTL_GPIO_Pin,
             }
         },
 };
 
-
-
-// static mcu_adc_context_t adc_1_context = {
-//     .adc_handle = TCU_ADC_1_HANDLE,
-//     .adc_vref = MCU_ADC_1_VREF_V,
-//     .adc_max = MCU_ADC_1_MAX_COUNT,
-//     .calibrated = false,
-//     .dma_started = false,
-//     .adc_channels = 1
-// };
-
+/*============================================================================*/
+/* ADC Context                                                                */
+/*============================================================================*/
+//TODO: should this be shared? also should buffer number/index be tied to the context, so that you can't accidentally put the wrong number?
+// adc_channels should probably be a macro
 static mcu_adc_context_t adc_3_context = {
-    .adc_handle = TCU_ADC_3_HANDLE,
+    .adc_handle = RCO_ADC_3_HANDLE,
     .adc_vref = MCU_ADC_3_VREF_V,
     .adc_max = MCU_ADC_3_MAX_COUNT,
     .calibrated = false,
@@ -67,12 +69,10 @@ static mcu_adc_context_t adc_3_context = {
 /* Analog Sensor Configuration Table                                          */
 /*============================================================================*/
 
-//TODO maybe split hw and context / dma stuff into seperate structs
-//TODO should these defines be named more generically?
-const mcu_analog_config_t mcu_analog_config[MCU_ANALOG_SENSOR_COUNT] =
+const mcu_analog_config_t mcu_analog_config[MCU_TOTAL_ADC_INPUT_COUNT] =
 {
     /*------------------------------------------------------------------------*/
-    /* APPS Sensor 1 (Primary)                                                */
+    /* Battery Highest Temperature (GLV Board Logic)                          */
     /*------------------------------------------------------------------------*/
     [BATT_HIGHEST_TEMP] =
     {
@@ -86,15 +86,14 @@ const mcu_analog_config_t mcu_analog_config[MCU_ANALOG_SENSOR_COUNT] =
         },
         .hw = {
             .adc_context = &adc_3_context,
-            .adc_buffer_number = TCU_AIN3_ADC_BUFFER_NUMBER,
-            .adc_buffer_index = TCU_AIN3_ADC_BUFFER_INDEX,
+            .adc_buffer_number = ADC_3_1_BUFFER_NUMBER,
+            .adc_buffer_index = ADC_3_1_BUFFER_INDEX,
         },
         .enabled = true,
     },
 
     /*------------------------------------------------------------------------*/
-    /* APPS Sensor 2 (Secondary)                                              */
-    /* Per FSAE T.4.2.3: Different transfer function from APPS1               */
+    /* Battery Lowest Voltage (GLV Board Logic)                               */
     /*------------------------------------------------------------------------*/
     [BATT_LOWEST_VOLTAGE] =
     {
@@ -108,8 +107,8 @@ const mcu_analog_config_t mcu_analog_config[MCU_ANALOG_SENSOR_COUNT] =
         },
         .hw = {
             .adc_context = &adc_3_context,
-            .adc_buffer_number = TCU_AIN4_ADC_BUFFER_NUMBER,
-            .adc_buffer_index = TCU_AIN4_ADC_BUFFER_INDEX,
+            .adc_buffer_number = ADC_3_0_BUFFER_NUMBER,
+            .adc_buffer_index = ADC_3_0_BUFFER_INDEX,
         },
         .enabled = true,
     },

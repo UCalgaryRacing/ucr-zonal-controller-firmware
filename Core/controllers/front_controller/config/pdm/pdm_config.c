@@ -6,6 +6,10 @@
 static vnf9q20f_shadow_t vnf9q20f_1_shadow = {0};
 static vnf9q20f_shadow_t vnf9q20f_2_shadow = {0};
 
+/*============================================================================*/
+/* INA229 configuration                                                       */
+/*============================================================================*/
+
 static INA229_Shadow_regs_t rco_pdm_INA229 = {0};
 static ina229_hw_t ina229_hw = {
     .hw_status = INA229_START_UP,
@@ -44,6 +48,7 @@ void PDM_INA229_update_glv_charge(float* charge_c){
 void PDM_INA229_update_glv_energy(float* energy_wh){
     *energy_wh = INA229_getEnergy_Wh(ina229_hw.INA229_Shadow_regs_handle);
 }
+
 /*============================================================================*/
 /* Channel Configuration Table                                                */
 /*============================================================================*/
@@ -300,7 +305,7 @@ const pdm_channel_config_t pdm_default_config[PDM_TOTAL_CHANNELS] =
     },
 
     /*========================================================================*/
-    /* TPS4H160 Device 0 - Channels 9-12                                      */
+    /* TPS4H160 Device 0 - Channels 9-12  - EFUSE 3                           */
     /*========================================================================*/
 
     /*------------------------------------------------------------------------*/
@@ -318,15 +323,14 @@ const pdm_channel_config_t pdm_default_config[PDM_TOTAL_CHANNELS] =
         },
         .hw = {
             .tps4xxxx = {
-                .adc_handle   = PDM_ADC_HANDLE,
                 .input_port   = PDM_TPS4XXXX_0_IN1_GPIO_Port,
                 .input_pin    = PDM_TPS4XXXX_0_IN1_Pin,
-                .diag_port = PDM_TPS4XXXX_0_DIAG_EN_GPIO_Port,
-                .diag_pin  = PDM_TPS4XXXX_0_DIAG_EN_Pin,
-                .seh_port  = PDM_TPS4XXXX_0_SEH_GPIO_Port,
-                .seh_pin   = PDM_TPS4XXXX_0_SEH_Pin,
-                .sel_port  = PDM_TPS4XXXX_0_SEL_GPIO_Port,
-                .sel_pin   = PDM_TPS4XXXX_0_SEL_Pin, 
+                .diag_port = PDM_TPS4XXXX_DIAG_EN_Port,
+                .diag_pin  = PDM_TPS4XXXX_DIAG_EN_Pin,
+                .seh_port  = PDM_TPS4XXXX_SEH_GPIO_Port,
+                .seh_pin   = PDM_TPS4XXXX_SEH_GPIO_Pin,
+                .sel_port  = PDM_TPS4XXXX_SEL_GPIO_Port,
+                .sel_pin   = PDM_TPS4XXXX_SEL_GPIO_Pin, 
                 .fault_port = PDM_TPS4XXXX_0_FAULT_GPIO_Port,
                 .fault_pin = PDM_TPS4XXXX_0_FAULT_Pin
             }
@@ -350,12 +354,12 @@ const pdm_channel_config_t pdm_default_config[PDM_TOTAL_CHANNELS] =
             .tps4xxxx = {
                 .input_port   = PDM_TPS4XXXX_0_IN1_GPIO_Port,
                 .input_pin    = PDM_TPS4XXXX_0_IN1_Pin,
-                .diag_port = PDM_TPS4XXXX_0_DIAG_EN_GPIO_Port,
-                .diag_pin  = PDM_TPS4XXXX_0_DIAG_EN_Pin,
-                .seh_port  = PDM_TPS4XXXX_0_SEH_GPIO_Port,
-                .seh_pin   = PDM_TPS4XXXX_0_SEH_Pin,
-                .sel_port  = PDM_TPS4XXXX_0_SEL_GPIO_Port,
-                .sel_pin   = PDM_TPS4XXXX_0_SEL_Pin,  
+                .diag_port = PDM_TPS4XXXX_DIAG_EN_Port,
+                .diag_pin  = PDM_TPS4XXXX_DIAG_EN_Pin,
+                .seh_port  = PDM_TPS4XXXX_SEH_GPIO_Port,
+                .seh_pin   = PDM_TPS4XXXX_SEH_GPIO_Pin,
+                .sel_port  = PDM_TPS4XXXX_SEL_GPIO_Port,
+                .sel_pin   = PDM_TPS4XXXX_SEL_GPIO_Pin,  
                 .fault_port = PDM_TPS4XXXX_0_FAULT_GPIO_Port,
                 .fault_pin = PDM_TPS4XXXX_0_FAULT_Pin               
             }
@@ -380,12 +384,12 @@ const pdm_channel_config_t pdm_default_config[PDM_TOTAL_CHANNELS] =
             .tps4xxxx = {
                 .input_port   = PDM_TPS4XXXX_0_IN1_GPIO_Port,
                 .input_pin    = PDM_TPS4XXXX_0_IN1_Pin,
-                .diag_port = PDM_TPS4XXXX_0_DIAG_EN_GPIO_Port,
-                .diag_pin  = PDM_TPS4XXXX_0_DIAG_EN_Pin,
-                .seh_port  = PDM_TPS4XXXX_0_SEH_GPIO_Port,
-                .seh_pin   = PDM_TPS4XXXX_0_SEH_Pin,
-                .sel_port  = PDM_TPS4XXXX_0_SEL_GPIO_Port,
-                .sel_pin   = PDM_TPS4XXXX_0_SEL_Pin,
+                .diag_port = PDM_TPS4XXXX_DIAG_EN_Port,
+                .diag_pin  = PDM_TPS4XXXX_DIAG_EN_Pin,
+                .seh_port  = PDM_TPS4XXXX_SEH_GPIO_Port,
+                .seh_pin   = PDM_TPS4XXXX_SEH_GPIO_Pin,
+                .sel_port  = PDM_TPS4XXXX_SEL_GPIO_Port,
+                .sel_pin   = PDM_TPS4XXXX_SEL_GPIO_Pin,
                 .fault_port = PDM_TPS4XXXX_0_FAULT_GPIO_Port,
                 .fault_pin = PDM_TPS4XXXX_0_FAULT_Pin  
             }
@@ -410,12 +414,12 @@ const pdm_channel_config_t pdm_default_config[PDM_TOTAL_CHANNELS] =
             .tps4xxxx = {
                 .input_port   = PDM_TPS4XXXX_0_IN1_GPIO_Port,
                 .input_pin    = PDM_TPS4XXXX_0_IN1_Pin,
-                .diag_port = PDM_TPS4XXXX_0_DIAG_EN_GPIO_Port,
-                .diag_pin  = PDM_TPS4XXXX_0_DIAG_EN_Pin,
-                .seh_port  = PDM_TPS4XXXX_0_SEH_GPIO_Port,
-                .seh_pin   = PDM_TPS4XXXX_0_SEH_Pin,
-                .sel_port  = PDM_TPS4XXXX_0_SEL_GPIO_Port,
-                .sel_pin   = PDM_TPS4XXXX_0_SEL_Pin,    
+                .diag_port = PDM_TPS4XXXX_DIAG_EN_Port,
+                .diag_pin  = PDM_TPS4XXXX_DIAG_EN_Pin,
+                .seh_port  = PDM_TPS4XXXX_SEH_GPIO_Port,
+                .seh_pin   = PDM_TPS4XXXX_SEH_GPIO_Pin,
+                .sel_port  = PDM_TPS4XXXX_SEL_GPIO_Port,
+                .sel_pin   = PDM_TPS4XXXX_SEL_GPIO_Pin,    
                 .fault_port = PDM_TPS4XXXX_0_FAULT_GPIO_Port,
                 .fault_pin = PDM_TPS4XXXX_0_FAULT_Pin
             }
@@ -444,12 +448,12 @@ const pdm_channel_config_t pdm_default_config[PDM_TOTAL_CHANNELS] =
             .tps4xxxx = {
                 .input_port   = PDM_TPS4XXXX_1_IN1_GPIO_Port,
                 .input_pin    = PDM_TPS4XXXX_1_IN1_Pin,
-                .diag_port = PDM_TPS4XXXX_1_DIAG_EN_GPIO_Port,
-                .diag_pin  = PDM_TPS4XXXX_1_DIAG_EN_Pin,
-                .seh_port  = PDM_TPS4XXXX_1_SEH_GPIO_Port,
-                .seh_pin   = PDM_TPS4XXXX_1_SEH_Pin,
-                .sel_port  = PDM_TPS4XXXX_1_SEL_GPIO_Port,
-                .sel_pin   = PDM_TPS4XXXX_1_SEL_Pin,  
+                .diag_port = PDM_TPS4XXXX_DIAG_EN_Port,
+                .diag_pin  = PDM_TPS4XXXX_DIAG_EN_Pin,
+                .seh_port  = PDM_TPS4XXXX_SEH_GPIO_Port,
+                .seh_pin   = PDM_TPS4XXXX_SEH_GPIO_Pin,
+                .sel_port  = PDM_TPS4XXXX_SEL_GPIO_Port,
+                .sel_pin   = PDM_TPS4XXXX_SEL_GPIO_Pin,  
                 .fault_port = PDM_TPS4XXXX_1_FAULT_GPIO_Port,
                 .fault_pin = PDM_TPS4XXXX_1_FAULT_Pin
             }
@@ -474,12 +478,12 @@ const pdm_channel_config_t pdm_default_config[PDM_TOTAL_CHANNELS] =
             .tps4xxxx = {
                 .input_port   = PDM_TPS4XXXX_1_IN2_GPIO_Port,
                 .input_pin    = PDM_TPS4XXXX_1_IN2_Pin,
-                .diag_port = PDM_TPS4XXXX_1_DIAG_EN_GPIO_Port,
-                .diag_pin  = PDM_TPS4XXXX_1_DIAG_EN_Pin,
-                .seh_port  = PDM_TPS4XXXX_1_SEH_GPIO_Port,
-                .seh_pin   = PDM_TPS4XXXX_1_SEH_Pin,
-                .sel_port  = PDM_TPS4XXXX_1_SEL_GPIO_Port,
-                .sel_pin   = PDM_TPS4XXXX_1_SEL_Pin,
+                .diag_port = PDM_TPS4XXXX_DIAG_EN_Port,
+                .diag_pin  = PDM_TPS4XXXX_DIAG_EN_Pin,
+                .seh_port  = PDM_TPS4XXXX_SEH_GPIO_Port,
+                .seh_pin   = PDM_TPS4XXXX_SEH_GPIO_Pin,
+                .sel_port  = PDM_TPS4XXXX_SEL_GPIO_Port,
+                .sel_pin   = PDM_TPS4XXXX_SEL_GPIO_Pin,
                 .fault_port = PDM_TPS4XXXX_1_FAULT_GPIO_Port,
                 .fault_pin = PDM_TPS4XXXX_1_FAULT_Pin   
             }
@@ -503,12 +507,12 @@ const pdm_channel_config_t pdm_default_config[PDM_TOTAL_CHANNELS] =
             .tps4xxxx = {
                 .input_port   = PDM_TPS4XXXX_1_IN3_GPIO_Port,
                 .input_pin    = PDM_TPS4XXXX_1_IN3_Pin,
-                .diag_port = PDM_TPS4XXXX_1_DIAG_EN_GPIO_Port,
-                .diag_pin  = PDM_TPS4XXXX_1_DIAG_EN_Pin,
-                .seh_port  = PDM_TPS4XXXX_1_SEH_GPIO_Port,
-                .seh_pin   = PDM_TPS4XXXX_1_SEH_Pin,
-                .sel_port  = PDM_TPS4XXXX_1_SEL_GPIO_Port,
-                .sel_pin   = PDM_TPS4XXXX_1_SEL_Pin,
+                .diag_port = PDM_TPS4XXXX_DIAG_EN_Port,
+                .diag_pin  = PDM_TPS4XXXX_DIAG_EN_Pin,
+                .seh_port  = PDM_TPS4XXXX_SEH_GPIO_Port,
+                .seh_pin   = PDM_TPS4XXXX_SEH_GPIO_Pin,
+                .sel_port  = PDM_TPS4XXXX_SEL_GPIO_Port,
+                .sel_pin   = PDM_TPS4XXXX_SEL_GPIO_Pin,
                 .fault_port = PDM_TPS4XXXX_1_FAULT_GPIO_Port,
                 .fault_pin = PDM_TPS4XXXX_1_FAULT_Pin  
             }
@@ -532,12 +536,12 @@ const pdm_channel_config_t pdm_default_config[PDM_TOTAL_CHANNELS] =
             .tps4xxxx = {
                 .input_port   = PDM_TPS4XXXX_1_IN4_GPIO_Port,
                 .input_pin    = PDM_TPS4XXXX_1_IN4_Pin,
-                .diag_port = PDM_TPS4XXXX_1_DIAG_EN_GPIO_Port,
-                .diag_pin  = PDM_TPS4XXXX_1_DIAG_EN_Pin,
-                .seh_port  = PDM_TPS4XXXX_1_SEH_GPIO_Port,
-                .seh_pin   = PDM_TPS4XXXX_1_SEH_Pin,
-                .sel_port  = PDM_TPS4XXXX_1_SEL_GPIO_Port,
-                .sel_pin   = PDM_TPS4XXXX_1_SEL_Pin,
+                .diag_port = PDM_TPS4XXXX_DIAG_EN_Port,
+                .diag_pin  = PDM_TPS4XXXX_DIAG_EN_Pin,
+                .seh_port  = PDM_TPS4XXXX_SEH_GPIO_Port,
+                .seh_pin   = PDM_TPS4XXXX_SEH_GPIO_Pin,
+                .sel_port  = PDM_TPS4XXXX_SEL_GPIO_Port,
+                .sel_pin   = PDM_TPS4XXXX_SEL_GPIO_Pin,
                 .fault_port = PDM_TPS4XXXX_1_FAULT_GPIO_Port,
                 .fault_pin = PDM_TPS4XXXX_1_FAULT_Pin
             }
@@ -565,12 +569,12 @@ const pdm_channel_config_t pdm_default_config[PDM_TOTAL_CHANNELS] =
             .tps4xxxx = {
                 .input_port   = PDM_TPS4XXXX_2_IN1_GPIO_Port,
                 .input_pin    = PDM_TPS4XXXX_2_IN1_Pin,
-                .diag_port = PDM_TPS4XXXX_2_DIAG_EN_GPIO_Port,
-                .diag_pin  = PDM_TPS4XXXX_2_DIAG_EN_Pin,
-                .seh_port  = PDM_TPS4XXXX_2_SEH_GPIO_Port,
-                .seh_pin   = PDM_TPS4XXXX_2_SEH_Pin,
-                .sel_port  = PDM_TPS4XXXX_2_SEL_GPIO_Port,
-                .sel_pin   = PDM_TPS4XXXX_2_SEL_Pin,  
+                .diag_port = PDM_TPS4XXXX_DIAG_EN_Port,
+                .diag_pin  = PDM_TPS4XXXX_DIAG_EN_Pin,
+                .seh_port  = PDM_TPS4XXXX_SEH_GPIO_Port,
+                .seh_pin   = PDM_TPS4XXXX_SEH_GPIO_Pin,
+                .sel_port  = PDM_TPS4XXXX_SEL_GPIO_Port,
+                .sel_pin   = PDM_TPS4XXXX_SEL_GPIO_Pin,  
                 .fault_port = PDM_TPS4XXXX_2_FAULT_GPIO_Port,
                 .fault_pin = PDM_TPS4XXXX_2_FAULT_Pin 
             }
@@ -594,12 +598,12 @@ const pdm_channel_config_t pdm_default_config[PDM_TOTAL_CHANNELS] =
             .tps4xxxx = {
                 .input_port   = PDM_TPS4XXXX_2_IN1_GPIO_Port,
                 .input_pin    = PDM_TPS4XXXX_2_IN1_Pin,
-                .diag_port = PDM_TPS4XXXX_2_DIAG_EN_GPIO_Port,
-                .diag_pin  = PDM_TPS4XXXX_2_DIAG_EN_Pin,
-                .seh_port  = PDM_TPS4XXXX_2_SEH_GPIO_Port,
-                .seh_pin   = PDM_TPS4XXXX_2_SEH_Pin,
-                .sel_port  = PDM_TPS4XXXX_2_SEL_GPIO_Port,
-                .sel_pin   = PDM_TPS4XXXX_2_SEL_Pin,
+                .diag_port = PDM_TPS4XXXX_DIAG_EN_Port,
+                .diag_pin  = PDM_TPS4XXXX_DIAG_EN_Pin,
+                .seh_port  = PDM_TPS4XXXX_SEH_GPIO_Port,
+                .seh_pin   = PDM_TPS4XXXX_SEH_GPIO_Pin,
+                .sel_port  = PDM_TPS4XXXX_SEL_GPIO_Port,
+                .sel_pin   = PDM_TPS4XXXX_SEL_GPIO_Pin,
                 .fault_port = PDM_TPS4XXXX_2_FAULT_GPIO_Port,
                 .fault_pin = PDM_TPS4XXXX_2_FAULT_Pin
             }
@@ -623,12 +627,12 @@ const pdm_channel_config_t pdm_default_config[PDM_TOTAL_CHANNELS] =
             .tps4xxxx = {
                 .input_port   = PDM_TPS4XXXX_2_IN1_GPIO_Port,
                 .input_pin    = PDM_TPS4XXXX_2_IN1_Pin,
-                .diag_port = PDM_TPS4XXXX_2_DIAG_EN_GPIO_Port,
-                .diag_pin  = PDM_TPS4XXXX_2_DIAG_EN_Pin,
-                .seh_port  = PDM_TPS4XXXX_2_SEH_GPIO_Port,
-                .seh_pin   = PDM_TPS4XXXX_2_SEH_Pin,
-                .sel_port  = PDM_TPS4XXXX_2_SEL_GPIO_Port,
-                .sel_pin   = PDM_TPS4XXXX_2_SEL_Pin,
+                .diag_port = PDM_TPS4XXXX_DIAG_EN_Port,
+                .diag_pin  = PDM_TPS4XXXX_DIAG_EN_Pin,
+                .seh_port  = PDM_TPS4XXXX_SEH_GPIO_Port,
+                .seh_pin   = PDM_TPS4XXXX_SEH_GPIO_Pin,
+                .sel_port  = PDM_TPS4XXXX_SEL_GPIO_Port,
+                .sel_pin   = PDM_TPS4XXXX_SEL_GPIO_Pin,
                 .fault_port = PDM_TPS4XXXX_2_FAULT_GPIO_Port,
                 .fault_pin = PDM_TPS4XXXX_2_FAULT_Pin
             }
@@ -652,12 +656,12 @@ const pdm_channel_config_t pdm_default_config[PDM_TOTAL_CHANNELS] =
             .tps4xxxx = {
                 .input_port   = PDM_TPS4XXXX_2_IN1_GPIO_Port,
                 .input_pin    = PDM_TPS4XXXX_2_IN1_Pin,
-                .diag_port = PDM_TPS4XXXX_2_DIAG_EN_GPIO_Port,
-                .diag_pin  = PDM_TPS4XXXX_2_DIAG_EN_Pin,
-                .seh_port  = PDM_TPS4XXXX_2_SEH_GPIO_Port,
-                .seh_pin   = PDM_TPS4XXXX_2_SEH_Pin,
-                .sel_port  = PDM_TPS4XXXX_2_SEL_GPIO_Port,
-                .sel_pin   = PDM_TPS4XXXX_2_SEL_Pin, 
+                .diag_port = PDM_TPS4XXXX_DIAG_EN_Port,
+                .diag_pin  = PDM_TPS4XXXX_DIAG_EN_Pin,
+                .seh_port  = PDM_TPS4XXXX_SEH_GPIO_Port,
+                .seh_pin   = PDM_TPS4XXXX_SEH_GPIO_Pin,
+                .sel_port  = PDM_TPS4XXXX_SEL_GPIO_Port,
+                .sel_pin   = PDM_TPS4XXXX_SEL_GPIO_Pin, 
                 .fault_port = PDM_TPS4XXXX_2_FAULT_GPIO_Port,
                 .fault_pin = PDM_TPS4XXXX_2_FAULT_Pin
             }

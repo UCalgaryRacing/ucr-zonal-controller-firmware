@@ -10,7 +10,7 @@
 #include "pdm_drv_ina229_regs.h"
 
 /*============================================================================*/
- /* Rear Controler Mapping                                                     */
+ /* Rear Controller Mapping                                                     */
 /*============================================================================*/
 #define FRONT_CONTROLLER    VBATT_SW_1 //parallel with VBATT_SW_2
 #define TRACTIVE_PUMP_1     VBATT_SW_3
@@ -25,21 +25,9 @@
 #define TSSI_RED            VBATT_SW_14
 #define TSSI_GREEN          VBATT_SW_15
 #define RTD_BUZZER          VBATT_SW_16
+// #define BAMOCAR          VBATT_REG_SW_1 // NOT USED, ALWAYS ON RAIL
 
-#define IMD                 VBATT_REG_SW_4
-
- 
- /*============================================================================*/
- /* Current Sense ADC Configuration                                            */
- /*============================================================================*/
- 
- #define TPS4XXXX_ADC_VREF_V              2.5f
- 
- #define TPS4XXXX_ADC_RESOLUTION_BITS     12U
- 
- #define TPS4XXXX_ADC_MAX_COUNT           ((1U << TPS4XXXX_ADC_RESOLUTION_BITS) - 1U)
- 
- 
+#define IMD                 VBATT_REG_SW_4 
  
  /*============================================================================*/
  /* TPS4XXXX Hardware Values                                                   */

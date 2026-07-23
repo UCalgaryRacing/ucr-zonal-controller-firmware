@@ -51,7 +51,7 @@ typedef struct
 #define TRACTION_CONTROL_DATA_CAN_ID            220
 
 //Rear Controller
-#define GLV_STATUS_CAN_ID                      401
+#define GLV_STATUS_CAN_ID                       401
 #define REAR_COOLING_CONTROL_CAN_ID             404
 #define REAR_CONTROL_CAN_ID                     405
 #define REAR_BSE_CAN_ID                         406

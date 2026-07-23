@@ -1,23 +1,6 @@
 #ifndef CONFIG_TCU_CONFIG_H_
 #define CONFIG_TCU_CONFIG_H_
 
-
-/*============================================================================*/
-/* ADC Configuration                                                          */
-/*============================================================================*/
-
-#define TCU_ADC_1_VREF_V              2.5f
-
-#define TCU_ADC_1_RESOLUTION_BITS     16U
-
-#define TCU_ADC_1_MAX_COUNT           ((1U << TCU_ADC_1_RESOLUTION_BITS) - 1U)
-
-#define TCU_ADC_3_VREF_V              2.5f
-
-#define TCU_ADC_3_RESOLUTION_BITS     16U
-
-#define TCU_ADC_3_MAX_COUNT           ((1U << TCU_ADC_3_RESOLUTION_BITS) - 1U)
-
 /*============================================================================*/
 /* APPS Configuration - Sensor 1                                              */
 /*============================================================================*/
@@ -49,7 +32,6 @@
 /*============================================================================*/
 /* APPS Plausibility Configuration                                            */
 /*============================================================================*/
-
 
 #define TCU_APPS_IMPLAUSIBILITY_THRESHOLD_PCT   20.0f
 

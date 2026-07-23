@@ -331,6 +331,7 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/Core/controllers/front_controller/config/gps}&quot;"/>
 									<listOptionValue builtIn="false" value="../Core/shared/data/wheel"/>
 									<listOptionValue builtIn="false" value="../Core/shared/service/wheel"/>
+									<listOptionValue builtIn="false" value="../Core/controllers/front_controller/driver/fco"/>
 								</option>
 								<inputType id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c.1322761194" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c"/>
 							</tool>
@@ -358,8 +359,8 @@
 					</folderInfo>
 					<sourceEntries>
 						<entry excluding="controllers/rear_controller" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Core"/>
-						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Drivers"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Drivers"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>

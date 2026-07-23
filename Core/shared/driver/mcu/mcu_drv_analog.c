@@ -1,6 +1,6 @@
 #include "mcu_drv_analog.h"
 
-static uint16_t adc_dma_buffers[MCU_TOTAL_ANALOG_CHANNELS][MCU_MAX_ADC_CHANNELS];
+static uint16_t adc_dma_buffers[MCU_TOTAL_ADC_INPUT_COUNT][MCU_MAX_ADC_CHANNELS];
 
 static bool g_driver_initialized = false;
 

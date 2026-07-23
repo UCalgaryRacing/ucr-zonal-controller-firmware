@@ -92,6 +92,8 @@ void task_fast_init(void)
 	rco_svc_can_route_init();
 
 	//---------------- Wheel ----------------//
+	fco_svc_ptt_init();
+	
 	whl_data_init();
 	whl_svc_can_route_init();
 }

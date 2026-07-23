@@ -1,94 +1,37 @@
 #ifndef CONFIG_MCU_CONFIG_H_
 #define CONFIG_MCU_CONFIG_H_
 
-#include <stdbool.h>
-#include "pdm_config.h"
-#include <stdint.h>
-#include "mcu_analog_channels.h"
 #include "stm32h7xx_hal.h"
+#include <stdbool.h>
+#include <stdint.h>
 
+#include "pdm_config.h"
+#include "mcu_config_analog_channels.h"
+#include "mcu_config_analog.h"
 
-
-#define MCU_HSD_TOTAL_CHANNELS 4   
-
+#include "mcu_config_hsd.h"
 
 /*============================================================================*/
- /* Rear Controller Mapping                                                     */
+/* HSD Mapping                                                                */
 /*============================================================================*/
-#define PTT    DOUT_4 
-
-
-
-typedef struct
-{
-    bool enabled;
-    tps4xxxx_hw_t hw;
-}   mcu_channel_config_t;
-
-
+// currently not used in front controller 
 extern const mcu_channel_config_t mcu_hsd_default_config[MCU_HSD_TOTAL_CHANNELS];
 
 /*============================================================================*/
-/* Front Controler Mapping                                                    */
+/* Front Controller ADC Mapping                                               */
 /*============================================================================*/
 
-#define APPS1    MCU_AIN3 
-#define APPS2    MCU_AIN4
-#define BSE1     MCU_AIN7
+#define APPS1    FCO_ADC3_INP1 
+#define APPS2    FCO_ADC3_INP0
+#define BSE1     FCO_ADC2_INP0
 
 /*============================================================================*/
-/* System Topology                                                            */
+/* ADC Configuration                                                          */
 /*============================================================================*/
-
-#define MCU_TOTAL_ANALOG_CHANNELS            8U
-
-
-
-typedef struct {
-    ADC_HandleTypeDef *adc_handle;
-    float adc_vref;
-    uint16_t adc_max;  
-    bool calibrated;
-    bool dma_started;
-    uint8_t adc_channels;
-} mcu_adc_context_t;
-
-/*============================================================================*/
-/* Channel Hardware Mapping                                                   */
-/*============================================================================*/
+#define MCU_ADC_2_VREF_V              2.5f
+#define MCU_ADC_3_VREF_V              2.5f
 
 
-
-typedef struct
-{
-    mcu_adc_context_t *adc_context;
-    uint8_t adc_buffer_number;
-    uint8_t adc_buffer_index;
-} analog_hw_t;
-
-/*============================================================================*/
-/* Analog calibration (one row in mcu_analog_config)                          */
-/*============================================================================*/
-
-typedef struct
-{
-    float valid_min_v;
-    float valid_max_v;
-    float active_min_v;
-    float active_max_v;
-    float scaling_factor;
-    bool positive_slope;
-} mcu_analog_settings_t;
-
-typedef struct
-{
-    bool enabled;  
-    mcu_analog_settings_t settings;
-    analog_hw_t hw;           
-} mcu_analog_config_t;
-
-
-
-extern const mcu_analog_config_t mcu_analog_config[MCU_TOTAL_ANALOG_CHANNELS];
+extern const mcu_analog_config_t mcu_analog_config[MCU_TOTAL_ADC_INPUT_COUNT];
 
 #endif /* CONFIG_MCU_CONFIG_H_ */

@@ -1,7 +1,7 @@
 #ifndef GLV_SVC_status_H_
 #define GLV_SVC_status_H_
 
-#include "mcu_analog_channels.h"
+#include "mcu_config_analog_channels.h"
 #include "com_typ_common.h"
 
 float glv_svc_analog_update(mcu_analog_channel_id_t glv_channel_id);

@@ -2,62 +2,31 @@
 #include "mcu_config.h"
 #include "tcu_config.h"
 #include "mcu_svc_hsd.h"
-//TODO is this fine to couple configs with shared types like this or should move to seperate shared types?
+
 #include "pdm_config.h"
 
+/*============================================================================*/
+/* HSD Configuration Table                                                    */
+/*============================================================================*/
+// currently not used in front controller 
 
+/*============================================================================*/
+/* ADC Context Configuration                                                  */
+/*============================================================================*/
 
-const mcu_channel_config_t mcu_hsd_default_config[MCU_HSD_TOTAL_CHANNELS] =
-{
-    [DOUT_1] = {
-
-        .enabled     = true,
-        .hw = {
-                .input_port   = MCU_TPS4XXXX_1_IN1_GPIO_Port,
-                .input_pin    = MCU_TPS4XXXX_1_IN1_Pin,
-            }
-        },
-    [DOUT_2] = {
-
-        .enabled     = true,
-        .hw = {
-                .input_port   = MCU_TPS4XXXX_1_IN2_GPIO_Port,
-                .input_pin    = MCU_TPS4XXXX_1_IN2_Pin,
-            }
-        },
-    [DOUT_3] = {
-
-        .enabled     = true,
-        .hw = {
-                .input_port   = MCU_TPS4XXXX_1_IN3_GPIO_Port,
-                .input_pin    = MCU_TPS4XXXX_1_IN3_Pin,
-            }
-        },
-    [DOUT_4] = {
-
-        .enabled     = true,
-        .hw = {
-                .input_port   = MCU_TPS4XXXX_1_IN4_GPIO_Port,
-                .input_pin    = MCU_TPS4XXXX_1_IN4_Pin,
-            }
-        },
-};
-
-
-
-static mcu_adc_context_t adc_1_context = {
-    .adc_handle = TCU_ADC_1_HANDLE,
-    .adc_vref = TCU_ADC_1_VREF_V,
-    .adc_max = TCU_ADC_1_MAX_COUNT,
+static mcu_adc_context_t adc_2_context = {
+    .adc_handle = FCO_MCU_ADC_2_HANDLE,
+    .adc_vref = MCU_ADC_2_VREF_V,
+    .adc_max = MCU_ADC_2_MAX_COUNT,
     .calibrated = false,
     .dma_started = false,
     .adc_channels = 1
 };
 
 static mcu_adc_context_t adc_3_context = {
-    .adc_handle = TCU_ADC_3_HANDLE,
-    .adc_vref = TCU_ADC_3_VREF_V,
-    .adc_max = TCU_ADC_3_MAX_COUNT,
+    .adc_handle = FCO_MCU_ADC_3_HANDLE,
+    .adc_vref = MCU_ADC_3_VREF_V,
+    .adc_max = MCU_ADC_3_MAX_COUNT,
     .calibrated = false,
     .dma_started = false,
     .adc_channels = 2
@@ -66,9 +35,8 @@ static mcu_adc_context_t adc_3_context = {
 /*============================================================================*/
 /* Analog Sensor Configuration Table                                          */
 /*============================================================================*/
-
 //TODO maybe split hw and context / dma stuff into seperate structs
-const mcu_analog_config_t mcu_analog_config[MCU_ANALOG_SENSOR_COUNT] =
+const mcu_analog_config_t mcu_analog_config[MCU_TOTAL_ADC_INPUT_COUNT] =
 {
     /*------------------------------------------------------------------------*/
     /* APPS Sensor 1 (Primary)                                                */
@@ -86,8 +54,8 @@ const mcu_analog_config_t mcu_analog_config[MCU_ANALOG_SENSOR_COUNT] =
         },
         .hw = {
             .adc_context = &adc_3_context,
-            .adc_buffer_number = TCU_AIN3_ADC_BUFFER_NUMBER,
-            .adc_buffer_index = TCU_AIN3_ADC_BUFFER_INDEX,
+            .adc_buffer_number = ADC_3_1_BUFFER_NUMBER,
+            .adc_buffer_index = ADC_3_1_BUFFER_INDEX,
         },
         .enabled = true,
     },
@@ -109,8 +77,8 @@ const mcu_analog_config_t mcu_analog_config[MCU_ANALOG_SENSOR_COUNT] =
         },
         .hw = {
             .adc_context = &adc_3_context,
-            .adc_buffer_number = TCU_AIN4_ADC_BUFFER_NUMBER,
-            .adc_buffer_index = TCU_AIN4_ADC_BUFFER_INDEX,
+            .adc_buffer_number = ADC_3_0_BUFFER_NUMBER,
+            .adc_buffer_index = ADC_3_0_BUFFER_INDEX,
         },
         .enabled = true,
     },
@@ -130,9 +98,9 @@ const mcu_analog_config_t mcu_analog_config[MCU_ANALOG_SENSOR_COUNT] =
             .positive_slope = true,
         },
         .hw = {
-            .adc_context = &adc_1_context,
-            .adc_buffer_number = TCU_AIN7_ADC_BUFFER_NUMBER,
-            .adc_buffer_index = TCU_AIN7_ADC_BUFFER_INDEX,
+            .adc_context = &adc_2_context,
+            .adc_buffer_number = ADC_2_0_BUFFER_NUMBER,
+            .adc_buffer_index = ADC_2_0_BUFFER_INDEX,
         },
         .enabled = true,
     },

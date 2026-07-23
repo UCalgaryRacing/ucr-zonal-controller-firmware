@@ -12,26 +12,14 @@
 #include "pdm_drv_ina229_regs.h"
 
 /*============================================================================*/
- /* Front Controler Mapping                                                    */
+ /* Front Controller Mapping                                                    */
  /*============================================================================*/
  #define SDC_START          VBATT_SW_3 
- #define STEERING_WHEEL     VBATT_SW_10 
- #define KVASER             VBATT_SW_11
+ #define STEERING_WHEEL     VBATT_SW_10 // not currently used anywhere in code
+ #define KVASER             VBATT_SW_11 // not currently used anywhere in code
  #define IMD_LIGHT          VBATT_SW_14
  #define BMS_LIGHT          VBATT_SW_16
  #define RTD_LIGHT          VBATT_SW_15
-
-/*============================================================================*/
- /* Current Sense ADC Configuration                                            */
-/*============================================================================*/
- 
- #define TPS4XXXX_ADC_VREF_V              2.5f
- 
- #define TPS4XXXX_ADC_RESOLUTION_BITS     12U
- 
- #define TPS4XXXX_ADC_MAX_COUNT           ((1U << TPS4XXXX_ADC_RESOLUTION_BITS) - 1U)
- 
- 
  
  /*============================================================================*/
  /* TPS4XXXX Hardware Values                                                   */

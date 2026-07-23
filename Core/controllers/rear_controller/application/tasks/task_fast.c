@@ -21,6 +21,7 @@
 #include "rco_svc_reset_button.h"
 #include "rco_svc_drs.h"
 #include "rco_svc_glv.h"
+#include "rco_svc_fan.h"
 
 #include "rco_svc_bamocar.h"
 

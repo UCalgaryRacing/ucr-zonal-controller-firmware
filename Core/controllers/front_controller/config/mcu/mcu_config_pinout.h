@@ -5,78 +5,47 @@
 
 
 /*============================================================================*/
-/* TPS4H000 Device 1                                        */
+/* High Side Drivers: HSD                                                     */
 /*============================================================================*/
+#define HSD_5V_FAST_1_CTL_GPIO_Port     GPIOI
+#define HSD_5V_FAST_1_CTL_GPIO_Pin      GPIO_PIN_6
 
-#define MCU_TPS4XXXX_1_IN1_GPIO_Port  GPIOI
-#define MCU_TPS4XXXX_1_IN1_Pin        GPIO_PIN_7
+#define HSD_5V_FAST_2_CTL_GPIO_Port     GPIOI
+#define HSD_5V_FAST_2_CTL_GPIO_Pin      GPIO_PIN_5
 
-#define MCU_TPS4XXXX_1_IN2_GPIO_Port  GPIOI
-#define MCU_TPS4XXXX_1_IN2_Pin        GPIO_PIN_6
+#define HSD_12V_1_CTL_GPIO_Port         GPIOI
+#define HSD_12V_1_CTL_GPIO_Pin          GPIO_PIN_3
 
-#define MCU_TPS4XXXX_1_IN3_GPIO_Port  GPIOI
-#define MCU_TPS4XXXX_1_IN3_Pin        GPIO_PIN_5
+#define HSD_12V_2_CTL_GPIO_Port         GPIOI
+#define HSD_12V_2_CTL_GPIO_Pin          GPIO_PIN_1
 
-#define MCU_TPS4XXXX_1_IN4_GPIO_Port  GPIOI
-#define MCU_TPS4XXXX_1_IN4_Pin        GPIO_PIN_4
-
-
-
+#define HSD_5V_SLOW_CTL_GPIO_Port       GPIOB
+#define HSD_5V_SLOW_CTL_GPIO_Pin        GPIO_PIN_7
 
 /*============================================================================*/
 /* ADC Interface                                                              */
 /*============================================================================*/
 
-extern ADC_HandleTypeDef hadc1;
+extern ADC_HandleTypeDef hadc2;
 extern ADC_HandleTypeDef hadc3;
 
+extern DMA_HandleTypeDef hdma_adc2;
 extern DMA_HandleTypeDef hdma_adc3;
-extern DMA_HandleTypeDef hdma_adc1;
 
-#define TCU_ADC_1_HANDLE (&hadc1)
-#define TCU_ADC_3_HANDLE (&hadc3)
-
-/*============================================================================*/
-/*  Analog In 3: APPS1                                                        */
-/*============================================================================*/
-
-//TODO determine if these are determined by ADC rank or can be assigned
-//Make sure they always match cubeMX, rank determines index in array
-//will probably switch to adc polling / interrupt instead of dma to use across multiple files
-//without having to extern the dma buffer from this file, but maybe not if this is only analog on MCU board....
-
-#define TCU_AIN3_ADC_HANDLE                (&hadc3)
-#define TCU_AIN3_ADC_BUFFER_NUMBER 2    //ADC3_INP12 
-#define TCU_AIN3_ADC_BUFFER_INDEX  0
-#define TCU_AIN_3_ADC_CHANNELS     2
-
-
-/*============================================================================*/
-/*  Analog In 4: APPS2                                                        */
-/*============================================================================*/
-
-#define TCU_AIN4_ADC_HANDLE                (&hadc3)
-#define TCU_AIN4_ADC_BUFFER_NUMBER 2    //ADC3_INP13
-#define TCU_AIN4_ADC_BUFFER_INDEX  1
-#define TCU_AIN_4_ADC_CHANNELS     2
-
-/*============================================================================*/
-/*  Analog In 7: BSE                                                          */
-/*============================================================================*/
-
-#define TCU_AIN7_ADC_HANDLE                (&hadc1)
-#define TCU_AIN7_ADC_BUFFER_NUMBER 0    //ADC1_INP15
-#define TCU_AIN7_ADC_BUFFER_INDEX  0
-#define TCU_AIN_7_ADC_CHANNELS     1
-
+// Front Controller ADC Mapping
+#define FCO_MCU_ADC_2_HANDLE (&hadc2)
+#define FCO_MCU_ADC_3_HANDLE (&hadc3)
 
 /*============================================================================*/
 /* GPIO Configuration                                                         */
 /*============================================================================*/
 
 /* Active LOW input (button connects to GND when pressed) */
-#define TCU_RTD_BUTTON_GPIO_PORT            GPIOA
-#define TCU_RTD_BUTTON_GPIO_PIN             GPIO_PIN_5
+#define TCU_RTD_BUTTON_GPIO_PORT            GPIOF
+#define TCU_RTD_BUTTON_GPIO_PIN             GPIO_PIN_14
 #define TCU_RTD_BUTTON_ACTIVE_STATE         GPIO_PIN_RESET
+
+#define PTT_CTL_GPIO_Port                   GPIOE
+#define PTT_CTL_GPIO_Pin                    GPIO_PIN_11
 
 #endif /* CONFIG_MCU_CONFIG_PINOUT_H_ */

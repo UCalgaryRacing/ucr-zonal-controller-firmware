@@ -2,11 +2,11 @@
 
 #include "mcu_drv_analog.h"
 
-mcu_analog_runtime_config_t mcu_analog_runtime_config[MCU_TOTAL_ANALOG_CHANNELS];
+mcu_analog_runtime_config_t mcu_analog_runtime_config[MCU_TOTAL_ADC_INPUT_COUNT];
 
 static inline bool is_valid_channel_id(mcu_analog_channel_id_t channel_id)
 {
-    return (channel_id < MCU_TOTAL_ANALOG_CHANNELS);
+    return (channel_id < MCU_TOTAL_ADC_INPUT_COUNT);
 }
 
 const mcu_analog_config_t* mcu_svc_get_channel_config(mcu_analog_channel_id_t channel_id)
