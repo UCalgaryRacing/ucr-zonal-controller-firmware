@@ -30,7 +30,7 @@ float mco_svc_regen_calculate_torque()
     tcu_bse_data_t bse_data;
     tcu_data_get_bse(&bse_data);
 
-    float regen_torque = -1.0f * bse_data.pressure_psi * 0.075f;
+    float regen_torque = -1.0f * bse_data.pressure_psi * 0.0227f;
 
     return regen_torque;
 }
