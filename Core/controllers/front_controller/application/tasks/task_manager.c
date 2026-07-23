@@ -61,18 +61,13 @@ void task_manager_loop(void)
 	//---------------- BAMOCAR ----------------//
 
 	//TODO move all this into proper services 
-	g_requested_torque = tcu_data_get_apps_percent();
-	bool regen_requested = whl_data_get_button_2();
-	float wheel_rpm = ins_data_get_wheel_rpm(INS_WHEEL_SPEED_SENSOR_FRONT_LEFT);
-	regen_active = (regen_requested && (wheel_rpm > 100.0f));
-	
-	//bool regen_active = mco_svc_regen_is_active();
+	g_requested_torque = tcu_data_get_apps_percent();	
+	regen_active = mco_svc_regen_is_active();
 
 
 	if (regen_active)
 	{
-		g_requested_torque = -10.0f;
-		//g_requested_torque = bse_data.sensor.percent * REGEN_TORQUE_SCALING_FACTOR / 100.0f;
+		g_requested_torque = mco_svc_regen_calculate_torque();
 
 	}
 
@@ -105,7 +100,7 @@ void task_manager_loop(void)
 	{
 	//---------------- TRACTION CONTROL ----------------//
 	// Enable exactly ONE method below before reflashing (comment out the other).
-	mco_svc_traction_control_calculate_motor_speed_slip_ratio();
+	//mco_svc_traction_control_calculate_motor_speed_slip_ratio();
 
 //	  float torque_before_tc = g_requested_torque;
 //	  g_requested_torque = mco_svc_traction_control_limit_torque_percent(g_requested_torque);

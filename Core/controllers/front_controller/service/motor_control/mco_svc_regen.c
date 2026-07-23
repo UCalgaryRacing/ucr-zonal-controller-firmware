@@ -1,5 +1,5 @@
 
-#include "mco_config.c"
+#include "mco_config.h"
 #include "utilities.h"
 #include "mco_svc_regen.h"
 #include "tcu_data.h"
@@ -30,7 +30,7 @@ float mco_svc_regen_calculate_torque()
     tcu_bse_data_t bse_data;
     tcu_data_get_bse(&bse_data);
 
-    //float regen_torque = -1.0f * bse_data.sensor.percent * 10.0f / 100.0f;
+    float regen_torque = -1.0f * bse_data.pressure_psi * 0.075f;
 
     return regen_torque;
 }

@@ -62,12 +62,12 @@
 #define TCU_BSE_1_VOLTAGE_MIN_V               0.5f
 #define TCU_BSE_1_VOLTAGE_MAX_V               4.5f
 
-#define TCU_BSE_1_ACTIVE_MIN_V                0.83f
+#define TCU_BSE_1_ACTIVE_MIN_V                0.59f
 #define TCU_BSE_1_ACTIVE_MAX_V                4.5f
 
 #define TCU_BSE_1_SCALING_FACTOR              6.73f
 
-#define TCU_BSE_1_PSI_MAX                     700.0f
+#define TCU_BSE_1_PSI_MAX                     1760.0f
 
 #define TCU_BSE_1_BRAKING_THRESHOLD_PCT       10.0f
 
