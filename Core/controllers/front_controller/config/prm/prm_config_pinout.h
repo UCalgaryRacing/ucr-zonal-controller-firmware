@@ -1,0 +1,6 @@
+#ifndef CONFIG_PRM_PINOUT_H_
+#define CONFIG_PRM_PINOUT_H_
+
+
+
+#endif /*CONFIG_PRM_PINOUT_H_*/

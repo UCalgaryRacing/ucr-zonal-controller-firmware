@@ -18,8 +18,8 @@
  #define STEERING_WHEEL     VBATT_SW_10 // not currently used anywhere in code
  #define KVASER             VBATT_SW_11 // not currently used anywhere in code
  #define IMD_LIGHT          VBATT_SW_14
- #define BMS_LIGHT          VBATT_SW_16
- #define RTD_LIGHT          VBATT_SW_15
+ #define BMS_LIGHT          VBATT_SW_15
+ #define RTD_LIGHT          VBATT_SW_16
  
  /*============================================================================*/
  /* TPS4XXXX Hardware Values                                                   */

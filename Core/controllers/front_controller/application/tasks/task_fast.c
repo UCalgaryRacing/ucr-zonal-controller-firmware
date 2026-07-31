@@ -57,6 +57,30 @@ void task_fast_init(void)
 	pdm_svc_channel_init(RTD_LIGHT);
 	pdm_svc_channel_enable(RTD_LIGHT, false);
 
+	// from MCU V1.0 pins tied high
+	pdm_svc_channel_init(VBATT_SW_9);
+	pdm_svc_channel_enable(VBATT_SW_9, true);
+
+	pdm_svc_channel_init(VBATT_SW_10);
+	pdm_svc_channel_enable(VBATT_SW_10, true);
+
+	pdm_svc_channel_init(VBATT_SW_11);
+	pdm_svc_channel_enable(VBATT_SW_11, true);
+
+	pdm_svc_channel_init(VBATT_SW_12);
+	pdm_svc_channel_enable(VBATT_SW_12, true);
+
+	pdm_svc_channel_init(VBATT_REG_SW_1);
+	pdm_svc_channel_enable(VBATT_REG_SW_1, true);
+
+	pdm_svc_channel_init(VBATT_REG_SW_2);
+	pdm_svc_channel_enable(VBATT_REG_SW_2, true);
+
+	pdm_svc_channel_init(VBATT_REG_SW_3);
+	pdm_svc_channel_enable(VBATT_REG_SW_3, true);
+
+	pdm_svc_channel_init(VBATT_REG_SW_4);
+	pdm_svc_channel_enable(VBATT_REG_SW_4, true);
 
 	//---------------- TCU ----------------//
 

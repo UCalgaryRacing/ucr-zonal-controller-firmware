@@ -21,11 +21,13 @@ typedef struct
     bool enabled;
     tps4xxxx_hw_t hw;
 } mcu_channel_config_t;
+// TODO: change to not using tps4xxxx hw type (used in the old board), use a normal gpio service?
+// ptt also uses a gpio normal service 
 
 typedef struct
 {
     GPIO_TypeDef *input_port;
     uint16_t      input_pin; 
 } mcu_hsd_hw_t;
-// TODO: change to not using tps4xxxx hw type (used in the old board), use a normal gpio service?
+
 #endif /*MCU_CONFIG_HSD_H_*/

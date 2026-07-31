@@ -352,8 +352,8 @@ const pdm_channel_config_t pdm_default_config[PDM_TOTAL_CHANNELS] =
         },
         .hw = {
             .tps4xxxx = {
-                .input_port   = PDM_TPS4XXXX_0_IN1_GPIO_Port,
-                .input_pin    = PDM_TPS4XXXX_0_IN1_Pin,
+                .input_port   = PDM_TPS4XXXX_0_IN2_GPIO_Port,
+                .input_pin    = PDM_TPS4XXXX_0_IN2_Pin,
                 .diag_port = PDM_TPS4XXXX_DIAG_EN_Port,
                 .diag_pin  = PDM_TPS4XXXX_DIAG_EN_Pin,
                 .seh_port  = PDM_TPS4XXXX_SEH_GPIO_Port,
@@ -382,8 +382,8 @@ const pdm_channel_config_t pdm_default_config[PDM_TOTAL_CHANNELS] =
         },
         .hw = {
             .tps4xxxx = {
-                .input_port   = PDM_TPS4XXXX_0_IN1_GPIO_Port,
-                .input_pin    = PDM_TPS4XXXX_0_IN1_Pin,
+                .input_port   = PDM_TPS4XXXX_0_IN3_GPIO_Port,
+                .input_pin    = PDM_TPS4XXXX_0_IN3_Pin,
                 .diag_port = PDM_TPS4XXXX_DIAG_EN_Port,
                 .diag_pin  = PDM_TPS4XXXX_DIAG_EN_Pin,
                 .seh_port  = PDM_TPS4XXXX_SEH_GPIO_Port,
@@ -412,8 +412,8 @@ const pdm_channel_config_t pdm_default_config[PDM_TOTAL_CHANNELS] =
         },
         .hw = {
             .tps4xxxx = {
-                .input_port   = PDM_TPS4XXXX_0_IN1_GPIO_Port,
-                .input_pin    = PDM_TPS4XXXX_0_IN1_Pin,
+                .input_port   = PDM_TPS4XXXX_0_IN4_GPIO_Port,
+                .input_pin    = PDM_TPS4XXXX_0_IN4_Pin,
                 .diag_port = PDM_TPS4XXXX_DIAG_EN_Port,
                 .diag_pin  = PDM_TPS4XXXX_DIAG_EN_Pin,
                 .seh_port  = PDM_TPS4XXXX_SEH_GPIO_Port,
@@ -596,8 +596,8 @@ const pdm_channel_config_t pdm_default_config[PDM_TOTAL_CHANNELS] =
         },
         .hw = {
             .tps4xxxx = {
-                .input_port   = PDM_TPS4XXXX_2_IN1_GPIO_Port,
-                .input_pin    = PDM_TPS4XXXX_2_IN1_Pin,
+                .input_port   = PDM_TPS4XXXX_2_IN2_GPIO_Port,
+                .input_pin    = PDM_TPS4XXXX_2_IN2_Pin,
                 .diag_port = PDM_TPS4XXXX_DIAG_EN_Port,
                 .diag_pin  = PDM_TPS4XXXX_DIAG_EN_Pin,
                 .seh_port  = PDM_TPS4XXXX_SEH_GPIO_Port,
@@ -625,8 +625,8 @@ const pdm_channel_config_t pdm_default_config[PDM_TOTAL_CHANNELS] =
         },
         .hw = {
             .tps4xxxx = {
-                .input_port   = PDM_TPS4XXXX_2_IN1_GPIO_Port,
-                .input_pin    = PDM_TPS4XXXX_2_IN1_Pin,
+                .input_port   = PDM_TPS4XXXX_2_IN3_GPIO_Port,
+                .input_pin    = PDM_TPS4XXXX_2_IN3_Pin,
                 .diag_port = PDM_TPS4XXXX_DIAG_EN_Port,
                 .diag_pin  = PDM_TPS4XXXX_DIAG_EN_Pin,
                 .seh_port  = PDM_TPS4XXXX_SEH_GPIO_Port,
@@ -654,8 +654,8 @@ const pdm_channel_config_t pdm_default_config[PDM_TOTAL_CHANNELS] =
         },
         .hw = {
             .tps4xxxx = {
-                .input_port   = PDM_TPS4XXXX_2_IN1_GPIO_Port,
-                .input_pin    = PDM_TPS4XXXX_2_IN1_Pin,
+                .input_port   = PDM_TPS4XXXX_2_IN4_GPIO_Port,
+                .input_pin    = PDM_TPS4XXXX_2_IN4_Pin,
                 .diag_port = PDM_TPS4XXXX_DIAG_EN_Port,
                 .diag_pin  = PDM_TPS4XXXX_DIAG_EN_Pin,
                 .seh_port  = PDM_TPS4XXXX_SEH_GPIO_Port,

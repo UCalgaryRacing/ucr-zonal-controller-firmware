@@ -321,17 +321,18 @@
 									<listOptionValue builtIn="false" value="../Core/shared/service/rco"/>
 									<listOptionValue builtIn="false" value="../Core/shared/config/can"/>
 									<listOptionValue builtIn="false" value="../Core/shared/config/mcu"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/Core/shared/service/common}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;../Core\controllers\front_controller\config\instrumentation&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;../Core\controllers\front_controller\service\instrumentation&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;../Core\controllers\front_controller\driver\instrumentation&quot;"/>
 									<listOptionValue builtIn="false" value="../Core/shared/data/instrumentation"/>
 									<listOptionValue builtIn="false" value="../Core/shared/service/instrumentation"/>
 									<listOptionValue builtIn="false" value="../Core/shared/driver/instrumentation"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/Core/controllers/front_controller/config/gps}&quot;"/>
 									<listOptionValue builtIn="false" value="../Core/shared/data/wheel"/>
 									<listOptionValue builtIn="false" value="../Core/shared/service/wheel"/>
 									<listOptionValue builtIn="false" value="../Core/controllers/front_controller/driver/fco"/>
+									<listOptionValue builtIn="false" value="../Core/controllers/front_controller/config/gps"/>
+									<listOptionValue builtIn="false" value="../Core/shared/service/common"/>
+									<listOptionValue builtIn="false" value="../Core/controllers/front_controller/config/prm"/>
 								</option>
 								<inputType id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c.1322761194" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c"/>
 							</tool>
