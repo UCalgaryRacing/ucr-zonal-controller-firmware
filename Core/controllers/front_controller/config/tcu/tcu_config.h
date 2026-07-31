@@ -11,7 +11,7 @@
 #define TCU_APPS_1_ACTIVE_MIN_V              4.9f
 #define TCU_APPS_1_ACTIVE_MAX_V              9.95f
 
-#define TCU_APPS_1_SCALING_FACTOR            4.85f
+#define TCU_APPS_1_SCALING_FACTOR            4.9f
 
 #define TCU_APPS_1_POSITIVE_SLOPE            true
 
@@ -25,7 +25,7 @@
 #define TCU_APPS_2_ACTIVE_MIN_V              8.15f
 #define TCU_APPS_2_ACTIVE_MAX_V              11.2f
 
-#define TCU_APPS_2_SCALING_FACTOR            4.85f
+#define TCU_APPS_2_SCALING_FACTOR            4.9f
 
 #define TCU_APPS_2_POSITIVE_SLOPE            true
 
@@ -47,7 +47,7 @@
 #define TCU_BSE_1_ACTIVE_MIN_V                0.83f
 #define TCU_BSE_1_ACTIVE_MAX_V                4.5f
 
-#define TCU_BSE_1_SCALING_FACTOR              6.73f
+#define TCU_BSE_1_SCALING_FACTOR              2.0f
 
 #define TCU_BSE_1_PSI_MAX                     700.0f
 
