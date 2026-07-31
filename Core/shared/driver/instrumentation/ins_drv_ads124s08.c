@@ -8,6 +8,7 @@
 #include "ins_drv_ads124s08_regs.h"
 #include "ins_drv_ads124s08.h"
 #include "ins_config.h"
+#include "ins_config_pinout.h"
 #include "cmsis_os2.h"
 
 // static function prototypes
@@ -58,6 +59,10 @@ void ins_drv_ads124s08_read_shadow(ads124s08_hw_t *hw)
 
 void ins_drv_shadow_init_default(ads124s08_hw_t * hw)
 {   
+    HAL_GPIO_WritePin(INS_RESET_PORT,INS_RESET_PIN,GPIO_PIN_RESET);
+    osDelay(1);
+    HAL_GPIO_WritePin(INS_RESET_PORT,INS_RESET_PIN,GPIO_PIN_SET);
+
     ads124s08_shawdow_t *shadow = hw->shadow;
 
     //ID register should not be set
@@ -178,14 +183,14 @@ static void read_register(const ads124s08_hw_t *hw, uint8_t reg_address, uint8_t
 void ins_drv_ads124s08_send_command(const ads124s08_hw_t *hw, uint8_t *command, uint16_t length)
 {
     HAL_GPIO_WritePin(hw->cs_port, hw->cs_pin, GPIO_PIN_RESET); 
-    HAL_SPI_Transmit(hw->spi_handle, command, length, HAL_MAX_DELAY);
+    HAL_SPI_Transmit(hw->spi_handle, command, length, 10);
     HAL_GPIO_WritePin(hw->cs_port, hw->cs_pin, GPIO_PIN_SET);
 }
 
 void ins_drv_ads124s08_read_data(const ads124s08_hw_t *hw, uint8_t *data_dest, uint16_t length)
 {
     HAL_GPIO_WritePin(hw->cs_port, hw->cs_pin, GPIO_PIN_RESET); 
-    HAL_SPI_Receive(hw->spi_handle, data_dest, length, HAL_MAX_DELAY);
+    HAL_SPI_Receive(hw->spi_handle, data_dest, length, 10);
     HAL_GPIO_WritePin(hw->cs_port, hw->cs_pin, GPIO_PIN_SET);
 }
 

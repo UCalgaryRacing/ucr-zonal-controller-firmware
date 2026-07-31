@@ -18,4 +18,7 @@ extern SPI_HandleTypeDef hspi1;
 #define INS_CS_1_PORT GPIOG
 #define INS_CS_1_PIN GPIO_PIN_10
 
+#define INS_RESET_PORT GPIOJ
+#define INS_RESET_PIN GPIO_PIN_15
+
 #endif

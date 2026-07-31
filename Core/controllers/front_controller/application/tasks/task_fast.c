@@ -33,9 +33,12 @@
 #include "prm_svc_channel.h"
 #include "prm_channel_types.h"
 
+#include "ins_svc_ads124s08.h"
+#include "ins_config.h"
+
 static const uint32_t period = 10;
 static uint32_t nextWakeTime;
-
+static float ins_test_value;
 void task_fast_init(void)
 {
 	nextWakeTime = osKernelGetTickCount();
@@ -104,6 +107,9 @@ void task_fast_init(void)
 	prm_svc_channel_init(INTERNAL_3V3_2);
 	prm_svc_channel_init(INTERNAL_12V);
 	prm_svc_channel_init(INTERNAL_5V_2);
+
+	//---------------- Instrumentation ----------------//
+	ins_svc_ads124s08_init();
 }
 
 void task_fast_loop(void)
@@ -143,6 +149,20 @@ void task_fast_loop(void)
 
 	//---------------- ACCUMULATOR ----------------//
 	//acu_svc_set_acu_fault_timeout();
+
+	//---------------- Instrumentation ----------------//
+
+	ins_test_value = ins_svc_ads124s08_read_channel(ins_default_config[SINGLE_ENDED_9]);
+	// ins_test_value[2] = ins_svc_ads124s08_read_channel(ins_default_config[SINGLE_ENDED_2]);
+	// ins_test_value[3] = ins_svc_ads124s08_read_channel(ins_default_config[SINGLE_ENDED_3]);
+	// ins_test_value[4] = ins_svc_ads124s08_read_channel(ins_default_config[SINGLE_ENDED_4]);
+	// ins_test_value[5] = ins_svc_ads124s08_read_channel(ins_default_config[SINGLE_ENDED_5]);
+	// ins_test_value[6] = ins_svc_ads124s08_read_channel(ins_default_config[SINGLE_ENDED_6]);
+	// ins_test_value[7] = ins_svc_ads124s08_read_channel(ins_default_config[SINGLE_ENDED_7]);
+	// ins_test_value[8] = ins_svc_ads124s08_read_channel(ins_default_config[SINGLE_ENDED_8]);
+	// ins_test_value[9] = ins_svc_ads124s08_read_channel(ins_default_config[SINGLE_ENDED_9]);
+	// ins_test_value[10] = ins_svc_ads124s08_read_channel(ins_default_config[SINGLE_ENDED_10]);
+	// ins_test_value[11] = ins_svc_ads124s08_read_channel(ins_default_config[SINGLE_ENDED_11]);
 
 
 	osDelayUntil(nextWakeTime);

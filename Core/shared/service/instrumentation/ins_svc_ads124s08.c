@@ -16,7 +16,16 @@
 static float convert_raw_to_voltage(uint8_t *data_buffer);
 static bool init_error = false;
 
-void ins_svc_ads124s08_init(ads124s08_hw_t *hw)
+void ins_svc_ads124s08_init()
+{
+    // for(uint8_t i = 0; i < INSTRUMENTATION_NUM_ADCS; i++)
+    // {
+    //     ins_svc_ads124s08_init_device(&ins_adc_array[i]);
+    // }
+    ins_svc_ads124s08_init_device(&ins_adc_array[0]);
+}
+
+void ins_svc_ads124s08_init_device(ads124s08_hw_t *hw)
 {   
     uint8_t command = ADS124S08_RESET_COMMAND;
     ins_drv_ads124s08_send_command(hw, &command, 1);

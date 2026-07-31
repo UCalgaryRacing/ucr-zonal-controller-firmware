@@ -41,7 +41,7 @@
 #define ADS124S08_NUM_SINGLE_ENDED_CHANNELS 12U
 
 // Maximum number of inputs that a single ADS124S08 can record from when configured as all differential channels
-#define ADS124S08_NUM_DIFFERENTIAL_CHANNELS 6U
+#define ADS124S08_NUM_DIFFERENTIAL_CHANNELS 0U
 
 // maximum number of channels that can be configured when one ADC is entirely single ended and the other is entirely differential
 #define INSTRUMENTATION_NUM_CHANNEL (ADS124S08_NUM_DIFFERENTIAL_CHANNELS + ADS124S08_NUM_SINGLE_ENDED_CHANNELS)
@@ -73,7 +73,7 @@ typedef struct
 
 typedef struct 
 {
-    ads124s08_hw_t *hw;                   /* Hardware map*/
+    const ads124s08_hw_t *hw;                   /* Hardware map*/
     ads124s08_input_mux_t input_pos_pin; // Positive input pin for the channel
     ads124s08_input_mux_t input_neg_pin; // Negative input pin for the channel
 } instrumentation_channel_t;
@@ -108,5 +108,8 @@ typedef enum
     DIFFERENTIAL_5,      /* Differential channel with positive input on AIN1 and negative input on AIN0 */
     DIFFERENTIAL_6       /* Differential channel with positive input on AIN3 and negative input on AIN2 */
 } instrumentation_channel_id_t;
+
+extern const instrumentation_channel_t ins_default_config[INSTRUMENTATION_NUM_CHANNEL];
+extern ads124s08_hw_t ins_adc_array[INSTRUMENTATION_NUM_ADCS];
 
 #endif
