@@ -30,6 +30,9 @@
 #include "whl_data.h"
 #include "whl_svc_can_route.h"
 
+#include "prm_svc_channel.h"
+#include "prm_channel_types.h"
+
 static const uint32_t period = 10;
 static uint32_t nextWakeTime;
 
@@ -96,6 +99,11 @@ void task_fast_init(void)
 	
 	whl_data_init();
 	whl_svc_can_route_init();
+
+	//---------------- PRM ----------------//
+	prm_svc_channel_init(INTERNAL_3V3_2);
+	prm_svc_channel_init(INTERNAL_12V);
+	prm_svc_channel_init(INTERNAL_5V_2);
 }
 
 void task_fast_loop(void)
