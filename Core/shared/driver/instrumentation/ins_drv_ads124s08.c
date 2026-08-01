@@ -15,6 +15,21 @@
 static void write_register(const ads124s08_hw_t *hw, uint8_t reg_address, uint8_t data);
 static void read_register(const ads124s08_hw_t *hw, uint8_t reg_address, uint8_t *data);
 
+void ins_drv_ads124s08_init()
+{
+    ads124s08_hw_t hw;
+    // pull chip select pins high
+    for(uint8_t i = 0; i < INSTRUMENTATION_NUM_ADCS; i++)
+    {
+        hw = ins_adc_array[i];
+        HAL_GPIO_WritePin(hw.cs_port, hw.cs_pin, GPIO_PIN_SET);
+    }
+
+    // toggle reset pin low, this resets the entire module.
+    HAL_GPIO_WritePin(INS_RESET_PORT,INS_RESET_PIN,GPIO_PIN_RESET);
+    osDelay(1);
+    HAL_GPIO_WritePin(INS_RESET_PORT,INS_RESET_PIN,GPIO_PIN_SET);
+}
 
 void ins_drv_ads124s08_write_shadow(const ads124s08_hw_t *hw)
 {
@@ -59,10 +74,6 @@ void ins_drv_ads124s08_read_shadow(ads124s08_hw_t *hw)
 
 void ins_drv_shadow_init_default(ads124s08_hw_t * hw)
 {   
-    HAL_GPIO_WritePin(INS_RESET_PORT,INS_RESET_PIN,GPIO_PIN_RESET);
-    osDelay(1);
-    HAL_GPIO_WritePin(INS_RESET_PORT,INS_RESET_PIN,GPIO_PIN_SET);
-
     ads124s08_shawdow_t *shadow = hw->shadow;
 
     //ID register should not be set
@@ -109,15 +120,6 @@ void ins_drv_shadow_init_default(ads124s08_hw_t * hw)
     ads124s08_set_spi_timeout_bit(&shadow->sys,ADS124S08_SPI_TIMEOUT_DISABLED);
     ads124s08_set_crc_enable_bit(&shadow->sys,ADS124S08_CRC_DISABLED);
     ads124s08_set_send_status_bit(&shadow->sys,ADS124S08_STATUS_BYTE_DISABLED);
-
-    //offset and gain calibration register, let the device do it itself and read the values back to the shadow after calibration is done
-    // shadow->off_cal_0 = 0x00; 
-    // shadow->off_cal_1 = 0x00;
-    // shadow->off_cal_2 = 0x00;
-
-    // shadow->fs_cal_0 = 0x00;
-    // shadow->fs_cal_1 = 0x00;
-    // shadow->fs_cal_2 = 0x00;
 
     shadow->gpio_data = 0x00;
     shadow->gpio_control = 0x00;

@@ -177,16 +177,7 @@ void task_fast_loop(void)
 	//---------------- Instrumentation ----------------//
 
 	ins_test_value = ins_svc_ads124s08_read_channel(ins_default_config[SINGLE_ENDED_9]);
-	// ins_test_value[2] = ins_svc_ads124s08_read_channel(ins_default_config[SINGLE_ENDED_2]);
-	// ins_test_value[3] = ins_svc_ads124s08_read_channel(ins_default_config[SINGLE_ENDED_3]);
-	// ins_test_value[4] = ins_svc_ads124s08_read_channel(ins_default_config[SINGLE_ENDED_4]);
-	// ins_test_value[5] = ins_svc_ads124s08_read_channel(ins_default_config[SINGLE_ENDED_5]);
-	// ins_test_value[6] = ins_svc_ads124s08_read_channel(ins_default_config[SINGLE_ENDED_6]);
-	// ins_test_value[7] = ins_svc_ads124s08_read_channel(ins_default_config[SINGLE_ENDED_7]);
-	// ins_test_value[8] = ins_svc_ads124s08_read_channel(ins_default_config[SINGLE_ENDED_8]);
-	// ins_test_value[9] = ins_svc_ads124s08_read_channel(ins_default_config[SINGLE_ENDED_9]);
-	// ins_test_value[10] = ins_svc_ads124s08_read_channel(ins_default_config[SINGLE_ENDED_10]);
-	// ins_test_value[11] = ins_svc_ads124s08_read_channel(ins_default_config[SINGLE_ENDED_11]);
+	
 
 
 	osDelayUntil(nextWakeTime);

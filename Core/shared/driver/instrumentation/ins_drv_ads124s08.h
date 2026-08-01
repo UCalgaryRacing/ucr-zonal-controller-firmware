@@ -12,6 +12,7 @@
 #include "ins_drv_ads124s08_regs.h"
 #include <stdint.h>
 
+void ins_drv_ads124s08_init();
 void ins_drv_ads124s08_write_shadow(const ads124s08_hw_t *hw);
 void ins_drv_ads124s08_read_shadow(ads124s08_hw_t *hw);
 void ins_drv_shadow_init_default(ads124s08_hw_t * hw);

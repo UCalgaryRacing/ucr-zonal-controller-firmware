@@ -18,11 +18,15 @@ static bool init_error = false;
 
 void ins_svc_ads124s08_init()
 {
-    // for(uint8_t i = 0; i < INSTRUMENTATION_NUM_ADCS; i++)
-    // {
-    //     ins_svc_ads124s08_init_device(&ins_adc_array[i]);
-    // }
-    ins_svc_ads124s08_init_device(&ins_adc_array[0]);
+    // do driver level initialization
+    ins_drv_ads124s08_init();
+
+    // initialize each specific device
+    for(uint8_t i = 0; i < INSTRUMENTATION_NUM_ADCS; i++)
+    {
+        ins_svc_ads124s08_init_device(&ins_adc_array[i]);
+    }
+
 }
 
 void ins_svc_ads124s08_init_device(ads124s08_hw_t *hw)
@@ -36,22 +40,23 @@ void ins_svc_ads124s08_init_device(ads124s08_hw_t *hw)
     ins_drv_ads124s08_write_shadow(hw);
 
     ads124s08_shawdow_t readback_shadow;
-    ads124s08_hw_t readback = *hw;
-    readback.shadow = &readback_shadow;
-    ins_drv_ads124s08_read_shadow(&readback);
+    ads124s08_hw_t readback_hw = *hw;
+
+    readback_hw.shadow = &readback_shadow;
+    ins_drv_ads124s08_read_shadow(&readback_hw);
     // update the device ID in the shadow register with the value read back from the device   
-    hw->shadow->device_id = readback.shadow->device_id; 
+    hw->shadow->device_id = readback_hw.shadow->device_id; 
 
-    // readback the calibration registers
-    hw->shadow->fs_cal_0 = readback.shadow->fs_cal_0;
-    hw->shadow->fs_cal_1 = readback.shadow->fs_cal_1;
-    hw->shadow->fs_cal_2 = readback.shadow->fs_cal_2;
+    // update the calibration registers
+    hw->shadow->fs_cal_0 = readback_hw.shadow->fs_cal_0;
+    hw->shadow->fs_cal_1 = readback_hw.shadow->fs_cal_1;
+    hw->shadow->fs_cal_2 = readback_hw.shadow->fs_cal_2;
 
-    hw->shadow->off_cal_0 = readback.shadow->off_cal_0;
-    hw->shadow->off_cal_1 = readback.shadow->off_cal_1;
-    hw->shadow->off_cal_2 = readback.shadow->off_cal_2;
+    hw->shadow->off_cal_0 = readback_hw.shadow->off_cal_0;
+    hw->shadow->off_cal_1 = readback_hw.shadow->off_cal_1;
+    hw->shadow->off_cal_2 = readback_hw.shadow->off_cal_2;
 
-    if(memcmp(hw->shadow, readback.shadow, sizeof(ads124s08_shawdow_t)) != 0)
+    if(memcmp(hw->shadow, &readback_shadow, sizeof(ads124s08_shawdow_t)) != 0)
     {
         init_error = true;
     }
