@@ -39,7 +39,7 @@ static ads124s08_hw_t adc_1 =
 /*Channel Configuration                                                       */
 /*============================================================================*/
 
-const instrumentation_channel_t ins_default_config[INSTRUMENTATION_NUM_CHANNEL] = 
+const ins_channel_t ins_default_config[INSTRUMENTATION_NUM_CHANNEL] = 
 {
     [SINGLE_ENDED_0] = {
         .hw = &adc_0,

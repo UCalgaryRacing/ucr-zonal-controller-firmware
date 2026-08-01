@@ -38,7 +38,7 @@
 
 static const uint32_t period = 10;
 static uint32_t nextWakeTime;
-static float ins_test_value;
+
 void task_fast_init(void)
 {
 	nextWakeTime = osKernelGetTickCount();
@@ -176,8 +176,8 @@ void task_fast_loop(void)
 
 	//---------------- Instrumentation ----------------//
 
-	ins_test_value = ins_svc_ads124s08_read_channel(ins_default_config[SINGLE_ENDED_9]);
-	
+	ins_svc_update_ads124s08();
+
 
 
 	osDelayUntil(nextWakeTime);
