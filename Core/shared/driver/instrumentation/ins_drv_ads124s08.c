@@ -19,7 +19,7 @@ void ins_drv_ads124s08_init()
 {
     ads124s08_hw_t hw;
     // pull chip select pins high
-    for(uint8_t i = 0; i < INSTRUMENTATION_NUM_ADCS; i++)
+    for(uint8_t i = 0; i < INS_TOTAL_NUM_ADC; i++)
     {
         hw = ins_adc_array[i];
         HAL_GPIO_WritePin(hw.cs_port, hw.cs_pin, GPIO_PIN_SET);

@@ -37,17 +37,7 @@
 // Maximum value that the ADS124S08 can record in ADC counts
 #define ADS124S08_MAX_VALUE    ((1U << (ADS124S08_ADC_RESOLUTION_BITS - 1)) - 1U)
 
-// Maximum number of inputs that a single ADS124S08 can record from when configured as all single ended channels
-#define ADS124S08_NUM_SINGLE_ENDED_CHANNELS 12U
 
-// Maximum number of inputs that a single ADS124S08 can record from when configured as all differential channels
-#define ADS124S08_NUM_DIFFERENTIAL_CHANNELS 6U
-
-// maximum number of channels that can be configured when one ADC is entirely single ended and the other is entirely differential
-#define INSTRUMENTATION_NUM_CHANNEL (ADS124S08_NUM_DIFFERENTIAL_CHANNELS + ADS124S08_NUM_SINGLE_ENDED_CHANNELS)
-
-// Number of ADCs in V2 of the instrumenation module
-#define INSTRUMENTATION_NUM_ADCS 2U
 
 // Scaling factor, this is from the dividers on the module. Set for 12V inputs on V2.1
 #define INSTRUMENTATION_SCALING_FACTOR 2.4f
@@ -76,7 +66,7 @@ typedef struct
     ads124s08_hw_t *hw;                   /* Hardware map*/
     ads124s08_input_mux_t input_pos_pin; // Positive input pin for the channel
     ads124s08_input_mux_t input_neg_pin; // Negative input pin for the channel
-} instrumentation_channel_t;
+} ins_channel_t;
 
 /**
  * Different channel types of the instrumentation module
@@ -107,6 +97,6 @@ typedef enum
     DIFFERENTIAL_4,      /* Differential channel with positive input on AIN6 and negative input on AIN7 */
     DIFFERENTIAL_5,      /* Differential channel with positive input on AIN1 and negative input on AIN0 */
     DIFFERENTIAL_6       /* Differential channel with positive input on AIN3 and negative input on AIN2 */
-} instrumentation_channel_id_t;
+} ins_channel_id_t;
 
 #endif
