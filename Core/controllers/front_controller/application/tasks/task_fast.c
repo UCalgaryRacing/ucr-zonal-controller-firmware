@@ -92,7 +92,10 @@ void task_fast_init(void)
 
 	tcu_svc_can_route_init();
 
-	mcu_svc_analog_init();
+	mcu_svc_analog_init(APPS1);
+	mcu_svc_analog_init(APPS2);
+	mcu_svc_analog_init(BSE1);
+
 	mcu_svc_analog_start(APPS1);
 	mcu_svc_analog_start(APPS2);
 	mcu_svc_analog_start(BSE1);
@@ -122,8 +125,6 @@ void task_fast_init(void)
 	rco_svc_can_route_init();
 
 	//---------------- Wheel ----------------//
-	fco_svc_ptt_init();
-	
 	whl_data_init();
 	whl_svc_can_route_init();
 
@@ -131,6 +132,11 @@ void task_fast_init(void)
 	prm_svc_channel_init(INTERNAL_3V3_2);
 	prm_svc_channel_init(INTERNAL_12V);
 	prm_svc_channel_init(INTERNAL_5V_2);
+
+	prm_svc_channel_init(EXTERNAL_12V_1);
+	prm_svc_channel_init(EXTERNAL_12V_2);
+	prm_svc_channel_init(EXTERNAL_5V_1);
+	prm_svc_channel_init(EXTERNAL_5V_2);
 
 	//---------------- Instrumentation ----------------//
 	ins_svc_ads124s08_init();

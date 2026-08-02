@@ -15,9 +15,14 @@ status_t mcu_drv_analog_driver_init(void)
     return OK;
 }
 
-int mcu_drv_analog_init(const analog_hw_t *hw, const mcu_analog_settings_t *settings)
+status_t mcu_drv_analog_init(const analog_hw_t *hw)
 {
-    if (hw == NULL || settings == NULL)
+    if (g_driver_initialized)
+    {
+        return OK;
+    }
+
+    if (hw == NULL)
     {
         return ERROR_GENERAL;
     }
@@ -31,6 +36,8 @@ int mcu_drv_analog_init(const analog_hw_t *hw, const mcu_analog_settings_t *sett
 
         hw->adc_context->calibrated = true;
     }
+
+    g_driver_initialized = true;
 
     return OK;
 }

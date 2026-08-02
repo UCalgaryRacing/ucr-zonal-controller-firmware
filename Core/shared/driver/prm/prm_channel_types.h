@@ -3,14 +3,14 @@
 
 typedef enum
 {
-    INTERNAL_3V3_2 = 0,
-    INTERNAL_5V_2,
-    INTERNAL_12V,
+    INTERNAL_3V3_2 = 0,         // to GPS, IMU, Instrumentation
+    INTERNAL_5V_2,              // to Instrumentation
+    INTERNAL_12V,               // to MCU
     
-    EXTERNAL_5V_1,
-    EXTERNAL_5V_2,
-    EXTERNAL_12V_1,
-    EXTERNAL_12V_2,
+    EXTERNAL_5V_1,              // to harness endpoint BSE
+    EXTERNAL_5V_2,              // none written
+    EXTERNAL_12V_1,             // to MCU, harness endpoint APPS
+    EXTERNAL_12V_2,             // to Front Wheel Susp
 
     PRM_CHANNEL_COUNT
 } prm_channel_id_t;

@@ -54,7 +54,7 @@ typedef struct
 /* ADC Configuration                                                          */
 /*============================================================================*/
 
-#define MCU_ADC_2_RESOLUTION_BITS     16U
+#define MCU_ADC_2_RESOLUTION_BITS     12U
 #define MCU_ADC_2_MAX_COUNT           ((1U << MCU_ADC_2_RESOLUTION_BITS) - 1U)
 
 #define MCU_ADC_3_RESOLUTION_BITS     16U

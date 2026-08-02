@@ -8,7 +8,7 @@
 #include "mcu_config.h"
 #include "utilities.h"
 
-status_t mcu_svc_analog_init(void);
+status_t mcu_svc_analog_init(mcu_analog_channel_id_t channel_id);
 status_t mcu_svc_analog_start(mcu_analog_channel_id_t channel_id);
 status_t mcu_svc_get_analog_voltage(mcu_analog_channel_id_t channel_id, float *voltage);
 status_t mcu_svc_get_analog_percent(mcu_analog_channel_id_t channel_id, float *percentage);

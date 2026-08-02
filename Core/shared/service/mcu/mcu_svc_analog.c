@@ -20,16 +20,16 @@ const mcu_analog_config_t* mcu_svc_get_channel_config(mcu_analog_channel_id_t ch
 
 static float mcu_svc_raw_to_voltage(uint16_t adc_raw, const mcu_adc_context_t *adc_settings);
 
-status_t mcu_svc_analog_init(void)
+status_t mcu_svc_analog_init(mcu_analog_channel_id_t channel_id)
 {
-    status_t status = mcu_drv_analog_driver_init();
+    const mcu_analog_config_t *channel_config = mcu_svc_get_channel_config(channel_id);
 
-    if (status != OK)
+    if (channel_config == NULL)
     {
-        return status;
+        return ERROR_INVALID_PARAM;
     }
 
-    return status;
+    return mcu_drv_analog_init(&channel_config->hw);
 }
 
 status_t mcu_svc_analog_start(mcu_analog_channel_id_t channel_id)
