@@ -11,8 +11,7 @@
 void rco_svc_update_drs()
 {   
     bool drs_active = rco_data_get_drs();
-
-    if (ins_data_get_wheel_rpm(INS_WHEEL_SPEED_SENSOR_FRONT_LEFT) > VEHICLE_SPEED_DRS_ACTIVATION_LIMIT)
+    if (ins_data_get_wheel_speed_rpm(FL_WHEEL_SPEED) > VEHICLE_SPEED_DRS_ACTIVATION_LIMIT)
     {
         drs_active = true;
     }

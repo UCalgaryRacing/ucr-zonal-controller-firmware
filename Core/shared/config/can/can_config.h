@@ -47,6 +47,8 @@ typedef struct
 #define MOTOR_REQUEST_CAN_ID                    204
 #define MOTOR_STATUS_CAN_ID                     205
 #define FRONT_WHEEL_SPEED_CAN_ID                206
+#define FRONT_SUSPENSION_CAN_ID                 207
+#define FRONT_INSTRUMENTATION_CAN_ID            208
 #define TCU_FAULTS_CAN_ID                       213
 #define TRACTION_CONTROL_DATA_CAN_ID            220
 

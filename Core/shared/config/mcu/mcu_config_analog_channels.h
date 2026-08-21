@@ -5,12 +5,9 @@
 
 typedef enum
 {
-    FCO_ADC3_INP1 = 0,
-    FCO_ADC3_INP0,
-    FCO_ADC2_INP0,
-
-    RCO_ADC3_INP1,
-    RCO_ADC3_INP0,
+    ADC3_1 = 0,
+    ADC3_0,
+    ADC2_0,
     
     MCU_TOTAL_ADC_INPUT_COUNT
 } mcu_analog_channel_id_t;

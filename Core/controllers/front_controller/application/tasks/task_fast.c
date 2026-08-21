@@ -33,7 +33,7 @@
 #include "prm_svc_channel.h"
 #include "prm_channel_types.h"
 
-#include "ins_svc_ads124s08.h"
+#include "ins_svc_channel.h"
 #include "ins_config.h"
 
 static const uint32_t period = 10;
@@ -138,8 +138,6 @@ void task_fast_init(void)
 	prm_svc_channel_init(EXTERNAL_5V_1);
 	prm_svc_channel_init(EXTERNAL_5V_2);
 
-	//---------------- Instrumentation ----------------//
-	ins_svc_ads124s08_init();
 }
 
 void task_fast_loop(void)
@@ -180,9 +178,6 @@ void task_fast_loop(void)
 	//---------------- ACCUMULATOR ----------------//
 	//acu_svc_set_acu_fault_timeout();
 
-	//---------------- Instrumentation ----------------//
-
-	ins_svc_update_ads124s08();
 
 
 

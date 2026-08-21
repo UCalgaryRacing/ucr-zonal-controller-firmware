@@ -21,9 +21,9 @@ extern const mcu_channel_config_t mcu_hsd_default_config[MCU_HSD_TOTAL_CHANNELS]
 /* Front Controller ADC Mapping                                               */
 /*============================================================================*/
 
-#define APPS1    FCO_ADC3_INP1 
-#define APPS2    FCO_ADC3_INP0
-#define BSE1     FCO_ADC2_INP0
+#define APPS1    ADC3_1 
+#define APPS2    ADC3_0
+#define BSE1     ADC2_0
 
 /*============================================================================*/
 /* ADC Configuration                                                          */

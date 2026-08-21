@@ -26,8 +26,8 @@ extern const mcu_channel_config_t mcu_hsd_default_config[MCU_HSD_TOTAL_CHANNELS]
 /* Rear Controller ADC Mapping                                                */
 /*============================================================================*/
 
-#define BATT_HIGHEST_TEMP      RCO_ADC3_INP1 
-#define BATT_LOWEST_VOLTAGE    RCO_ADC3_INP0
+#define BATT_HIGHEST_TEMP      ADC3_1 
+#define BATT_LOWEST_VOLTAGE    ADC3_0
 
 /*============================================================================*/
 /* ADC Configuration                                                          */

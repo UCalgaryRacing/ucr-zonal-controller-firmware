@@ -3,24 +3,29 @@
 
 #include "gps_svc.h"
 
-static const uint32_t period = 10;
+static const uint32_t period = 1;
 static uint32_t nextWakeTime;
+
+
 
 void task_very_fast_init(void)
 {
 	nextWakeTime = osKernelGetTickCount();
 
-	//---------------- GPS ----------------//
-	gps_svc_init();
-	gps_svc_start();
+	// //---------------- GPS ----------------//
+	// gps_svc_init();
+	// gps_svc_start();
+
+	//---------------- INSTRUMENTATION :() ----------------//
+	ins_svc_init();
 }
 
 void task_very_fast_loop(void)
 {
 	nextWakeTime += period;
 
-	//---------------- GPS ----------------//
-	gps_svc_update();
+	// //---------------- GPS ----------------//
+	// gps_svc_update();
 
 	osDelayUntil(nextWakeTime);
 }

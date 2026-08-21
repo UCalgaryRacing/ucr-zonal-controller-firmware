@@ -5,31 +5,50 @@
 #include <stdint.h>
 #include "com_typ_common.h"
 
-/*============================================================================*/
-/* Wheel Speed Data                                                           */
-/*============================================================================*/
+#include "ins_config_sensor_id.h"
 
-typedef enum
+/*============================================================================*/
+/* Data Structure Types                                                       */
+/*============================================================================*/
+typedef struct
 {
-    INS_WHEEL_SPEED_SENSOR_FRONT_LEFT = 0,
-    INS_WHEEL_SPEED_SENSOR_FRONT_RIGHT,
-    INS_WHEEL_SPEED_SENSOR_REAR_LEFT,
-    INS_WHEEL_SPEED_SENSOR_REAR_RIGHT,
-    INS_WHEEL_SPEED_SENSOR_COUNT
-} ins_wheel_speed_sensor_t;
+    float front_left_wheel_rpm;
+    float front_right_wheel_rpm;
+    float rear_left_wheel_rpm;
+    float rear_right_wheel_rpm;
+} ins_whl_spd_data_t;
+
+typedef struct
+{
+    float front_left_suspension;
+    float front_right_suspension;
+    float rear_left_suspension;
+    float rear_right_suspension;
+} ins_suspension_data_t;
+
+/*============================================================================*/
+/* Initialization                                                             */
+/*============================================================================*/
 
 status_t ins_data_init(void);
 
-void ins_data_set_wheel_rpm(ins_wheel_speed_sensor_t sensor, float wheel_rpm);
+/*============================================================================*/
+/* Setters                                                                    */
+/*============================================================================*/
 
-float ins_data_get_wheel_rpm(ins_wheel_speed_sensor_t sensor);
+status_t ins_data_set_wheel_speed(ins_sensor_id_t wheel_sensor, float wheel_rpm);
+status_t ins_data_set_suspension_travel(ins_sensor_id_t suspension_sensor, float susp_travel);
 
-void ins_data_set_wheel_valid(ins_wheel_speed_sensor_t sensor, bool valid);
+void ins_data_set_steering_angle(float steering_angle);
 
-bool ins_data_get_wheel_valid(ins_wheel_speed_sensor_t sensor);
+/*============================================================================*/
+/* Getters                                                                    */
+/*============================================================================*/
 
-void ins_data_set_wheel_period_ticks(ins_wheel_speed_sensor_t sensor, uint32_t period_ticks);
+float ins_data_get_wheel_speed_rpm(ins_sensor_id_t wheel_sensor);
+float ins_data_get_suspension_travel(ins_sensor_id_t suspension_sensor);
 
-uint32_t ins_data_get_wheel_period_ticks(ins_wheel_speed_sensor_t sensor);
+float ins_data_get_steering_angle(void);
+
 
 #endif /* DATA_INS_DATA_H_ */

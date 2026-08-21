@@ -1,13 +1,16 @@
 #ifndef CONFIG_INS_CONFIG_H_
 #define CONFIG_INS_CONFIG_H_
 
-#include <stdint.h>
-#include <stdbool.h>
+
+#include "stm32h7xx.h"
+#include "stm32h753xx.h"
 #include "stm32h7xx_hal.h"
+
+#include "ins_config_sensor_id.h"
 #include "ins_drv_ads124s08_regs.h"
 
 /*============================================================================*/
-/* Wheel Speed                                                                */
+/* Wheel Speed: used for MCU V1.0 wheel speed implementation                  */
 /*============================================================================*/
 
 /* Maps to ins_wheel_speed_sensor_t; validated at runtime in service init. */
@@ -22,35 +25,61 @@
 /*============================================================================*/
 /* Instrumentation Module Config                                              */
 /*============================================================================*/
+#define INS_EXTERNAL_VREF_V             5.0f    // external 5V reference provided to instrumentation module by PRM
+#define INS_SCALING_FACTOR              2.4f    // from voltage divider on instrumentation module (all read inputs), set for 12V input
 
-#define MCU_V1_0
+/*============================================================================*/
+/* ADS124S08 Hardware Mapping                                                 */
+/*============================================================================*/
+typedef enum
+{
+    INS_ADC_1 = 0U,
+    INS_ADC_2,
+    INS_TOTAL_NUM_ADC
+} ins_adc_id_t;
 
-// Value of Internal Reference on the ADCs
-#define ADS124S08_INTERNAL_REF     2.5f
+/**
+ * Different channel types of the instrumentation module
+ * There 12 individual analog inputs on each ADC
+ * On V2 of instrumentation there are two ADC, one has the input conditioning for single ended measurements, the other has the conditioning for differential measurements
+ */
+typedef enum
+{   
+    /* Single ended channels are all on one ADC. All negatv*/
+    INS_SING_0 = 0U, /* Single ended channel with positive input on AIN1 and negative input on AINCOM */
+    INS_SING_1,      /* Single ended channel with positive input on AIN2 and negative input on AINCOM */
+    INS_SING_2,      /* Single ended channel with positive input on AIN0 and negative input on AINCOM */
+    INS_SING_3,      /* Single ended channel with positive input on AIN3 and negative input on AINCOM */
+    INS_SING_4,      /* Single ended channel with positive input on AIN8 and negative input on AINCOM */
+    INS_SING_5,      /* Single ended channel with positive input on AIN9 and negative input on AINCOM */
+    INS_SING_6,      /* Single ended channel with positive input on AIN10 and negative input on AINCOM */
+    INS_SING_7,      /* Single ended channel with positive input on AIN11 and negative input on AINCOM */
+    INS_SING_8,      /* Single ended channel with positive input on AIN7 and negative input on AINCOM */
+    INS_SING_9,      /* Single ended channel with positive input on AIN5 and negative input on AINCOM */
+    INS_SING_10,     /* Single ended channel with positive input on AIN6 and negative input on AINCOM */
+    INS_SING_11,     /* Single ended channel with positive input on AIN4 and negative input on AINCOM */
 
-// Number of bits the ADS124S08 can record data in
-#define ADS124S08_ADC_RESOLUTION_BITS  24U
+    /* Differential channels are all on the other ADC*/
+    INS_DIFF_1,      /* Differential channel with positive input on AIN6 and negative input on AIN7 */
+    INS_DIFF_2,      /* Differential channel with positive input on AIN5 and negative input on AIN4 */
+    INS_DIFF_3,      /* Differential channel with positive input on AIN2 and negative input on AIN3 */
+    INS_DIFF_4,      /* Differential channel with positive input on AIN1 and negative input on AIN0 */
+    INS_DIFF_5,      /* Differential channel with positive input on AIN9 and negative input on AIN8 */
+    INS_DIFF_6,      /* Differential channel with positive input on AIN10 and negative input on AIN11 */
 
-// External reference provided to instrumenation module
-#define INSTRUMENTATION_EXTERNAL_REFERENCE 5.0f
+    INS_TOTAL_NUM_CHANNEL
+} ins_channel_id_t;
 
-// Maximum value that the ADS124S08 can record in ADC counts
-#define ADS124S08_MAX_VALUE    ((1U << (ADS124S08_ADC_RESOLUTION_BITS - 1)) - 1U)
-
-
-
-// Scaling factor, this is from the dividers on the module. Set for 12V inputs on V2.1
-#define INSTRUMENTATION_SCALING_FACTOR 2.4f
-
+typedef struct
+{
+    ins_channel_id_t channel_id;
+} ins_sensor_config_t;
 
 /*============================================================================*/
 /* Channel Hardware Mapping                                                   */
 /*============================================================================*/
 
-/**
- * Hardware mapping for the ADS124S08
- * Contains the SPI handle, chip select GPIO port and pin, and shadow register for the device
- */
+/* Hardware Mapping for ADS124S08 */
 
 typedef struct 
 {   
@@ -58,45 +87,36 @@ typedef struct
     GPIO_TypeDef *cs_port;               // Chip Select GPIO Port. Not supported on MCU V1.0
     uint16_t      cs_pin;                // Chip Select GPIO Pin. Not supported on MCU V1.0
     ads124s08_shawdow_t *shadow;
+    bool is_en;
 } ads124s08_hw_t;
-
 
 typedef struct 
 {
-    ads124s08_hw_t *hw;                   /* Hardware map*/
+    const ads124s08_hw_t *hw;
     ads124s08_input_mux_t input_pos_pin; // Positive input pin for the channel
     ads124s08_input_mux_t input_neg_pin; // Negative input pin for the channel
-} ins_channel_t;
+    ads124s08_input_mux_t input_gpio_pin;
+    bool is_en;
+} ins_channel_config_t;
 
-/**
- * Different channel types of the instrumentation module
- * There 12 individual analog inputs on each ADC
- * On V2 of instrumentation there are two ADC, one has the input conditioning for single ended measurements, the other has the conditioning for differential measurements
- */
+/*============================================================================*/
+/* ADS124S08 ADC Configuration                                                */
+/*============================================================================*/
 
-typedef enum
-{   
-    /* Single ended channels are all on one ADC*/
-    SINGLE_ENDED_0 = 0U, /* Single ended channel with positive input on AIN0 and negative input on AINCOM */
-    SINGLE_ENDED_1,      /* Single ended channel with positive input on AIN1 and negative input on AINCOM */
-    SINGLE_ENDED_2,      /* Single ended channel with positive input on AIN2 and negative input on AINCOM */
-    SINGLE_ENDED_3,      /* Single ended channel with positive input on AIN3 and negative input on AINCOM */
-    SINGLE_ENDED_4,      /* Single ended channel with positive input on AIN4 and negative input on AINCOM */
-    SINGLE_ENDED_5,      /* Single ended channel with positive input on AIN5 and negative input on AINCOM */
-    SINGLE_ENDED_6,      /* Single ended channel with positive input on AIN6 and negative input on AINCOM */
-    SINGLE_ENDED_7,      /* Single ended channel with positive input on AIN7 and negative input on AINCOM */
-    SINGLE_ENDED_8,      /* Single ended channel with positive input on AIN8 and negative input on AINCOM */
-    SINGLE_ENDED_9,     /* Single ended channel with positive input on AIN9 and negative input on AINCOM */
-    SINGLE_ENDED_10,     /* Single ended channel with positive input on AIN10 and negative input on AINCOM */
-    SINGLE_ENDED_11,     /* Single ended channel with positive input on AIN11 and negative input on AINCOM */
+/* given values from datasheet */
+#define ADS124S08_INTERNAL_VREF_V           2.5f        // internal reference on ADCs
+#define ADS124S08_ADC_RESOLUTION_BITS       24U         // 24-bit data recording
 
-    /* Differential channels are all on the other ADC*/
-    DIFFERENTIAL_1,      /* Differential channel with positive input on AIN11 and negative input on AIN10 */
-    DIFFERENTIAL_2,      /* Differential channel with positive input on AIN9 and negative input on AIN8 */
-    DIFFERENTIAL_3,      /* Differential channel with positive input on AIN4 and negative input on AIN5 */
-    DIFFERENTIAL_4,      /* Differential channel with positive input on AIN6 and negative input on AIN7 */
-    DIFFERENTIAL_5,      /* Differential channel with positive input on AIN1 and negative input on AIN0 */
-    DIFFERENTIAL_6       /* Differential channel with positive input on AIN3 and negative input on AIN2 */
-} ins_channel_id_t;
+#define ADS124S08_MAX_VALUE                 ((1U << (ADS124S08_ADC_RESOLUTION_BITS - 1)) - 1U)  // max ADC raw value given for given resolution
 
-#endif
+
+/*============================================================================*/
+/* Extern                                                                     */
+/*============================================================================*/
+
+extern const ins_channel_config_t ins_default_config[INS_TOTAL_NUM_CHANNEL];
+extern ads124s08_hw_t ins_adc_array[INS_TOTAL_NUM_ADC];
+
+extern const ins_sensor_config_t ins_sensor_config[INS_TOTAL_NUM_SENSORS];
+
+#endif /*CONFIG_INS_CONFIG_H_*/

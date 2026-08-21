@@ -120,7 +120,9 @@ void task_fast_init(void)
 
 
 	//---------------- TCU ----------------//
-	mcu_svc_analog_init();
+	mcu_svc_analog_init(BATT_HIGHEST_TEMP);
+	mcu_svc_analog_init(BATT_LOWEST_VOLTAGE);
+
 	mcu_svc_analog_start(BATT_HIGHEST_TEMP);
 	mcu_svc_analog_start(BATT_LOWEST_VOLTAGE);
 	HAL_Delay(5); // small delay to ensure DMA can get the ADC readings correctly.
@@ -155,7 +157,7 @@ void task_fast_init(void)
 	whl_data_init();
 	whl_svc_can_route_init();
 
-	ins_svc_can_route_init();
+	// ins_svc_can_route_init();
 
 
 	// FDCAN_FilterTypeDef sFilterConfig0;

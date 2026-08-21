@@ -335,6 +335,7 @@
 									<listOptionValue builtIn="false" value="../Core/controllers/front_controller/config/prm"/>
 									<listOptionValue builtIn="false" value="../Core/shared/driver/prm"/>
 									<listOptionValue builtIn="false" value="../Core/shared/service/prm"/>
+									<listOptionValue builtIn="false" value="../Core/shared/config/instrumentation"/>
 								</option>
 								<inputType id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c.1322761194" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c"/>
 							</tool>
@@ -467,15 +468,17 @@
 									<listOptionValue builtIn="false" value="../Core/controllers/rear_controller/application/pdm"/>
 									<listOptionValue builtIn="false" value="../Core/shared/config/mcu"/>
 									<listOptionValue builtIn="false" value="../Core/shared/config/can"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/Core/shared/service/common}&quot;"/>
 									<listOptionValue builtIn="false" value="../Core/shared/service/instrumentation"/>
 									<listOptionValue builtIn="false" value="../Core/shared/driver/instrumentation"/>
 									<listOptionValue builtIn="false" value="../Core/shared/config/insutrumentation"/>
 									<listOptionValue builtIn="false" value="../Core/controllers/rear_controller/config/instrumentation"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/Core/shared/data/instrumentation}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/Core/controllers/front_controller/config/gps}&quot;"/>
 									<listOptionValue builtIn="false" value="../Core/shared/service/wheel"/>
 									<listOptionValue builtIn="false" value="../Core/shared/data/wheel/"/>
+									<listOptionValue builtIn="false" value="../Core/shared/service/common"/>
+									<listOptionValue builtIn="false" value="../Core/shared/data/instrumentation"/>
+									<listOptionValue builtIn="false" value="../Core/shared/driver/prm"/>
+									<listOptionValue builtIn="false" value="../Core/shared/config/instrumentation"/>
+									<listOptionValue builtIn="false" value="../Core/controllers/rear_controller/config/prm"/>
 								</option>
 								<inputType id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c.1799304516" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c"/>
 							</tool>

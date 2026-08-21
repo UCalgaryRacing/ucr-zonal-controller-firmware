@@ -19,97 +19,185 @@
 static ads124s08_shawdow_t ads124s08_0_shadow = {0};
 static ads124s08_shawdow_t ads124s08_1_shadow = {0};
 
-static ads124s08_hw_t adc_0 = 
-{
-    .spi_handle = INS_SPI_HANDLE,
-    .cs_port = INS_CS_0_PORT,
-    .cs_pin = INS_CS_0_PIN,
-    .shadow = &ads124s08_0_shadow
-};
+/*============================================================================*/
+/* ADC Configuration                                                          */
+/*============================================================================*/
 
-static ads124s08_hw_t adc_1 = 
-{
-    .spi_handle = INS_SPI_HANDLE,
-    .cs_port = INS_CS_1_PORT,
-    .cs_pin = INS_CS_1_PIN,
-    .shadow = &ads124s08_0_shadow
+ads124s08_hw_t ins_adc_array[INS_TOTAL_NUM_ADC] = {
+    [INS_ADC_1] = {
+        .spi_handle = INS_SPI_HANDLE,
+        .cs_port = INS_CS_0_PORT,
+        .cs_pin = INS_CS_0_PIN,
+        .shadow = &ads124s08_0_shadow,
+        .is_en = true
+    },
+ 
+    [INS_ADC_2] = {
+        .spi_handle = INS_SPI_HANDLE,
+        .cs_port = INS_CS_1_PORT,
+        .cs_pin = INS_CS_1_PIN,
+        .shadow = &ads124s08_1_shadow,
+        .is_en = false
+    }
 };
 
 /*============================================================================*/
 /*Channel Configuration                                                       */
 /*============================================================================*/
 
-const ins_channel_t ins_default_config[INSTRUMENTATION_NUM_CHANNEL] = 
+const ins_channel_config_t ins_default_config[INS_TOTAL_NUM_CHANNEL] = 
 {
-    [SINGLE_ENDED_0] = {
-        .hw = &adc_0,
-        .input_pos_pin = ADS124S08_INPUT_1,
-        .input_neg_pin = ADS124S08_INPUT_AINCOM,
+    [INS_SING_0] = {
+        .hw = &ins_adc_array[INS_ADC_1],
+        .input_pos_pin = ADS124S08_AIN1,
+        .input_neg_pin = ADS124S08_AINCOM,
+        .is_en = false
     },
 
-    [SINGLE_ENDED_1] = {
-        .hw = &adc_0,
-        .input_pos_pin = ADS124S08_INPUT_2,
-        .input_neg_pin = ADS124S08_INPUT_AINCOM
+    [INS_SING_1] = {
+        .hw = &ins_adc_array[INS_ADC_1],
+        .input_pos_pin = ADS124S08_AIN2,
+        .input_neg_pin = ADS124S08_AINCOM,
+        .is_en = false
     },
 
-    [SINGLE_ENDED_2] = {
-        .hw = &adc_0,
-        .input_pos_pin = ADS124S08_INPUT_0,
-        .input_neg_pin = ADS124S08_INPUT_AINCOM
+    [INS_SING_2] = {
+        .hw = &ins_adc_array[INS_ADC_1],
+        .input_pos_pin = ADS124S08_AIN0,
+        .input_neg_pin = ADS124S08_AINCOM,
+        .is_en = false
     },
 
-    [SINGLE_ENDED_3] = {
-        .hw = &adc_0,
-        .input_pos_pin = ADS124S08_INPUT_3,
-        .input_neg_pin = ADS124S08_INPUT_AINCOM
+    [INS_SING_3] = {
+        .hw = &ins_adc_array[INS_ADC_1],
+        .input_pos_pin = ADS124S08_AIN3,
+        .input_neg_pin = ADS124S08_AINCOM,
+        .is_en = false
     },
 
-    [SINGLE_ENDED_4] = {
-        .hw = &adc_0,
-        .input_pos_pin = ADS124S08_INPUT_8,
-        .input_neg_pin = ADS124S08_INPUT_AINCOM
+    [INS_SING_4] = {
+        .hw = &ins_adc_array[INS_ADC_1],
+        .input_pos_pin = ADS124S08_AIN8,
+        .input_neg_pin = ADS124S08_AINCOM,
+        .input_gpio_pin = GPIO0,
+        .is_en = false
     },
 
-    [SINGLE_ENDED_5] = {
-        .hw = &adc_0,
-        .input_pos_pin = ADS124S08_INPUT_9,
-        .input_neg_pin = ADS124S08_INPUT_AINCOM
+    [INS_SING_5] = {
+        .hw = &ins_adc_array[INS_ADC_1],
+        .input_pos_pin = ADS124S08_AIN9,
+        .input_neg_pin = ADS124S08_AINCOM,
+        .input_gpio_pin = GPIO1,
+        .is_en = false
     },
 
-    [SINGLE_ENDED_6] = {
-        .hw = &adc_0,
-        .input_pos_pin = ADS124S08_INPUT_10,
-        .input_neg_pin = ADS124S08_INPUT_AINCOM
+    [INS_SING_6] = {
+        .hw = &ins_adc_array[INS_ADC_1],
+        .input_pos_pin = ADS124S08_AIN10,
+        .input_neg_pin = ADS124S08_AINCOM,
+        .input_gpio_pin = GPIO2,
+        .is_en = false
     },
 
-    [SINGLE_ENDED_7] = {
-        .hw = &adc_0,
-        .input_pos_pin = ADS124S08_INPUT_11,
-        .input_neg_pin = ADS124S08_INPUT_AINCOM
+    [INS_SING_7] = {
+        .hw = &ins_adc_array[INS_ADC_1],
+        .input_pos_pin = ADS124S08_AIN11,
+        .input_neg_pin = ADS124S08_AINCOM,
+        .input_gpio_pin = GPIO3,
+        .is_en = false
     },
 
-    [SINGLE_ENDED_8] = {
-        .hw = &adc_0,
-        .input_pos_pin = ADS124S08_INPUT_7,
-        .input_neg_pin = ADS124S08_INPUT_AINCOM
+    [INS_SING_8] = {
+        .hw = &ins_adc_array[INS_ADC_1],
+        .input_pos_pin = ADS124S08_AIN7,
+        .input_neg_pin = ADS124S08_AINCOM,
+        .is_en = true
     },
 
-    [SINGLE_ENDED_9] = {
-        .hw = &adc_0,
-        .input_pos_pin = ADS124S08_INPUT_5,
-        .input_neg_pin = ADS124S08_INPUT_AINCOM
+    [INS_SING_9] = {
+        .hw = &ins_adc_array[INS_ADC_1],
+        .input_pos_pin = ADS124S08_AIN5,
+        .input_neg_pin = ADS124S08_AINCOM,
+        .is_en = true
     },
 
-    [SINGLE_ENDED_10] = {
-        .hw = &adc_0,
-        .input_pos_pin = ADS124S08_INPUT_6,
-        .input_neg_pin = ADS124S08_INPUT_AINCOM
+    [INS_SING_10] = {
+        .hw = &ins_adc_array[INS_ADC_1],
+        .input_pos_pin = ADS124S08_AIN6,
+        .input_neg_pin = ADS124S08_AINCOM,
+        .is_en = true
     },
 
-    [SINGLE_ENDED_11] = {
-        .hw = &adc_0,
-        .input_pos_pin = ADS124S08_INPUT_4,
-        .input_neg_pin = ADS124S08_INPUT_AINCOM
+    [INS_SING_11] = {
+        .hw = &ins_adc_array[INS_ADC_1],
+        .input_pos_pin = ADS124S08_AIN4,
+        .input_neg_pin = ADS124S08_AINCOM,
+        .is_en = true
+    },
+
+    [INS_DIFF_1] = {
+        .hw = &ins_adc_array[INS_ADC_2],
+        .input_pos_pin = ADS124S08_AIN6,
+        .input_neg_pin = ADS124S08_AIN7,
+        .is_en = true
+    },
+
+    [INS_DIFF_2] = {
+        .hw = &ins_adc_array[INS_ADC_2],
+        .input_pos_pin = ADS124S08_AIN5,
+        .input_neg_pin = ADS124S08_AIN4,
+        .is_en = true
+    },
+
+    [INS_DIFF_3] = {
+        .hw = &ins_adc_array[INS_ADC_2],
+        .input_pos_pin = ADS124S08_AIN2,
+        .input_neg_pin = ADS124S08_AIN3,
+        .is_en = true
+    },
+
+    [INS_DIFF_4] = {
+        .hw = &ins_adc_array[INS_ADC_2],
+        .input_pos_pin = ADS124S08_AIN1,
+        .input_neg_pin = ADS124S08_AIN0,
+        .is_en = true
+    },
+
+    [INS_DIFF_5] = {
+        .hw = &ins_adc_array[INS_ADC_2],
+        .input_pos_pin = ADS124S08_AIN9,
+        .input_neg_pin = ADS124S08_AIN8,
+        .is_en = true
+    },
+
+    [INS_DIFF_6] = {
+        .hw = &ins_adc_array[INS_ADC_2],
+        .input_pos_pin = ADS124S08_AIN10,
+        .input_neg_pin = ADS124S08_AIN11,
+        .is_en = true
+    },
+
+};
+
+/*============================================================================*/
+/* Sensor Mapping and Config                                                  */
+/*============================================================================*/
+
+const ins_sensor_config_t ins_sensor_config[INS_TOTAL_NUM_SENSORS] = 
+{
+    [RL_WHEEL_SPEED] = {
+        .channel_id = INS_SING_11,
+    },
+
+    [RR_WHEEL_SPEED] = {
+        .channel_id = INS_SING_8,
+    },
+
+    [RL_SUSPENSION] = {
+        .channel_id = INS_SING_10,
+    },
+
+    [RR_SUSPENSION] = {
+        .channel_id = INS_SING_9,
     }
 };
