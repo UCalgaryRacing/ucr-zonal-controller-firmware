@@ -1,6 +1,9 @@
 #include "mcu_config_pinout.h"
 #include "mcu_config.h"
+
 #include "tcu_config.h"
+#include "ins_config.h"
+
 #include "mcu_svc_hsd.h"
 //TODO is this fine to couple configs with shared types like this or should move to seperate shared types?
 #include "pdm_config.h"
@@ -60,7 +63,7 @@ static mcu_adc_context_t adc_3_context = {
     .adc_max = TCU_ADC_3_MAX_COUNT,
     .calibrated = false,
     .dma_started = false,
-    .adc_channels = 2
+    .adc_channels = 4
 };
 
 /*============================================================================*/
@@ -133,6 +136,50 @@ const mcu_analog_config_t mcu_analog_config[MCU_ANALOG_SENSOR_COUNT] =
             .adc_context = &adc_1_context,
             .adc_buffer_number = TCU_AIN7_ADC_BUFFER_NUMBER,
             .adc_buffer_index = TCU_AIN7_ADC_BUFFER_INDEX,
+        },
+        .enabled = true,
+    },
+
+    /*------------------------------------------------------------------------*/
+    /* Front Left Suspension Potentiometer                                    */
+    /*------------------------------------------------------------------------*/
+    [FL_SUSP] =
+    {
+        .settings =
+        {
+            .valid_min_v    = INS_FL_SUSP_VOLTAGE_MIN_V,
+            .valid_max_v    = INS_FL_SUSP_VOLTAGE_MAX_V,
+            .active_min_v   = INS_FL_SUSP_ACTIVE_MIN_V,
+            .active_max_v   = INS_FL_SUSP_ACTIVE_MAX_V,
+            .scaling_factor = INS_FL_SUSP_SCALING_FACTOR,
+            .positive_slope = true,
+        },
+        .hw = {
+            .adc_context = &adc_3_context,
+            .adc_buffer_number = INS_AIN2_ADC_BUFFER_NUMBER,
+            .adc_buffer_index = INS_AIN2_ADC_BUFFER_INDEX,
+        },
+        .enabled = true,
+    },
+
+    /*------------------------------------------------------------------------*/
+    /* Front Left Suspension Potentiometer                                    */
+    /*------------------------------------------------------------------------*/
+    [FR_SUSP] =
+    {
+        .settings =
+        {
+            .valid_min_v    = INS_FR_SUSP_VOLTAGE_MIN_V,
+            .valid_max_v    = INS_FR_SUSP_VOLTAGE_MAX_V,
+            .active_min_v   = INS_FR_SUSP_ACTIVE_MIN_V,
+            .active_max_v   = INS_FR_SUSP_ACTIVE_MAX_V,
+            .scaling_factor = INS_FR_SUSP_SCALING_FACTOR,
+            .positive_slope = true,
+        },
+        .hw = {
+            .adc_context = &adc_3_context,
+            .adc_buffer_number = INS_AIN1_ADC_BUFFER_NUMBER,
+            .adc_buffer_index = INS_AIN1_ADC_BUFFER_INDEX,
         },
         .enabled = true,
     },

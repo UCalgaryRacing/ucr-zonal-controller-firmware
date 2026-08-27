@@ -5,7 +5,7 @@
 
 extern TIM_HandleTypeDef htim2;
 
-#define INS_FRONT_WHEEL_TIMER_HANDLE           (&htim2)
-#define INS_FRONT_WHEEL_TIMER_CHANNEL          TIM_CHANNEL_1
+#define INS_FL_WHEEL_TIMER_HANDLE           (&htim2)
+#define INS_FL_WHEEL_TIMER_CHANNEL          TIM_CHANNEL_1
 
 #endif

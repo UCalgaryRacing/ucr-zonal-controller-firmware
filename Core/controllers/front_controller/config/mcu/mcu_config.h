@@ -35,6 +35,8 @@ extern const mcu_channel_config_t mcu_hsd_default_config[MCU_HSD_TOTAL_CHANNELS]
 #define APPS1    MCU_AIN3 
 #define APPS2    MCU_AIN4
 #define BSE1     MCU_AIN7
+#define FL_SUSP  MCU_AIN2
+#define FR_SUSP  MCU_AIN1
 
 /*============================================================================*/
 /* System Topology                                                            */

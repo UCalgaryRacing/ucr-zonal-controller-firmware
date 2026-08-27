@@ -4,20 +4,25 @@ static uint16_t adc_dma_buffers[MCU_TOTAL_ANALOG_CHANNELS][MCU_MAX_ADC_CHANNELS]
 
 static bool g_driver_initialized = false;
 
-status_t mcu_drv_analog_driver_init(void)
-{
-    if (g_driver_initialized)
-    {
-        return OK;
-    }
+// status_t mcu_drv_analog_driver_init(void)
+// {
+//     if (g_driver_initialized)
+//     {
+//         return OK;
+//     }
 
-    g_driver_initialized = true;
-    return OK;
-}
+//     g_driver_initialized = true;
+//     return OK;
+// }
 
-int mcu_drv_analog_init(const analog_hw_t *hw, const mcu_analog_settings_t *settings)
+status_t mcu_drv_analog_init(const analog_hw_t *hw)
 {
-    if (hw == NULL || settings == NULL)
+    // if (g_driver_initialized)
+    // {
+    //     return OK;
+    // }
+
+    if (hw == NULL)
     {
         return ERROR_GENERAL;
     }
@@ -31,6 +36,8 @@ int mcu_drv_analog_init(const analog_hw_t *hw, const mcu_analog_settings_t *sett
 
         hw->adc_context->calibrated = true;
     }
+
+//    g_driver_initialized = true;
 
     return OK;
 }

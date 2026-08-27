@@ -96,7 +96,7 @@ float mco_svc_traction_control_limit_torque_percent(float requested_torque_perce
 
 float mco_svc_traction_control_calculate_motor_speed_slip_ratio(void)
 {
-    float front_left_wheel_rpm = ins_data_get_wheel_rpm(INS_WHEEL_SPEED_SENSOR_FRONT_LEFT);
+    float front_left_wheel_rpm = ins_data_get_wheel_speed_rpm(FL_WHEEL_SPEED);
     float motor_rpm = tcu_data_get_motor_rpm();
     float rear_wheel_rpm = motor_rpm / g_motor_to_rear_wheel_gear_ratio;
     float measured_slip_ratio;
@@ -117,7 +117,7 @@ float mco_svc_traction_control_calculate_motor_speed_slip_ratio(void)
 
 bool mco_svc_traction_control_update_bamocar_n_lim(float desired_slip_ratio)
 {
-    float front_left_wheel_rpm = ins_data_get_wheel_rpm(INS_WHEEL_SPEED_SENSOR_FRONT_LEFT);
+    float front_left_wheel_rpm = ins_data_get_wheel_speed_rpm(FL_WHEEL_SPEED);
     float n_lim_percent = 100.0f;
     tcu_data_set_traction_control_desired_slip_ratio(desired_slip_ratio);
 

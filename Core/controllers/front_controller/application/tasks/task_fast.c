@@ -9,9 +9,12 @@
 #include "tcu_svc_can_route.h"
 #include "tcu_svc_logging.h"
 #include "fco_svc_dash_lights.h"
+
 #include "ins_svc_logging.h"
 #include "ins_svc_wheel_speed.h"
 #include "ins_data.h"
+#include "ins_svc_pot.h"
+
 #include "fco_svc_ptt.h"
 
 #include "acu_svc_can_route.h"
@@ -62,13 +65,17 @@ void task_fast_init(void)
 
 	tcu_svc_can_route_init();
 
-	mcu_svc_analog_init();
+	mcu_svc_analog_init(APPS1);
+	mcu_svc_analog_init(APPS2);
+	mcu_svc_analog_init(BSE1);
+
 	mcu_svc_analog_start(APPS1);
 	mcu_svc_analog_start(APPS2);
 	mcu_svc_analog_start(BSE1);
 
 	fco_svc_ptt_init();	
 	fco_svc_dash_lights_init();
+
 	ins_svc_wheel_speed_init();
 
 	//---------------- ACCUMULATOR ----------------//
@@ -94,6 +101,14 @@ void task_fast_init(void)
 	//---------------- Wheel ----------------//
 	whl_data_init();
 	whl_svc_can_route_init();
+
+	//---------------- Instrumentation ----------------//
+	mcu_svc_analog_init(FL_SUSP);
+	mcu_svc_analog_init(FR_SUSP);
+
+	mcu_svc_analog_start(FL_SUSP);
+	mcu_svc_analog_start(FR_SUSP);
+
 }
 
 void task_fast_loop(void)
@@ -114,9 +129,6 @@ void task_fast_loop(void)
 	tcu_svc_bse_update(BSE1);
 
 	fco_svc_ptt_update();
-
-	ins_svc_wheel_speed_update();
-
 	fco_svc_rtd_button_update();
 
 	tcu_svc_can_tx_bse_data();
@@ -124,11 +136,17 @@ void task_fast_loop(void)
 	tcu_svc_can_tx_tcu_faults_data();
 	tcu_svc_can_tx_motor_data();
 	tcu_svc_can_tx_motor_status_data();
-	ins_svc_can_tx_wheel_speed_data();
 
 	fco_svc_dash_lights_update();
 
-	
+	//---------------- INSTRUMENTATION ----------------//
+	ins_svc_wheel_speed_update(FL_WHEEL_SPEED);
+	ins_svc_wheel_speed_update(FR_WHEEL_SPEED);
+
+	ins_svc_front_pots_update(FL_SUSP, FR_SUSP);
+
+	ins_svc_can_tx_front_suspension_data();
+	ins_svc_can_tx_front_wheel_speed_data();
 
 
 	//---------------- ACCUMULATOR ----------------//

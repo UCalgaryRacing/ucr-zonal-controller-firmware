@@ -48,7 +48,7 @@ extern DMA_HandleTypeDef hdma_adc1;
 #define TCU_AIN3_ADC_HANDLE                (&hadc3)
 #define TCU_AIN3_ADC_BUFFER_NUMBER 2    //ADC3_INP12 
 #define TCU_AIN3_ADC_BUFFER_INDEX  0
-#define TCU_AIN_3_ADC_CHANNELS     2
+#define TCU_AIN_3_ADC_CHANNELS     4
 
 
 /*============================================================================*/
@@ -58,7 +58,7 @@ extern DMA_HandleTypeDef hdma_adc1;
 #define TCU_AIN4_ADC_HANDLE                (&hadc3)
 #define TCU_AIN4_ADC_BUFFER_NUMBER 2    //ADC3_INP13
 #define TCU_AIN4_ADC_BUFFER_INDEX  1
-#define TCU_AIN_4_ADC_CHANNELS     2
+#define TCU_AIN_4_ADC_CHANNELS     4
 
 /*============================================================================*/
 /*  Analog In 7: BSE                                                          */
@@ -69,14 +69,31 @@ extern DMA_HandleTypeDef hdma_adc1;
 #define TCU_AIN7_ADC_BUFFER_INDEX  0
 #define TCU_AIN_7_ADC_CHANNELS     1
 
+/*============================================================================*/
+/*  Analog In 1: FR Susp Pot                                                  */
+/*============================================================================*/
+
+#define INS_AIN1_ADC_HANDLE                 (&hadc3)
+#define INS_AIN1_ADC_BUFFER_NUMBER 2         // ADC3_INP5
+#define INS_AIN1_ADC_BUFFER_INDEX  2
+#define INS_AIN1_ADC_CHANNELS      4     
+
+/*============================================================================*/
+/*  Analog In 2: FL Susp Pot                                                  */
+/*============================================================================*/
+
+#define INS_AIN2_ADC_HANDLE                 (&hadc3)
+#define INS_AIN2_ADC_BUFFER_NUMBER 2         // ADC3_INP7
+#define INS_AIN2_ADC_BUFFER_INDEX  3
+#define INS_AIN2_ADC_CHANNELS      4  
 
 /*============================================================================*/
 /* GPIO Configuration                                                         */
 /*============================================================================*/
 
 /* Active LOW input (button connects to GND when pressed) */
-#define TCU_RTD_BUTTON_GPIO_PORT            GPIOA
-#define TCU_RTD_BUTTON_GPIO_PIN             GPIO_PIN_5
+#define TCU_RTD_BUTTON_GPIO_PORT            GPIOH
+#define TCU_RTD_BUTTON_GPIO_PIN             GPIO_PIN_3
 #define TCU_RTD_BUTTON_ACTIVE_STATE         GPIO_PIN_RESET
 
 #endif /* CONFIG_MCU_CONFIG_PINOUT_H_ */

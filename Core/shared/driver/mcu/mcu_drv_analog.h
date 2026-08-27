@@ -12,9 +12,9 @@
 
 status_t mcu_drv_analog_read_raw(const analog_hw_t *hw, uint16_t *adc_value);
 
-status_t mcu_drv_analog_driver_init(void);
+// status_t mcu_drv_analog_driver_init(void);
 
-int mcu_drv_analog_init(const analog_hw_t *hw, const mcu_analog_settings_t *settings);
+status_t mcu_drv_analog_init(const analog_hw_t *hw);
 
 status_t mcu_drv_analog_start_adc(const analog_hw_t *hw);
 

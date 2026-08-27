@@ -4,6 +4,8 @@
 #include <stdbool.h>
 #include <stdint.h>
 
+#include "ins_config_sensor_id.h"
+
 /* Slip-ratio N_LIM tuning — adjust on vehicle */
 #define MCO_TC_N_LIM_ENGAGE_WHEEL_RPM      (30.0f)   /* Below: N_LIM held at 100% (launch deadband) */
 #define MCO_TC_N_LIM_MIN_PERCENT           (20.0f)   /* Floor on computed N_LIM during low-speed rollout */
