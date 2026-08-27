@@ -479,6 +479,7 @@
 									<listOptionValue builtIn="false" value="../Core/shared/driver/prm"/>
 									<listOptionValue builtIn="false" value="../Core/shared/config/instrumentation"/>
 									<listOptionValue builtIn="false" value="../Core/controllers/rear_controller/config/prm"/>
+									<listOptionValue builtIn="false" value="../Core/shared/service/prm"/>
 								</option>
 								<inputType id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c.1799304516" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c"/>
 							</tool>

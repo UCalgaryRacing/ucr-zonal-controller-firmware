@@ -54,6 +54,7 @@ typedef struct
 
 //Rear Controller
 #define GLV_STATUS_CAN_ID                       401
+#define REAR_WHEEL_SPEED_CAN_ID                 403
 #define REAR_COOLING_CONTROL_CAN_ID             404
 #define REAR_CONTROL_CAN_ID                     405
 #define REAR_BSE_CAN_ID                         406

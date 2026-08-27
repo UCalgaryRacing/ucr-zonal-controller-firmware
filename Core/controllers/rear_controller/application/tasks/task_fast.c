@@ -10,6 +10,9 @@
 #include "pdm_svc_channel.h"
 #include "pdm_config.h"
 
+#include "prm_svc_channel.h"
+#include "prm_channel_types.h"
+
 #include "acu_svc_can_route.h"
 
 #include "rco_data.h"
@@ -34,6 +37,9 @@
 #include "whl_data.h"
 
 #include "ins_svc_can_route.h"
+#include "ins_svc_logging.h"
+#include "ins_svc_pot.h"
+#include "ins_svc_channel.h"
 
 static const uint32_t period = 10;
 static uint32_t nextWakeTime;
@@ -106,9 +112,34 @@ void task_fast_init(void)
 	pdm_svc_channel_enable(TRACTIVE_FAN_2, false);
 	pdm_svc_channel_set_duty(TRACTIVE_FAN_2, 100);
 
+	// from MCU V1.0 pins tied high
+	pdm_svc_channel_init(VBATT_SW_10);
+	pdm_svc_channel_enable(VBATT_SW_10, true);
 
+	pdm_svc_channel_init(VBATT_SW_11);
+	pdm_svc_channel_enable(VBATT_SW_11, true);
 
+	pdm_svc_channel_init(VBATT_SW_12);
+	pdm_svc_channel_enable(VBATT_SW_12, true);
 
+	pdm_svc_channel_init(VBATT_REG_SW_1);
+	pdm_svc_channel_enable(VBATT_REG_SW_1, true);
+
+	pdm_svc_channel_init(VBATT_REG_SW_2);
+	pdm_svc_channel_enable(VBATT_REG_SW_2, true);
+
+	pdm_svc_channel_init(VBATT_REG_SW_3);
+	pdm_svc_channel_enable(VBATT_REG_SW_3, true);
+
+	//---------------- PRM ----------------//
+	prm_svc_channel_init(INTERNAL_3V3_2);
+	prm_svc_channel_init(INTERNAL_12V);
+	prm_svc_channel_init(INTERNAL_5V_2);
+
+	prm_svc_channel_init(EXTERNAL_12V_1);
+	prm_svc_channel_init(EXTERNAL_12V_2);
+	prm_svc_channel_init(EXTERNAL_5V_1);
+	prm_svc_channel_init(EXTERNAL_5V_2);
 
 	//---------------- MCU ----------------//
 	mcu_svc_hsd_channel_enable(BAMOCAR_RFE, true);
@@ -157,7 +188,9 @@ void task_fast_init(void)
 	whl_data_init();
 	whl_svc_can_route_init();
 
-	// ins_svc_can_route_init();
+	//---------------- Instrumentation ----------------//
+	ins_svc_init();
+	ins_svc_can_route_init();
 
 
 	// FDCAN_FilterTypeDef sFilterConfig0;
@@ -220,12 +253,20 @@ void task_fast_loop(void)
 	rco_svc_can_tx_rco_cooling_data();
 
 	rco_svc_fan_update();
+
+
+	//---------------- INSTRUMENTATION ----------------//
+	ins_svc_update_pots(RL_SUSPENSION, RR_SUSPENSION);
+	ins_svc_can_tx_rear_suspension_data();
+
+	// ins_svc_can_tx_rear_wheel_speed_data(); //TODO: rear wheel speed not implemented yet
+
 	//---------------- ACCUMULATOR ----------------//
 	//acu_svc_set_acu_fault_timeout();
 
 
 
-//---------------- GLV ----------------//
+	//---------------- GLV ----------------//
 	glv_svc_update_glv_status();
 	pdm_svc_update_glv_data();
 	glv_svc_update_soc();
