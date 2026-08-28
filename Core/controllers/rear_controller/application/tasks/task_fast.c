@@ -145,8 +145,6 @@ void task_fast_init(void)
 	mcu_svc_hsd_channel_enable(BAMOCAR_RFE, true);
 
 	mcu_svc_hsd_channel_enable(TS_FAN_PWM, true);
-	//mcu_svc_hsd_channel_enable(ACCU_FAN_PWM, true);
-
 
 
 

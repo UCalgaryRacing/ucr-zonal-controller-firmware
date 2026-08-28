@@ -9,7 +9,7 @@
 
 const mcu_channel_config_t mcu_hsd_default_config[MCU_HSD_TOTAL_CHANNELS] =
 {
-    [ACCU_FAN_PWM] = {
+    [ACCU_FAN_PWM] = { // WIRED TO DRS CURRENTLY THROUGH HARNESS
 
         .enabled     = true,
         .hw = {
@@ -41,7 +41,7 @@ const mcu_channel_config_t mcu_hsd_default_config[MCU_HSD_TOTAL_CHANNELS] =
                 .input_pin    = HSD_12V_2_CTL_GPIO_Pin,
             }
         },
-    [DRS_PULSE] = {
+    [DRS_PULSE] = { // not currently used 
 
         .enabled     = true,
         .hw = {
