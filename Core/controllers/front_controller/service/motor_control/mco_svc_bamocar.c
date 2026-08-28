@@ -84,7 +84,7 @@ status_t mco_svc_bamocar_set_torque_percent(float torque_percent)
         return ERROR_NOT_INITIALIZED;
     }
 
-    torque_percent = clamp_float(torque_percent, 0.0f, 100.0f);
+    torque_percent = clamp_float(torque_percent, -5.0f, 100.0f);
 
     torque_raw = (int16_t)(torque_percent * (float)BAMOCAR_MOTOR_TORQUE_MAX_RAW / 100.0f);
 
