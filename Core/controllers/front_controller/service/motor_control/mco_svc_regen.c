@@ -15,7 +15,7 @@ bool mco_svc_regen_is_active()
     tcu_bse_data_t bse_data;
     tcu_data_get_bse(&bse_data);
 
-    float wheel_rpm = ins_data_get_wheel_rpm(INS_WHEEL_SPEED_SENSOR_FRONT_LEFT);
+    float wheel_rpm = ins_data_get_wheel_speed_rpm(FL_WHEEL_SPEED);
 
     bool regen_active = (apps_data.pedal_percent < TCU_APPS_REGEN_THRESHOLD_PCT) &&
                       (bse_data.sensor.percent > TCU_BSE_REGEN_THRESHOLD_PCT) &&
