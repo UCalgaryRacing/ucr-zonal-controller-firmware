@@ -39,7 +39,7 @@
 #include "ins_svc_can_route.h"
 #include "ins_svc_logging.h"
 #include "ins_svc_pot.h"
-#include "ins_svc_channel.h"
+#include "ins_svc_ads124s08.h"
 
 static const uint32_t period = 10;
 static uint32_t nextWakeTime;
@@ -187,7 +187,7 @@ void task_fast_init(void)
 	whl_svc_can_route_init();
 
 	//---------------- Instrumentation ----------------//
-	ins_svc_init();
+	ins_svc_ads124s08_init();
 	ins_svc_can_route_init();
 
 

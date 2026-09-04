@@ -9,9 +9,6 @@
 #include "tcu_svc_can_route.h"
 #include "tcu_svc_logging.h"
 #include "fco_svc_dash_lights.h"
-#include "ins_svc_logging.h"
-#include "ins_svc_wheel_speed.h"
-#include "ins_data.h"
 #include "fco_svc_ptt.h"
 
 #include "acu_svc_can_route.h"
@@ -32,9 +29,6 @@
 
 #include "prm_svc_channel.h"
 #include "prm_channel_types.h"
-
-#include "ins_svc_channel.h"
-#include "ins_config.h"
 
 static const uint32_t period = 10;
 static uint32_t nextWakeTime;
@@ -102,7 +96,6 @@ void task_fast_init(void)
 
 	fco_svc_ptt_init();	
 	fco_svc_dash_lights_init();
-	ins_svc_wheel_speed_init();
 
 	//---------------- ACCUMULATOR ----------------//
 	acu_svc_can_route_init();
@@ -159,8 +152,6 @@ void task_fast_loop(void)
 
 	fco_svc_ptt_update();
 
-	ins_svc_wheel_speed_update();
-
 	fco_svc_rtd_button_update();
 
 	tcu_svc_can_tx_bse_data();
@@ -168,7 +159,6 @@ void task_fast_loop(void)
 	tcu_svc_can_tx_tcu_faults_data();
 	tcu_svc_can_tx_motor_data();
 	tcu_svc_can_tx_motor_status_data();
-	ins_svc_can_tx_wheel_speed_data();
 
 	fco_svc_dash_lights_update();
 

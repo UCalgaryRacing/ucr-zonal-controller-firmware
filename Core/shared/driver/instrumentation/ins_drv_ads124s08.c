@@ -106,7 +106,7 @@ void ins_drv_ads124s08_shadow_init_default(const ads124s08_hw_t *hw)
 
     // pga register default configuration
     ads124s08_set_pga_delay_bit(&shadow->pga,ADS124S08_PGA_DELAY_14_CYCLES);
-    ads124s08_set_pga_en_bit(&shadow->pga,ADS124S08_PGA_DISABLED);
+    ads124s08_set_pga_en_bit(&shadow->pga,ADS124S08_PGA_ENABLED);
     ads124s08_set_pga_gain_bit(&shadow->pga,ADS124S08_PGA_GAIN_1);
 
     //data rate register default configuration
@@ -144,15 +144,15 @@ void ins_drv_ads124s08_shadow_init_default(const ads124s08_hw_t *hw)
     shadow->gpio_data = 0x00;
     shadow->gpio_control = 0x00;
 
-    ads124s08_set_gpio0_dir(&shadow->sys,ADS124S08_GPIO_INPUT_CONFIG);
-    ads124s08_set_gpio1_dir(&shadow->sys,ADS124S08_GPIO_INPUT_CONFIG);
-    ads124s08_set_gpio2_dir(&shadow->sys,ADS124S08_GPIO_INPUT_CONFIG);
-    ads124s08_set_gpio3_dir(&shadow->sys,ADS124S08_GPIO_INPUT_CONFIG);
+    ads124s08_set_gpio0_dir(&shadow->gpio_data,ADS124S08_GPIO_INPUT_CONFIG);
+    ads124s08_set_gpio1_dir(&shadow->gpio_data,ADS124S08_GPIO_INPUT_CONFIG);
+    ads124s08_set_gpio2_dir(&shadow->gpio_data,ADS124S08_GPIO_INPUT_CONFIG);
+    ads124s08_set_gpio3_dir(&shadow->gpio_data,ADS124S08_GPIO_INPUT_CONFIG);
 
-    ads124s08_set_gpio0_config(&shadow->sys,ADS124S08_GPIO);
-    ads124s08_set_gpio1_config(&shadow->sys,ADS124S08_GPIO);
-    ads124s08_set_gpio2_config(&shadow->sys,ADS124S08_GPIO);
-    ads124s08_set_gpio3_config(&shadow->sys,ADS124S08_GPIO);
+    ads124s08_set_gpio0_config(&shadow->gpio_control,ADS124S08_GPIO);
+    ads124s08_set_gpio1_config(&shadow->gpio_control,ADS124S08_GPIO);
+    ads124s08_set_gpio2_config(&shadow->gpio_control,ADS124S08_GPIO);
+    ads124s08_set_gpio3_config(&shadow->gpio_control,ADS124S08_GPIO);
     
 }
 
@@ -282,8 +282,6 @@ status_t ins_drv_ads124s08_start_conversion(ads124s08_input_mux_t pos_pin, ads12
 
 status_t ins_drv_ads124s08_read_channel(ads124s08_input_mux_t pos_pin, ads124s08_input_mux_t neg_pin, const ads124s08_hw_t *hw, uint8_t *raw_data_buffer)
 {
-    //remove delay? 
-    // osDelay(10);
 
     //set the input mux and start the conversion
     status_t status = ins_drv_ads124s08_start_conversion(pos_pin, neg_pin, hw);
@@ -292,7 +290,7 @@ status_t ins_drv_ads124s08_read_channel(ads124s08_input_mux_t pos_pin, ads124s08
         return status;
     }
 
-    osDelay(5); // was 5, check.
+    osDelay(2);
 
     //send command to read data from the adc
     uint8_t command = ADS124S08_READ_DATA_COMMAND;
@@ -313,23 +311,23 @@ status_t ins_drv_ads124s08_read_channel(ads124s08_input_mux_t pos_pin, ads124s08
 
 status_t ins_drv_ads124s08_read_gpio(const ads124s08_hw_t *hw, const ads124s08_input_mux_t gpio_pin, bool *data)
 {    
-    uint8_t *reg;
+    uint8_t reg = 0;
 
-    ads124s08_spi_read_register(hw, ADS124S08_GPIO_DATA_ADDRESS, reg);
+    ads124s08_spi_read_register(hw, ADS124S08_GPIO_DATA_ADDRESS, &reg);
 
     switch (gpio_pin)
     {
         case GPIO0:
-            *data = ((*reg & ADS124S08_GPIO_0_CONFIG_MASK) >> ADS124S08_GPIO_0_CONFIG_LOCATION);
+            *data = ((reg & ADS124S08_GPIO_0_CONFIG_MASK) >> ADS124S08_GPIO_0_CONFIG_LOCATION);
             break;
         case GPIO1:
-            *data = ((*reg & ADS124S08_GPIO_1_CONFIG_MASK) >> ADS124S08_GPIO_1_CONFIG_LOCATION);
+            *data = ((reg & ADS124S08_GPIO_1_CONFIG_MASK) >> ADS124S08_GPIO_1_CONFIG_LOCATION);
             break;
         case GPIO2:
-            *data = ((*reg & ADS124S08_GPIO_2_CONFIG_MASK) >> ADS124S08_GPIO_2_CONFIG_LOCATION);
+            *data = ((reg & ADS124S08_GPIO_2_CONFIG_MASK) >> ADS124S08_GPIO_2_CONFIG_LOCATION);
             break;    
         case GPIO3:
-            *data = ((*reg & ADS124S08_GPIO_3_CONFIG_MASK) >> ADS124S08_GPIO_3_CONFIG_LOCATION);
+            *data = ((reg & ADS124S08_GPIO_3_CONFIG_MASK) >> ADS124S08_GPIO_3_CONFIG_LOCATION);
             break;    
     }
     return OK;

@@ -17,7 +17,7 @@ void task_very_fast_init(void)
 	// gps_svc_start();
 
 	//---------------- INSTRUMENTATION :() ----------------//
-	//ins_svc_init();
+	//ins_svc_ads124s08_init();
 }
 
 void task_very_fast_loop(void)
