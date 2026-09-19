@@ -5,6 +5,7 @@ static bool g_initialized;
 
 static ins_wheel_speed_data_t g_ins_wheel_speed_data;
 static ins_suspension_data_t g_ins_suspension_data;
+static ins_thermistor_data_t g_ins_thermistor_data;
 
 static float g_steering_angle;
 
@@ -13,7 +14,7 @@ static float g_steering_angle;
 /*============================================================================*/
 static bool ins_data_is_valid_wheel_sensor(ins_sensor_id_t id);
 static bool ins_data_is_valid_suspension_sensor(ins_sensor_id_t id);
-
+static bool ins_data_is_valid_thermistor(ins_sensor_id_t id);
 /*============================================================================*/
 /* Initialization                                                             */
 /*============================================================================*/
@@ -42,6 +43,11 @@ status_t ins_data_init(void)
     g_ins_suspension_data.rear_left_suspension = 0;
     g_ins_suspension_data.rear_right_suspension = 0;
 
+    memset(&g_ins_thermistor_data, 0, sizeof(g_ins_thermistor_data));
+    g_ins_thermistor_data.therm_1 = 0;
+    g_ins_thermistor_data.therm_2 = 0;
+    g_ins_thermistor_data.therm_3 = 0;
+
     g_steering_angle = 0;
 
     g_initialized = true;
@@ -62,6 +68,64 @@ static bool ins_data_is_valid_wheel_sensor(ins_sensor_id_t id)
 static bool ins_data_is_valid_suspension_sensor(ins_sensor_id_t id)
 {
     return ((id >= INS_WHEEL_SPEED_SENSOR_COUNT) && (id < INS_TOTAL_NUM_SENSORS));
+}
+
+static bool ins_data_is_valid_thermistor(ins_sensor_id_t id)
+{
+    return ((id >= INS_SUSPENSION_SENSOR_COUNT) && (id < INS_THERMISTOR_COUNT));
+}
+
+/*============================================================================*/
+/* Thermistor Data Access                                                     */
+/*============================================================================*/
+status_t ins_data_set_therm_temp(ins_sensor_id_t thermistor_sensor_id, float temperature)
+{
+    if (!ins_data_is_valid_thermistor(thermistor_sensor_id))
+    {
+        return ERROR_GENERAL;
+    }
+
+    if (thermistor_sensor_id == THERM_1)
+    {
+        g_ins_thermistor_data.therm_1 = temperature;
+    }
+
+    else if (thermistor_sensor_id == THERM_2)
+    {
+        g_ins_thermistor_data.therm_2 = temperature;
+    }
+
+    else if (thermistor_sensor_id == THERM_3)
+    {
+        g_ins_thermistor_data.therm_3 = temperature;
+    }
+
+    return OK;
+}
+
+float ins_data_get_therm_temp(ins_sensor_id_t thermistor_sensor_id)
+{
+    if (!ins_data_is_valid_thermistor(thermistor_sensor_id))
+    {
+        return ERROR_GENERAL;
+    }
+
+    if (thermistor_sensor_id == THERM_1)
+    {
+        return g_ins_thermistor_data.therm_1;
+    }
+
+    else if (thermistor_sensor_id == THERM_2)
+    {
+        return g_ins_thermistor_data.therm_2;
+    }
+
+    else if (thermistor_sensor_id == THERM_3)
+    {
+        return g_ins_thermistor_data.therm_3;
+    }
+
+    return 0.0f;
 }
 
 /*============================================================================*/

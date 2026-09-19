@@ -33,6 +33,13 @@ typedef struct
     float rear_right_suspension;
 } ins_suspension_data_t;
 
+typedef struct
+{
+    float therm_1;
+    float therm_2;
+    float therm_3;
+} ins_thermistor_data_t;
+
 /*============================================================================*/
 /* Initialization                                                             */
 /*============================================================================*/
@@ -43,6 +50,7 @@ status_t ins_data_init(void);
 /* Setters                                                                    */
 /*============================================================================*/
 
+status_t ins_data_set_therm_temp(ins_sensor_id_t thermistor_sensor_id, float temperature);
 status_t ins_data_set_wheel_speed_rpm(ins_sensor_id_t wheel_sensor, float wheel_rpm);
 status_t ins_data_set_suspension_travel(ins_sensor_id_t suspension_sensor, float susp_travel);
 
@@ -54,7 +62,7 @@ void ins_data_set_steering_angle(float steering_angle);
 /*============================================================================*/
 /* Getters                                                                    */
 /*============================================================================*/
-
+float ins_data_get_therm_temp(ins_sensor_id_t thermistor_sensor_id);
 float ins_data_get_wheel_speed_rpm(ins_sensor_id_t wheel_sensor);
 float ins_data_get_suspension_travel(ins_sensor_id_t suspension_sensor);
 

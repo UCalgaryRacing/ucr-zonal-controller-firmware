@@ -3,11 +3,23 @@
 
 #include "stm32h7xx_hal.h"
 
+/*============================================================================*/
+/* Pinout for Wheel Speed                                                */
+/*============================================================================*/
+
 extern TIM_HandleTypeDef htim2;
+extern TIM_HandleTypeDef htim5;
 
-#define INS_FRONT_WHEEL_TIMER_HANDLE           (&htim2)
-#define INS_FRONT_WHEEL_TIMER_CHANNEL          TIM_CHANNEL_1
+#define INS_RL_WHEEL_TIMER_HANDLE           (&htim5)
+#define INS_RL_WHEEL_TIMER_CHANNEL          TIM_CHANNEL_1
 
+#define INS_RR_WHEEL_TIMER_HANDLE           (&htim2)
+#define INS_RR_WHEEL_TIMER_CHANNEL          TIM_CHANNEL_1
+
+
+/*============================================================================*/
+/* Pinout for Instrumentation Board                                           */
+/*============================================================================*/
 extern SPI_HandleTypeDef hspi1;
 
 #define INS_SPI_HANDLE (&hspi1)

@@ -8,11 +8,11 @@
 #include "ins_svc_ads124s08.h"
 #include "ins_drv_ads124s08.h"
 #include "ins_drv_ads124s08_regs.h"
-#include "ins_config.h"
-#include "ins_config_sensor_id.h"
 #include <string.h>
 #include <stdbool.h>
 #include "cmsis_os2.h"
+
+#include "ins_data.h"
 
 static float ins_array_values[INS_TOTAL_NUM_CHANNEL];
 
@@ -21,17 +21,18 @@ static float ins_array_values[INS_TOTAL_NUM_CHANNEL];
 /*============================================================================*/
 static int32_t ins_svc_raw_to_int(uint8_t *data_buffer);
 static float ins_svc_int_to_scaled_voltage(int32_t raw_int);
+static float ins_svc_ads124s08_scaled_to_final_adjusted_voltage(float scaled_voltage);
 
 /*============================================================================*/
 /* Private Function Definitions                                               */
 /*============================================================================*/
 
 static int32_t ins_svc_raw_to_int(uint8_t *data_buffer)
-{   
+{
     int32_t raw_int;
-    
+
     // data is recieved in three bytes and is 24 bit 2's compliment, must convert to 32 bit int from buffer
-    // if the data is negative, then front pad with 1 so that the data can be cast to an int 
+    // if the data is negative, then front pad with 1 so that the data can be cast to an int
     if((data_buffer[0] & 0x80))
     {
         raw_int = (int32_t) ((0xFF<<24) | (data_buffer[0] << 16) | (data_buffer[1] << 8) | data_buffer[2]);
@@ -49,6 +50,11 @@ static float ins_svc_int_to_scaled_voltage(int32_t raw_int)
     return ((float) raw_int * INS_SCALING_FACTOR * INS_EXTERNAL_VREF_V / ADS124S08_MAX_VALUE);
 }
 
+static float ins_svc_ads124s08_scaled_to_final_adjusted_voltage(float scaled_voltage)
+{
+    return ((scaled_voltage - ADS124S08_OFFSET_FACTOR) / ADS124S08_SCALING_FACTOR);
+}
+
 const ins_channel_config_t *ins_svc_get_channel_config(ins_channel_id_t id)
 {
     return &ins_default_config[id];
@@ -56,7 +62,7 @@ const ins_channel_config_t *ins_svc_get_channel_config(ins_channel_id_t id)
 
 const ins_channel_id_t *ins_svc_get_channel_id(ins_sensor_id_t id)
 {
-    return &ins_sensor_config[id];
+    return &ins_sensor_config[id].channel_id;
 }
 
 /*============================================================================*/
@@ -66,7 +72,7 @@ status_t ins_svc_ads124s08_init(void)
 {
     for(uint8_t i = 0; i < INS_TOTAL_NUM_ADC; i++)
     {
-        if(ins_adc_array[i].is_en == true) // if the ADC is being used 
+        if(ins_adc_array[i].is_en == true) // if the ADC is being used
         {
             ins_drv_ads124s08_cs_high(&ins_adc_array[i]); // initialize that ADC chip
         }
@@ -76,7 +82,7 @@ status_t ins_svc_ads124s08_init(void)
 
     for(uint8_t i = 0; i < INS_TOTAL_NUM_ADC; i++)
     {
-        if(ins_adc_array[i].is_en == true) // if the ADC is being used 
+        if(ins_adc_array[i].is_en == true) // if the ADC is being used
         {
             status_t status = ins_drv_ads124s08_init_device(&ins_adc_array[i]); // initialize that ADC chip
             if(status != OK)
@@ -106,9 +112,11 @@ status_t ins_svc_ads124s08_get_analog_voltage(ins_channel_id_t channel_id, float
         return status;
     }
 
-    // convert 
+    // convert
     int32_t raw_int = ins_svc_raw_to_int(raw_data_buffer);
-    *voltage = ins_svc_int_to_scaled_voltage(raw_int);
+    float scaled_voltage = ins_svc_int_to_scaled_voltage(raw_int);
+
+    *voltage = ins_svc_ads124s08_scaled_to_final_adjusted_voltage(scaled_voltage);
 
     return OK;
 }
@@ -118,12 +126,31 @@ status_t ins_svc_ads124s08_read_gpio(ins_channel_id_t channel_id, bool *data)
     if (channel_id >= INS_TOTAL_NUM_CHANNEL)
     {
         return ERROR_INVALID_PARAM;
-    } 
+    }
 
-    const ins_channel_config_t *channel_config = ins_svc_get_channel_config(channel_id); 
-    
+    const ins_channel_config_t *channel_config = ins_svc_get_channel_config(channel_id);
+
     ins_drv_ads124s08_read_gpio(channel_config->hw, channel_config->input_gpio_pin, data);
 
     return OK;
 
 }
+
+// FOR DEBUGGING: reads into static variable ins_array_values
+// void ins_svc_update_ads124s08(void)
+// {
+// // use ONE of the following methods:
+// // METHOD ONE: manually update select channels
+// 	ins_channel_id_t id = 10;
+
+// 	ins_svc_ads124s08_get_analog_voltage(id, &ins_array_values[id]);
+
+//  // METHOD TWO: loop through selected channels
+// 	// for (ins_channel_id_t id = 0; id < INS_TOTAL_NUM_CHANNEL; id++)
+// 	// {
+// 	// 	status_t status = ins_svc_ads124s08_get_analog_voltage(id, &ins_array_values[id]);
+
+// 	// 	ins_data_set_suspension_travel(RL_SUSPENSION, ins_array_values[INS_SING_10]);
+// 	// 	ins_data_set_suspension_travel(RR_SUSPENSION, ins_array_values[INS_SING_9]);
+// 	// }
+// }

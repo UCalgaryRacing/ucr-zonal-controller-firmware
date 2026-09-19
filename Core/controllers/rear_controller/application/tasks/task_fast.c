@@ -38,7 +38,10 @@
 
 #include "ins_svc_can_route.h"
 #include "ins_svc_logging.h"
+#include "ins_data.h"
+#include "ins_svc_wheel_speed.h"
 #include "ins_svc_pot.h"
+#include "ins_svc_thermistors.h"
 #include "ins_svc_ads124s08.h"
 
 static const uint32_t period = 10;
@@ -186,9 +189,11 @@ void task_fast_init(void)
 	whl_data_init();
 	whl_svc_can_route_init();
 
-	//---------------- Instrumentation ----------------//
+	//---------------- INSTRUMENTATION ----------------//
 	ins_svc_ads124s08_init();
-	ins_svc_can_route_init();
+
+	ins_svc_can_route_init(); // receive front wheel speed for DRS
+	//ins_svc_wheel_speed_init(); // wheel speed using TIM input capture
 
 
 	// FDCAN_FilterTypeDef sFilterConfig0;
@@ -220,8 +225,6 @@ void task_fast_init(void)
 void task_fast_loop(void)
 {
 	nextWakeTime += period;
-	osDelayUntil(nextWakeTime);
-
 	//---------------- PDM ----------------//
 	//only for updating vnf watchdog for now
 	//TODO is there a better way to do this?
@@ -254,10 +257,22 @@ void task_fast_loop(void)
 
 
 	//---------------- INSTRUMENTATION ----------------//
-	ins_svc_update_pots(RL_SUSPENSION, RR_SUSPENSION);
+	// suspension
+	ins_svc_update_rear_pots(RL_SUSPENSION, RR_SUSPENSION); 
 	ins_svc_can_tx_rear_suspension_data();
 
-	// ins_svc_can_tx_rear_wheel_speed_data(); //TODO: rear wheel speed not implemented yet
+	// coolant temp
+	ins_svc_thermistors_update();
+	ins_svc_can_tx_coolant_temp_data();
+
+	// steering angle
+	ins_svc_pots_update_steering_angle();
+	ins_svc_can_tx_steering_angle_data();
+	
+	// wheel speed
+	//ins_svc_wheel_speed_update(RL_WHEEL_SPEED);
+	//ins_svc_wheel_speed_update(RR_WHEEL_SPEED);
+	//ins_svc_can_tx_rear_wheel_speed_data();
 
 	//---------------- ACCUMULATOR ----------------//
 	//acu_svc_set_acu_fault_timeout();
@@ -272,6 +287,6 @@ void task_fast_loop(void)
 	glv_svc_apply_glv_plausability();
 
 
-
+	osDelayUntil(nextWakeTime);
 	
 }

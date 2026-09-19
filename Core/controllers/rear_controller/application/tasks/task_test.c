@@ -5,7 +5,19 @@
 #include "can_svc_can.h"
 #include "acu_data.h"
 
-static const uint32_t period = 5000;
+
+#include "ins_svc_can_route.h"
+#include "ins_svc_logging.h"
+#include "ins_data.h"
+#include "ins_svc_wheel_speed.h"
+#include "ins_svc_pot.h"
+#include "ins_svc_ads124s08.h"
+#include "ins_drv_ads124s08_regs.h"
+#include "ins_config_pinout.h"
+#include "ins_drv_ads124s08.h"
+
+
+static const uint32_t period = 10;
 static uint32_t nextWakeTime;
 
 // static uint8_t brake_test = 0;
@@ -26,6 +38,18 @@ void task_test_init(void)
 void task_test_loop(void)
 {
 	nextWakeTime += period;
+
+	//---------------- INSTRUMENTATION ----------------//
+	//	ins_svc_update_rear_pots(RL_SUSPENSION, RR_SUSPENSION); // TODO: FIX 
+	// suspension
+	//ins_svc_update_ads124s08();
+	//ins_svc_can_tx_rear_suspension_data();
+
+	// wheel speed
+	//ins_svc_wheel_speed_update(RL_WHEEL_SPEED);
+	//ins_svc_wheel_speed_update(RR_WHEEL_SPEED);
+	//ins_svc_can_tx_rear_wheel_speed_data();
+
 	osDelayUntil(nextWakeTime);
 
 //	brake_test = !brake_test;

@@ -37,7 +37,7 @@ ads124s08_hw_t ins_adc_array[INS_TOTAL_NUM_ADC] = {
         .cs_port = INS_CS_1_PORT,
         .cs_pin = INS_CS_1_PIN,
         .shadow = &ads124s08_1_shadow,
-        .is_en = false
+        .is_en = true
     }
 };
 
@@ -51,28 +51,28 @@ const ins_channel_config_t ins_default_config[INS_TOTAL_NUM_CHANNEL] =
         .hw = &ins_adc_array[INS_ADC_1],
         .input_pos_pin = ADS124S08_AIN1,
         .input_neg_pin = ADS124S08_AINCOM,
-        .is_en = false
+        .is_en = true
     },
 
     [INS_SING_1] = {
         .hw = &ins_adc_array[INS_ADC_1],
         .input_pos_pin = ADS124S08_AIN2,
         .input_neg_pin = ADS124S08_AINCOM,
-        .is_en = false
+        .is_en = true
     },
 
     [INS_SING_2] = {
         .hw = &ins_adc_array[INS_ADC_1],
         .input_pos_pin = ADS124S08_AIN0,
         .input_neg_pin = ADS124S08_AINCOM,
-        .is_en = false
+        .is_en = true
     },
 
     [INS_SING_3] = {
         .hw = &ins_adc_array[INS_ADC_1],
         .input_pos_pin = ADS124S08_AIN3,
         .input_neg_pin = ADS124S08_AINCOM,
-        .is_en = false
+        .is_en = true
     },
 
     [INS_SING_4] = {
@@ -80,7 +80,7 @@ const ins_channel_config_t ins_default_config[INS_TOTAL_NUM_CHANNEL] =
         .input_pos_pin = ADS124S08_AIN8,
         .input_neg_pin = ADS124S08_AINCOM,
         .input_gpio_pin = GPIO0,
-        .is_en = false
+        .is_en = true
     },
 
     [INS_SING_5] = {
@@ -104,7 +104,7 @@ const ins_channel_config_t ins_default_config[INS_TOTAL_NUM_CHANNEL] =
         .input_pos_pin = ADS124S08_AIN11,
         .input_neg_pin = ADS124S08_AINCOM,
         .input_gpio_pin = GPIO3,
-        .is_en = false
+        .is_en = true
     },
 
     [INS_SING_8] = {
@@ -185,19 +185,63 @@ const ins_channel_config_t ins_default_config[INS_TOTAL_NUM_CHANNEL] =
 
 const ins_sensor_config_t ins_sensor_config[INS_TOTAL_NUM_SENSORS] = 
 {
-    [RL_WHEEL_SPEED] = {
-        .channel_id = INS_SING_11,
-    },
+    // [RL_WHEEL_SPEED] = {
+    //     .channel_id = INS_SING_11,
+    // },
 
-    [RR_WHEEL_SPEED] = {
-        .channel_id = INS_SING_8,
-    },
+    // [RR_WHEEL_SPEED] = {
+    //     .channel_id = INS_SING_8,
+    // },
 
-    [RL_SUSPENSION] = {
+    [RL_SUSPENSION] = 
+    {
         .channel_id = INS_SING_10,
     },
 
-    [RR_SUSPENSION] = {
+    [RR_SUSPENSION] = 
+    {
         .channel_id = INS_SING_9,
+    },
+
+    [THERM_1] = 
+    {
+        .channel_id = INS_SING_3,
+    },
+
+    [THERM_2] = 
+    {
+        .channel_id = INS_SING_0,
+    },
+
+    [THERM_3] = 
+    {
+        .channel_id = INS_SING_2,
+    },
+
+    [STEERING_POT] = 
+    {
+        .channel_id = INS_SING_7,
     }
+};
+
+// mapping for wheel speed sensors (bypass instrumentation board straight to MCU)
+const ins_wheel_speed_sensor_config_t ins_wheel_speed_sensor_config[INS_TOTAL_NUM_SENSORS] = 
+{
+    [RL_WHEEL_SPEED] = 
+    {
+        .hw = 
+        {
+            .timer_handle = INS_RL_WHEEL_TIMER_HANDLE,
+            .timer_channel = INS_RL_WHEEL_TIMER_CHANNEL,
+        },
+    },
+
+    [RR_WHEEL_SPEED] = 
+    {
+        .hw = 
+        {
+            .timer_handle = INS_RR_WHEEL_TIMER_HANDLE,
+            .timer_channel = INS_RR_WHEEL_TIMER_CHANNEL,
+        },
+    },
 };

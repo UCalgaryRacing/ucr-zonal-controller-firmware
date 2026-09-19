@@ -170,6 +170,5 @@ void task_fast_loop(void)
 
 
 
-
 	osDelayUntil(nextWakeTime);
 }

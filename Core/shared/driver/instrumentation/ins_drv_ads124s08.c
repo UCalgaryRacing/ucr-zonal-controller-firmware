@@ -113,7 +113,7 @@ void ins_drv_ads124s08_shadow_init_default(const ads124s08_hw_t *hw)
     ads124s08_set_global_chop_en_bit(&shadow->data_rate,ADS124S08_CHOP_DISABLED);
     ads124s08_set_clock_source_bit(&shadow->data_rate,ADS124S08_CLK_INTERNAL);
     ads124s08_set_conversion_mode_bit(&shadow->data_rate,ADS124S08_CONTINUOUS_CONVERSION_MODE);
-    ads124s08_set_digital_filter_bit(&shadow->data_rate,ADS124S08_DIGITAL_FILTER_SINC3);
+    ads124s08_set_digital_filter_bit(&shadow->data_rate,ADS124S08_DIGITAL_FILTER_LOW_LATENCY); // LL filter is faster, but has less noise rejection than sinc3
     ads124s08_set_data_rate_bits(&shadow->data_rate,ADS124S08_4000_SPS);
 
     // reference control register default configuration
@@ -144,15 +144,15 @@ void ins_drv_ads124s08_shadow_init_default(const ads124s08_hw_t *hw)
     shadow->gpio_data = 0x00;
     shadow->gpio_control = 0x00;
 
-    ads124s08_set_gpio0_dir(&shadow->gpio_data,ADS124S08_GPIO_INPUT_CONFIG);
-    ads124s08_set_gpio1_dir(&shadow->gpio_data,ADS124S08_GPIO_INPUT_CONFIG);
-    ads124s08_set_gpio2_dir(&shadow->gpio_data,ADS124S08_GPIO_INPUT_CONFIG);
-    ads124s08_set_gpio3_dir(&shadow->gpio_data,ADS124S08_GPIO_INPUT_CONFIG);
-
-    ads124s08_set_gpio0_config(&shadow->gpio_control,ADS124S08_GPIO);
-    ads124s08_set_gpio1_config(&shadow->gpio_control,ADS124S08_GPIO);
-    ads124s08_set_gpio2_config(&shadow->gpio_control,ADS124S08_GPIO);
-    ads124s08_set_gpio3_config(&shadow->gpio_control,ADS124S08_GPIO);
+//    ads124s08_set_gpio0_dir(&shadow->gpio_data,ADS124S08_GPIO_INPUT_CONFIG);
+//    ads124s08_set_gpio1_dir(&shadow->gpio_data,ADS124S08_GPIO_INPUT_CONFIG);
+//    ads124s08_set_gpio2_dir(&shadow->gpio_data,ADS124S08_GPIO_INPUT_CONFIG);
+//    ads124s08_set_gpio3_dir(&shadow->gpio_data,ADS124S08_GPIO_INPUT_CONFIG);
+//
+//    ads124s08_set_gpio0_config(&shadow->gpio_control,ADS124S08_GPIO);
+//    ads124s08_set_gpio1_config(&shadow->gpio_control,ADS124S08_GPIO);
+//    ads124s08_set_gpio2_config(&shadow->gpio_control,ADS124S08_GPIO);
+//    ads124s08_set_gpio3_config(&shadow->gpio_control,ADS124S08_GPIO);
     
 }
 
@@ -248,6 +248,13 @@ status_t ins_drv_ads124s08_start_internal_calibration(const ads124s08_hw_t *hw)
         return ERROR;
     }
 
+    // START again: single-shot mode goes to standby after every command
+    command  = ADS124S08_START_COMMAND;
+    if (ins_drv_ads124s08_send_command(hw, &command, 1) != HAL_OK)
+    {
+        return ERROR;
+    }
+
     osDelay(ADS124S08_SFOCAL_DELAY_MS);
 
     if (ins_drv_ads124s08_read_shadow(hw) != OK)
@@ -280,7 +287,7 @@ status_t ins_drv_ads124s08_start_conversion(ads124s08_input_mux_t pos_pin, ads12
     return OK;
 }
 
-status_t ins_drv_ads124s08_read_channel(ads124s08_input_mux_t pos_pin, ads124s08_input_mux_t neg_pin, const ads124s08_hw_t *hw, uint8_t *raw_data_buffer)
+status_t ins_drv_ads124s08_read_channel(ads124s08_input_mux_t pos_pin, ads124s08_input_mux_t neg_pin, const ads124s08_hw_t *hw, uint8_t raw_data_buffer[3])
 {
 
     //set the input mux and start the conversion
@@ -294,6 +301,7 @@ status_t ins_drv_ads124s08_read_channel(ads124s08_input_mux_t pos_pin, ads124s08
 
     //send command to read data from the adc
     uint8_t command = ADS124S08_READ_DATA_COMMAND;
+    uint8_t tx_all_low[3] = {0x00, 0x00, 0x00}; // transmit all 0s to keep MOSI line low during data read, to prevent corruption in full-duplex mode
     
     // doesn't use send_command and read_data function here, because we need CS to stay low the entire time
     HAL_GPIO_WritePin(hw->cs_port, hw->cs_pin, GPIO_PIN_RESET);
@@ -301,7 +309,8 @@ status_t ins_drv_ads124s08_read_channel(ads124s08_input_mux_t pos_pin, ads124s08
     HAL_StatusTypeDef hal_status = HAL_SPI_Transmit(hw->spi_handle, &command, 1, 10);
     if (hal_status == HAL_OK)
     {
-        hal_status = HAL_SPI_Receive(hw->spi_handle, raw_data_buffer, 3, 10);
+    	hal_status = HAL_SPI_TransmitReceive(hw->spi_handle, tx_all_low, raw_data_buffer, 3, 10);
+//        hal_status = HAL_SPI_Receive(hw->spi_handle, raw_data_buffer, 3, 10);
     }
 
     HAL_GPIO_WritePin(hw->cs_port, hw->cs_pin, GPIO_PIN_SET);
