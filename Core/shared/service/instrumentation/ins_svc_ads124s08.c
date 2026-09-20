@@ -137,20 +137,18 @@ status_t ins_svc_ads124s08_read_gpio(ins_channel_id_t channel_id, bool *data)
 }
 
 // FOR DEBUGGING: reads into static variable ins_array_values
-// void ins_svc_update_ads124s08(void)
-// {
-// // use ONE of the following methods:
-// // METHOD ONE: manually update select channels
+ void ins_svc_update_ads124s08(void)
+ {
+ // use ONE of the following methods:
+ // METHOD ONE: manually update select channels
 // 	ins_channel_id_t id = 10;
-
+//
 // 	ins_svc_ads124s08_get_analog_voltage(id, &ins_array_values[id]);
 
-//  // METHOD TWO: loop through selected channels
-// 	// for (ins_channel_id_t id = 0; id < INS_TOTAL_NUM_CHANNEL; id++)
-// 	// {
-// 	// 	status_t status = ins_svc_ads124s08_get_analog_voltage(id, &ins_array_values[id]);
+  // METHOD TWO: loop through selected channels
+ 	 for (ins_channel_id_t id = 0; id < INS_TOTAL_NUM_CHANNEL; id++)
+ 	 {
+ 	 	status_t status = ins_svc_ads124s08_get_analog_voltage(id, &ins_array_values[id]);
 
-// 	// 	ins_data_set_suspension_travel(RL_SUSPENSION, ins_array_values[INS_SING_10]);
-// 	// 	ins_data_set_suspension_travel(RR_SUSPENSION, ins_array_values[INS_SING_9]);
-// 	// }
-// }
+ 	 }
+ }

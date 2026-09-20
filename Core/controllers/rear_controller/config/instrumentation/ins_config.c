@@ -205,22 +205,22 @@ const ins_sensor_config_t ins_sensor_config[INS_TOTAL_NUM_SENSORS] =
 
     [THERM_1] = 
     {
-        .channel_id = INS_SING_3,
+        .channel_id = INS_SING_1,
     },
 
     [THERM_2] = 
     {
-        .channel_id = INS_SING_0,
+        .channel_id = INS_SING_2,
     },
 
     [THERM_3] = 
     {
-        .channel_id = INS_SING_2,
+        .channel_id = INS_SING_3,
     },
 
     [STEERING_POT] = 
     {
-        .channel_id = INS_SING_7,
+        .channel_id = INS_SING_8,
     }
 };
 

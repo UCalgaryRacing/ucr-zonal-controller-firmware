@@ -257,8 +257,9 @@ void task_fast_loop(void)
 
 
 	//---------------- INSTRUMENTATION ----------------//
+//	ins_svc_update_ads124s08(); // debugging
 	// suspension
-	ins_svc_update_rear_pots(RL_SUSPENSION, RR_SUSPENSION); 
+	ins_svc_update_rear_pots(RL_SUSPENSION, RR_SUSPENSION);
 	ins_svc_can_tx_rear_suspension_data();
 
 	// coolant temp

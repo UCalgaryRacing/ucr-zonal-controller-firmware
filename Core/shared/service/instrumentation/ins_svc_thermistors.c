@@ -33,7 +33,7 @@ void ins_svc_thermistors_update(void)
     thermistor_data.therm_3 = therm_3_temp;
 
     ins_data_set_therm_temp(THERM_1, thermistor_data.therm_1);
-    ins_data_set_therm_temp(THERM_1, thermistor_data.therm_1);
-    ins_data_set_therm_temp(THERM_1, thermistor_data.therm_1);
+    ins_data_set_therm_temp(THERM_2, thermistor_data.therm_2);
+    ins_data_set_therm_temp(THERM_3, thermistor_data.therm_3);
 
 }

@@ -25,6 +25,6 @@ const ins_channel_id_t *ins_svc_get_channel_id(ins_sensor_id_t id);
 
 status_t ins_svc_ads124s08_read_gpio(ins_channel_id_t channel_id, bool *data);
 
-// void ins_svc_update_ads124s08(void); // for debugging, updates statically into ins_svc_ads124s08.c
+void ins_svc_update_ads124s08(void); // for debugging, updates statically into ins_svc_ads124s08.c
 
 #endif /* SERVICE_INST_SVC_ADS124S08_H_ */
