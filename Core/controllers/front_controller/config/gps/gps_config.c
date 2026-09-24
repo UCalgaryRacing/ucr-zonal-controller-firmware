@@ -64,6 +64,11 @@ const gps_oem7_log_config_t gps_oem7_log_configs[] =
         .msg_id  = GPS_OEM7_INSPVAS_ID,
     },
 
+    {
+        .command = "LOG THISPORT HWMONITORA ONTIME 0.05\r\n",
+        .msg_id  = GPS_OEM7_HWMONITOR_ID,
+    },
+
     /* Sentinel — do not remove */
     { NULL, 0U },
 };

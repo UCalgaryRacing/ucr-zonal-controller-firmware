@@ -775,6 +775,31 @@ static void gps_svc_dispatch_rawimusx(const uint8_t *hdr, const uint8_t *body)
     com_svc_can_transmit(&msg);
 }
 
+static void gps_svc_dispatch_hwmonitor(const uint8_t *hdr, const uint8_t *body)
+{
+    struct ucr_03_hardware_monitor_gps_t frame = {0};
+
+	memcpy(&frame.temperature,         &body[4],  4);
+	frame.temp_ok = 0;
+
+	uint32_t status = 0; memcpy(&status, &body[5], sizeof(status));
+
+	uint8_t boundary_status = (uint8_t)(status & 0xFFU); // Bits 0-7
+	uint8_t reading_type = (uint8_t)((status >> 8) & 0xFFU);  // Bits 8-15
+
+	if (reading_type == 0x01 && boundary_status == 0x00) {
+		frame.temp_ok = 1;
+	// Temperature is OK
+	}
+
+    can_msg_t msg;
+    msg.channel = CAN1;
+    msg.id      = UCR_03_HARDWARE_MONITOR_GPS_FRAME_ID;
+    msg.dlc     = UCR_03_HARDWARE_MONITOR_GPS_LENGTH;
+    ucr_03_hardware_monitor_gps_pack(msg.data, &frame, msg.dlc);
+    com_svc_can_transmit(&msg);
+}
+
 static void gps_svc_dispatch_log(uint16_t msg_id,
                                   const uint8_t *hdr,
                                   const uint8_t *body,
@@ -800,6 +825,13 @@ static void gps_svc_dispatch_log(uint16_t msg_id,
             if (body_len >= 40U)
             {
                 gps_svc_dispatch_rawimusx(hdr, body);
+            }
+            break;
+
+        case GPS_OEM7_HWMONITOR_ID:
+            if (body_len >= 40U)
+            {
+                gps_svc_dispatch_hwmonitor(hdr, body);
             }
             break;
 

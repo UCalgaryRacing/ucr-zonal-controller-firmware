@@ -65,6 +65,7 @@
 #define GPS_OEM7_BESTGNSSPOS_ID     1429U
 #define GPS_OEM7_RAWIMUSX_ID        1462U
 #define GPS_OEM7_INSPVAS_ID         508U
+#define GPS_OEM7_HWMONITOR_ID       963U
 
 /*============================================================================*/
 /* Probe / Configuration Timing                                               */
