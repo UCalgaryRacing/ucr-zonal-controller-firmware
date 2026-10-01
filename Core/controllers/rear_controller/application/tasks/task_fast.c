@@ -193,7 +193,7 @@ void task_fast_init(void)
 	ins_svc_ads124s08_init();
 
 	ins_svc_can_route_init(); // receive front wheel speed for DRS
-	//ins_svc_wheel_speed_init(); // wheel speed using TIM input capture
+	ins_svc_wheel_speed_init(); // wheel speed using TIM input capture
 
 
 	// FDCAN_FilterTypeDef sFilterConfig0;
@@ -271,9 +271,9 @@ void task_fast_loop(void)
 	ins_svc_can_tx_steering_angle_data();
 	
 	// wheel speed
-	//ins_svc_wheel_speed_update(RL_WHEEL_SPEED);
+	ins_svc_wheel_speed_update(RL_WHEEL_SPEED);
 	//ins_svc_wheel_speed_update(RR_WHEEL_SPEED);
-	//ins_svc_can_tx_rear_wheel_speed_data();
+	ins_svc_can_tx_rear_wheel_speed_data();
 
 	//---------------- ACCUMULATOR ----------------//
 	//acu_svc_set_acu_fault_timeout();
