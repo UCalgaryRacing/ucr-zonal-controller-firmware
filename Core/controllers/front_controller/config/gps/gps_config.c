@@ -65,7 +65,7 @@ const gps_oem7_log_config_t gps_oem7_log_configs[] =
     },
 
     {
-        .command = "LOG THISPORT HWMONITORA ONTIME 0.05\r\n",
+        .command = "LOG THISPORT HWMONITORB ONTIME 1\r\n",
         .msg_id  = GPS_OEM7_HWMONITOR_ID,
     },
 

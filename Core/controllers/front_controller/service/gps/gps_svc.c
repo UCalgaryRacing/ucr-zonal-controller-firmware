@@ -779,17 +779,28 @@ static void gps_svc_dispatch_hwmonitor(const uint8_t *hdr, const uint8_t *body)
 {
     struct ucr_03_hardware_monitor_gps_t frame = {0};
 
-	memcpy(&frame.temperature,         &body[4],  4);
-	frame.temp_ok = 0;
+	uint32_t measurements = 0;
+	memcpy(&measurements, &body[0], sizeof(measurements));
 
-	uint32_t status = 0; memcpy(&status, &body[5], sizeof(status));
 
-	uint8_t boundary_status = (uint8_t)(status & 0xFFU); // Bits 0-7
-	uint8_t reading_type = (uint8_t)((status >> 8) & 0xFFU);  // Bits 8-15
+	for (int i = 0; i < measurements; i++){
+		uint32_t status = 0;
+			memcpy(&status, &body[8 + (i * 8)], sizeof(status));
+			uint8_t reading_type = (uint8_t)((status >> 8) & 0xFFU);  // Bits 8-15
+		if (reading_type == 0x01) {
+			memcpy(&frame.temperature, &body[4 + (i * 8)],  4);
+			uint8_t boundary_status = (uint8_t)(status & 0xFFU); // Bits 0-7
+			if (boundary_status == 0) {
+				frame.temp_ok = 1;
+			}
+		}
 
-	if (reading_type == 0x01 && boundary_status == 0x00) {
-		frame.temp_ok = 1;
-	// Temperature is OK
+		if (reading_type == 0x06) { memcpy(&frame.digital_core_3_v3, &body[4 + (i * 8)],  4); }
+		if (reading_type == 0x07) { memcpy(&frame.antenna_voltage, &body[4 + (i * 8)],  4); }
+		if (reading_type == 0x08) { memcpy(&frame.digital_core_1_v2, &body[4 + (i * 8)],  4); }
+		if (reading_type == 0x0F) { memcpy(&frame.regulated_supply_voltage, &body[4 + (i * 8)],  4); }
+		if (reading_type == 0x11) { memcpy(&frame._1_v8, &body[4 + (i * 8)],  4); }
+
 	}
 
     can_msg_t msg;
