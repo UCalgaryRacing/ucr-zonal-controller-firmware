@@ -67,7 +67,7 @@ void tcu_svc_fault_check_apps_bse_plausibility(void)
     }
     else
     {
-        fault.apps_bse_plausibility = (apps_data.pedal_percent > TCU_APPS_BSE_PLAUSIBILITY_APPS_THRESHOLD_PCT && bse_data.is_braking);
+        fault.apps_bse_plausibility = (apps_data.pedal_percent > TCU_APPS_BSE_PLAUSIBILITY_APPS_THRESHOLD_PCT && bse_data.is_hard_braking);
     }
 
     tcu_data_set_fault_status(&fault);

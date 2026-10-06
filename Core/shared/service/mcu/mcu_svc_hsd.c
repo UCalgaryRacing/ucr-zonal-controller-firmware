@@ -5,15 +5,15 @@
 
 //TODO make tps4xxx service which both mcu and pdm can call instead of rewriting
 
-static inline bool is_valid_channel_id(mcu_channel_id_t channel_id)
+static inline bool is_valid_hsd_channel_id(mcu_channel_id_t channel_id)
 {
     return (channel_id < MCU_HSD_TOTAL_CHANNELS);
 }
 
 
-static inline const mcu_channel_config_t* get_channel_config(mcu_channel_id_t channel_id)
+static inline const mcu_channel_config_t* get_hsd_channel_config(mcu_channel_id_t channel_id)
 {
-    if (!is_valid_channel_id(channel_id))
+    if (!is_valid_hsd_channel_id(channel_id))
     {
         return NULL;
     }
@@ -24,7 +24,7 @@ static inline const mcu_channel_config_t* get_channel_config(mcu_channel_id_t ch
 
 status_t mcu_svc_hsd_channel_enable(mcu_channel_id_t channel_id, bool enable)
 {
-    const mcu_channel_config_t *channel_config = get_channel_config(channel_id);
+    const mcu_channel_config_t *channel_config = get_hsd_channel_config(channel_id);
     if (channel_config == NULL)
     {
         return ERROR_INVALID_PARAM;
