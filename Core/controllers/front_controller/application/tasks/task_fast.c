@@ -30,6 +30,11 @@
 #include "prm_svc_channel.h"
 #include "prm_channel_types.h"
 
+#include "ins_svc_ads124s08.h"
+#include "ins_svc_pot.h"
+#include "ins_svc_logging.h"
+#include "ins_svc_wheel_speed.h"
+
 static const uint32_t period = 10;
 static uint32_t nextWakeTime;
 
@@ -131,6 +136,11 @@ void task_fast_init(void)
 	prm_svc_channel_init(EXTERNAL_5V_1);
 	prm_svc_channel_init(EXTERNAL_5V_2);
 
+	//---------------- INSTRUMENTATION ----------------//
+	ins_svc_ads124s08_init(); // initialize chips on instrumentation board
+
+	ins_svc_wheel_speed_init(FL_WHEEL_SPEED); // wheel speed using TIM input capture
+	ins_svc_wheel_speed_init(FR_WHEEL_SPEED);
 }
 
 void task_fast_loop(void)
@@ -161,6 +171,16 @@ void task_fast_loop(void)
 	tcu_svc_can_tx_motor_status_data();
 
 	fco_svc_dash_lights_update();
+
+	//---------------- INSTRUMENTATION ----------------//
+	// suspension
+	ins_svc_update_front_pots(FL_SUSPENSION, FR_SUSPENSION);
+	ins_svc_can_tx_front_suspension_data();
+
+	// wheel speed
+	ins_svc_wheel_speed_update(FL_WHEEL_SPEED);
+	ins_svc_wheel_speed_update(FR_WHEEL_SPEED);
+	ins_svc_can_tx_front_wheel_speed_data();
 
 	
 

@@ -37,7 +37,7 @@ ads124s08_hw_t ins_adc_array[INS_TOTAL_NUM_ADC] = {
         .cs_port = INS_CS_1_PORT,
         .cs_pin = INS_CS_1_PIN,
         .shadow = &ads124s08_1_shadow,
-        .is_en = false
+        .is_en = true
     }
 };
 
@@ -182,16 +182,18 @@ const ins_channel_config_t ins_default_config[INS_TOTAL_NUM_CHANNEL] =
 /*============================================================================*/
 /* Sensor Mapping and Config                                                  */
 /*============================================================================*/
+// TODO: clean up config table (should be one table with two types unioniozed)
 
 const ins_sensor_config_t ins_sensor_config[INS_TOTAL_NUM_SENSORS] = 
 {
-    [FL_WHEEL_SPEED] = {
-        .channel_id = INS_SING_11,
-    },
+    // wheel speed commented out: not used on instrumentation board 
+    // [FL_WHEEL_SPEED] = {
+    //     .channel_id = INS_SING_11,
+    // },
 
-    [FR_WHEEL_SPEED] = {
-        .channel_id = INS_SING_8,
-    },
+    // [FR_WHEEL_SPEED] = {
+    //     .channel_id = INS_SING_8,
+    // },
 
     [FL_SUSPENSION] = {
         .channel_id = INS_SING_10,
@@ -200,4 +202,27 @@ const ins_sensor_config_t ins_sensor_config[INS_TOTAL_NUM_SENSORS] =
     [FR_SUSPENSION] = {
         .channel_id = INS_SING_9,
     }
+};
+
+
+// mapping for wheel speed sensors (bypass instrumentation board straight to MCU)
+const ins_wheel_speed_sensor_config_t ins_wheel_speed_sensor_config[INS_TOTAL_NUM_SENSORS] = 
+{
+    [FL_WHEEL_SPEED] = 
+    {
+        .hw = 
+        {
+            .timer_handle = INS_FL_WHEEL_TIMER_HANDLE,
+            .timer_channel = INS_FL_WHEEL_TIMER_CHANNEL,
+        },
+    },
+
+    [FR_WHEEL_SPEED] = 
+    {
+        .hw = 
+        {
+            .timer_handle = INS_FR_WHEEL_TIMER_HANDLE,
+            .timer_channel = INS_FR_WHEEL_TIMER_CHANNEL,
+        },
+    },
 };

@@ -182,9 +182,11 @@ const ins_channel_config_t ins_default_config[INS_TOTAL_NUM_CHANNEL] =
 /*============================================================================*/
 /* Sensor Mapping and Config                                                  */
 /*============================================================================*/
+// TODO: clean up config table (should be one table with two types unioniozed)
 
 const ins_sensor_config_t ins_sensor_config[INS_TOTAL_NUM_SENSORS] = 
 {
+    // wheel speed commented out: not used on instrumentation board 
     // [RL_WHEEL_SPEED] = {
     //     .channel_id = INS_SING_11,
     // },

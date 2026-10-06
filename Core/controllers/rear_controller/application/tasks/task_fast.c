@@ -193,7 +193,7 @@ void task_fast_init(void)
 	ins_svc_ads124s08_init();
 
 	ins_svc_can_route_init(); // receive front wheel speed for DRS
-	ins_svc_wheel_speed_init(); // wheel speed using TIM input capture
+	ins_svc_wheel_speed_init(RL_WHEEL_SPEED); // wheel speed using TIM input capture
 
 
 	// FDCAN_FilterTypeDef sFilterConfig0;

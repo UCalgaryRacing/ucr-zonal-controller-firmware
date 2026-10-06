@@ -67,12 +67,12 @@ static bool ins_data_is_valid_wheel_sensor(ins_sensor_id_t id)
 
 static bool ins_data_is_valid_suspension_sensor(ins_sensor_id_t id)
 {
-    return ((id >= INS_WHEEL_SPEED_SENSOR_COUNT) && (id < INS_TOTAL_NUM_SENSORS));
+    return ((id >= INS_WHEEL_SPEED_END) && (id < INS_SUSPENSION_END));
 }
 
 static bool ins_data_is_valid_thermistor(ins_sensor_id_t id)
 {
-    return ((id >= INS_SUSPENSION_SENSOR_COUNT) && (id < INS_THERMISTOR_COUNT));
+    return ((id >= INS_SUSPENSION_END) && (id < INS_THERMISTOR_END));
 }
 
 /*============================================================================*/

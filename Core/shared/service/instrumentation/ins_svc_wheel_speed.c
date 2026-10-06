@@ -74,23 +74,20 @@ static float ins_svc_wheel_speed_apply_moving_average(ins_sensor_id_t id, float 
 /* Initialization                                                             */
 /*============================================================================*/
 
-status_t ins_svc_wheel_speed_init(void)
+status_t ins_svc_wheel_speed_init(ins_sensor_id_t id)
 {
     memset(&g_wheel_speed_runtime_data, 0, sizeof(g_wheel_speed_runtime_data));
 
-    for (uint8_t i = 0U; i < RL_WHEEL_SPEED; i++) // less than two 
+    ins_svc_wheel_speed_reset_moving_average(id);
+
+    status_t status = ins_drv_timer_start_input_capture_it(ins_wheel_speed_sensor_config[id].hw.timer_handle, ins_wheel_speed_sensor_config[id].hw.timer_channel);
+
+    if (status != OK)
     {
-        ins_svc_wheel_speed_reset_moving_average(i);
-
-        status_t status = ins_drv_timer_start_input_capture_it(ins_wheel_speed_sensor_config[i].hw.timer_handle, ins_wheel_speed_sensor_config[i].hw.timer_channel);
-
-        if (status != OK)
-        {
-            return status;
-        }
-
-        g_wheel_speed_runtime_data[i].initialized = true;
+        return status;
     }
+
+    g_wheel_speed_runtime_data[id].initialized = true;
 
     return OK;
 }
@@ -162,13 +159,13 @@ void ins_svc_wheel_speed_update(ins_sensor_id_t id)
 
 void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim)
 {
-    if (ins_drv_timer_is_handle(htim, INS_RL_WHEEL_TIMER_HANDLE) && ins_drv_timer_is_active_channel(htim, INS_RL_WHEEL_TIMER_CHANNEL))
+    for (ins_sensor_id_t id = 0; id < INS_WHEEL_SPEED_SENSOR_COUNT; id++)
     {
-        ins_svc_wheel_speed_on_rising_edge(FL_WHEEL_SPEED);
-    }
+        const ins_wheel_speed_sensor_hw_t *hw = &ins_wheel_speed_sensor_config[id].hw;
 
-    else if (ins_drv_timer_is_handle(htim, INS_RR_WHEEL_TIMER_HANDLE) && ins_drv_timer_is_active_channel(htim, INS_RR_WHEEL_TIMER_CHANNEL))
-    {
-        ins_svc_wheel_speed_on_rising_edge(FR_WHEEL_SPEED);
+        if (ins_drv_timer_is_handle(htim, hw->timer_handle) && ins_drv_timer_is_active_channel(htim, hw->timer_channel))
+        {
+            ins_svc_wheel_speed_on_rising_edge(id);
+        }
     }
 }

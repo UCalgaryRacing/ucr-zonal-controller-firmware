@@ -18,7 +18,7 @@
 #define INS_FRONT_WHEEL_PULSES_PER_ROTATION           30U
 #define INS_FRONT_WHEEL_STOPPED_TIMEOUT_MS            2000U
 /* Number of 10 ms fast-task samples averaged to smooth brief RPM drops. */
-#define INS_WHEEL_RPM_MOVING_AVERAGE_SAMPLES    10U
+#define INS_WHEEL_RPM_MOVING_AVERAGE_SAMPLES    1U // moving average currently turned off to see data more clearly. 
 
 /*============================================================================*/
 /* MCU Wheel Speed Hardware Mapping                                           */

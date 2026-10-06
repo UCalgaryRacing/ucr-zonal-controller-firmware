@@ -6,7 +6,7 @@
 
 #include "ins_config_sensor_id.h"
 
-status_t ins_svc_wheel_speed_init(void);
+status_t ins_svc_wheel_speed_init(ins_sensor_id_t id);
 
 void ins_svc_wheel_speed_on_rising_edge(ins_sensor_id_t id);
 
