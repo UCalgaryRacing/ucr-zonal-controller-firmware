@@ -73,10 +73,19 @@ static float ins_svc_wheel_speed_apply_moving_average(ins_sensor_id_t id, float 
 /*============================================================================*/
 /* Initialization                                                             */
 /*============================================================================*/
-
 status_t ins_svc_wheel_speed_init(ins_sensor_id_t id)
 {
-    memset(&g_wheel_speed_runtime_data, 0, sizeof(g_wheel_speed_runtime_data));
+	if (id >= INS_WHEEL_SPEED_END)
+	{
+		return ERROR_INVALID_PARAM;
+	}
+
+	if (g_wheel_speed_runtime_data[id].initialized)
+	{
+	    return OK;
+	}
+
+    memset(&g_wheel_speed_runtime_data[id], 0, sizeof(g_wheel_speed_runtime_data[id]));
 
     ins_svc_wheel_speed_reset_moving_average(id);
 
