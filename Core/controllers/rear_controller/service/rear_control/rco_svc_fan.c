@@ -34,21 +34,21 @@ void rco_svc_fan_update(void)
     cooling_mode_t target_mode = COOLING_MODE_UNKNOWN;
 
     // 1. Determine Requested Target Mode
-    if (wheel_state.encoder_0 == 5 || wheel_state.encoder_0 == 7 || wheel_state.encoder_0 == 15 || wheel_state.encoder_0 == 13)
+    if (wheel_state.encoder_0 == 0)
     {
         target_mode = COOLING_MODE_ALL_OFF;
     }
-    else if (wheel_state.encoder_0 == 9 || wheel_state.encoder_0 == 1 || wheel_state.encoder_0 == 0 || wheel_state.encoder_0 == 8)
+    else if (wheel_state.encoder_0 == 1)
     {
-        target_mode = COOLING_MODE_PUMPS_ACC_FANS;
+        target_mode = COOLING_MODE_PUMPS_ONLY;
     }
-    else if (wheel_state.encoder_0 == 12 || wheel_state.encoder_0 == 4 || wheel_state.encoder_0 == 6 || wheel_state.encoder_0 == 14)
+    else if (wheel_state.encoder_0 == 2)
     {
         target_mode = COOLING_MODE_PUMPS_TRAC_FANS;
     }
-    else if (wheel_state.encoder_0 == 10 || wheel_state.encoder_0 == 2 || wheel_state.encoder_0 == 3 || wheel_state.encoder_0 == 11) 
+    else if (wheel_state.encoder_0 == 3)
     {
-        target_mode = COOLING_MODE_PUMPS_ONLY;
+        target_mode = COOLING_MODE_PUMPS_ACC_FANS;
     }
 
     // 2. Handle Mode Change (Reset Sequence & Immediate Off)
