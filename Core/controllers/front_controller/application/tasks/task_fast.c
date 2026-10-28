@@ -62,6 +62,9 @@ void task_fast_init(void)
 	pdm_svc_channel_init(RTD_LIGHT);
 	pdm_svc_channel_enable(RTD_LIGHT, false);
 
+	pdm_svc_channel_init(LC_LIGHT);
+	pdm_svc_channel_enable(LC_LIGHT, false);
+
 	// from MCU V1.0 pins tied high
 	pdm_svc_channel_init(VBATT_SW_9);
 	pdm_svc_channel_enable(VBATT_SW_9, true);
@@ -155,6 +158,7 @@ void task_fast_loop(void)
 	pdm_svc_channel_update(IMD_LIGHT);
 	pdm_svc_channel_update(BMS_LIGHT);
 	pdm_svc_channel_update(RTD_LIGHT);
+	pdm_svc_channel_update(LC_LIGHT);
 
 	//---------------- TCU ----------------//
 	tcu_svc_apps_update(APPS1, APPS2);

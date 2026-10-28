@@ -24,4 +24,6 @@ float mco_svc_traction_control_limit_torque_percent(float requested_torque_perce
 float mco_svc_traction_control_calculate_motor_speed_slip_ratio(void);
 bool mco_svc_traction_control_update_bamocar_n_lim(float desired_slip_ratio);
 
+float mco_svc_launch_control_calculate_torque_percent(float requested_torque_percent);
+
 #endif /* MCO_SVC_TRACTION_CONTROL_H_ */

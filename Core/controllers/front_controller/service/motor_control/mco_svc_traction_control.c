@@ -14,7 +14,7 @@ static float mco_svc_traction_control_clamp(float value, float min_value, float 
 static bool g_initialized = false;
 static const float g_bamocar_peak_current_a = 424.4f;
 static const float g_sqrt_2 = 1.414f;
-static const float g_motor_to_rear_wheel_gear_ratio = 3.8f;
+static const float g_motor_to_rear_wheel_gear_ratio = 3.818f;
 static const float g_min_slip_reference_wheel_rpm = 1.0f;
 static const float g_default_rpm_breakpoints[] = {
     0.0f,
@@ -29,6 +29,73 @@ static const float g_default_current_limit_rms_a[] = {
 static const float *g_active_rpm_breakpoints = g_default_rpm_breakpoints;
 static const float *g_active_current_limit_rms_a = g_default_current_limit_rms_a;
 static uint32_t g_active_table_size = (uint32_t)(sizeof(g_default_rpm_breakpoints) / sizeof(g_default_rpm_breakpoints[0]));
+
+#define LC_START_PCT           15.0f
+#define LC_RAMP_RATE           150.0f
+#define LC_RAMP_CAP_PCT        60.0f
+#define LC_RAMP_MAX_TIME_MS    300.0f
+#define LC_HANDOVER_SPEED_RPM  300.0f
+#define LC_TARGET_SLIP_RATIO   0.15f
+#define LC_KP                  0.5f
+#define LC_KI                  0.1f
+#define LC_KD                  0.0f
+#define LC_PCT_RATE_INCREASE   5.00f
+#define LC_PCT_RATE_DECREASE   0.75f
+
+static bool lc_ramp_active = true;
+static float previous_slip_error = 0.0f;
+static float slip_error = 0.0f;
+static float integral_error = 0.0f;
+static float prev_calculated_torque = 0.0f;
+
+
+float mco_svc_launch_control_calculate_torque_percent(float requested_torque_percent)
+{
+    float rpm_front = ins_data_get_wheel_speed_rpm(FR_WHEEL_SPEED);
+    float rpm_rear = tcu_data_get_motor_rpm() / g_motor_to_rear_wheel_gear_ratio;
+    float slip_ratio = (rpm_rear - rpm_front) / rpm_front;
+    float lc_time_elapsed = (HAL_GetTick() - tcu_data_get_traction_control_time_started());
+    float lc_calculated_torque;
+    float deriv_error;
+
+    if (lc_ramp_active)
+    {
+        lc_calculated_torque = LC_START_PCT + (LC_PCT_RATE_INCREASE * lc_time_elapsed / 1000.0f);
+        lc_calculated_torque = mco_svc_traction_control_clamp(lc_calculated_torque, 0.0f, LC_RAMP_CAP_PCT);
+        lc_calculated_torque = mco_svc_traction_control_clamp(lc_calculated_torque, 0.0f, requested_torque_percent);
+
+        if ((lc_time_elapsed >= LC_RAMP_MAX_TIME_MS) || (rpm_front >= LC_HANDOVER_SPEED_RPM) || (slip_ratio >= LC_TARGET_SLIP_RATIO))
+        {
+            lc_ramp_active = false;
+            previous_slip_error = LC_TARGET_SLIP_RATIO - slip_ratio;
+            integral_error = lc_calculated_torque;
+            prev_calculated_torque = lc_calculated_torque;
+        }
+
+        return lc_calculated_torque;
+    }
+
+    if (!lc_ramp_active)
+    {
+        slip_error = LC_TARGET_SLIP_RATIO - slip_ratio;
+        integral_error += LC_KI * slip_error * 0.01f;
+        integral_error = mco_svc_traction_control_clamp(integral_error, 0.0f, LC_RAMP_CAP_PCT);
+        
+        deriv_error = (slip_error - previous_slip_error) / 0.01f;
+
+        lc_calculated_torque = integral_error + (LC_KP * slip_error) + (LC_KD * deriv_error);
+        lc_calculated_torque = mco_svc_traction_control_clamp(lc_calculated_torque, 0.0f, 100.0f);
+        lc_calculated_torque = mco_svc_traction_control_clamp(lc_calculated_torque, prev_calculated_torque * LC_PCT_RATE_DECREASE, prev_calculated_torque * LC_PCT_RATE_INCREASE);
+        lc_calculated_torque = mco_svc_traction_control_clamp(lc_calculated_torque, 0.0f, requested_torque_percent);
+    
+        prev_calculated_torque = lc_calculated_torque;
+
+        return lc_calculated_torque;
+    }
+
+    return 0.0f;
+}
+
 
 void mco_svc_traction_control_init(void)
 {
@@ -191,3 +258,4 @@ static float mco_svc_traction_control_lookup_current_limit_rms(float motor_rpm)
 
     return g_active_current_limit_rms_a[g_active_table_size - 1U];
 }
+

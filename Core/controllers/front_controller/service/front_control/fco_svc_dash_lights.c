@@ -60,7 +60,7 @@ void fco_svc_dash_lights_update(void)
     }
 
     tcu_app_state_t tcu_state = tcu_data_get_state();
-    bool rtd_active = (tcu_state == TCU_APP_STATE_READY_TO_DRIVE || tcu_state == TCU_APP_STATE_REVERSE);
+    bool rtd_active = (tcu_state == TCU_APP_STATE_READY_TO_DRIVE || tcu_state == TCU_APP_STATE_REVERSE || tcu_state == TCU_APP_STATE_LC_STAGED || tcu_state == TCU_APP_STATE_LC_ACTIVE );
 
     pdm_svc_channel_enable(RTD_LIGHT, rtd_active);
 }

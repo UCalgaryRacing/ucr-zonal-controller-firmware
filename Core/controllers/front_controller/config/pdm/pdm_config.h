@@ -17,6 +17,7 @@
  #define SDC_START          VBATT_SW_3 
  #define STEERING_WHEEL     VBATT_SW_10
  #define KVASER             VBATT_SW_11
+ #define LC_LIGHT           VBATT_SW_13
  #define IMD_LIGHT          VBATT_SW_14
  #define BMS_LIGHT          VBATT_SW_15
  #define RTD_LIGHT          VBATT_SW_16

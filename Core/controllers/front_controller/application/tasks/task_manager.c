@@ -88,12 +88,20 @@ void task_manager_loop(void)
 	{
 		g_requested_torque = 100.0f;
 	}
-	if (tcu_app_state_machine_get_state() != TCU_APP_STATE_READY_TO_DRIVE)
+	if (tcu_app_state_machine_get_state() != (TCU_APP_STATE_READY_TO_DRIVE || TCU_APP_STATE_LC_ACTIVE))
 	{
 		g_requested_torque = 0.0f;
 	}
 
 	bool traction_control_active = false;
+
+	if (tcu_app_state_machine_get_state() == TCU_APP_STATE_LC_ACTIVE)
+	{	
+		traction_control_active = true;
+		g_requested_torque = mco_svc_launch_control_calculate_torque_percent(g_requested_torque);
+	}
+
+
 	bool power_limit_active = false;
 
 	if (!regen_active)

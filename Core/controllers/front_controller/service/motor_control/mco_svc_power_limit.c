@@ -199,3 +199,4 @@ float mco_svc_power_limit_limit_torque_percent(float requested_torque_percent)
 
     return (clamped_request < pl_max_percent) ? clamped_request : pl_max_percent;
 }
+

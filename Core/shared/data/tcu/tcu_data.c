@@ -325,6 +325,17 @@ void tcu_data_set_traction_control_bamocar_n_lim_percent(float bamocar_n_lim_per
     g_traction_control_data.bamocar_n_lim_percent = bamocar_n_lim_percent;
 }
 
+float tcu_data_get_traction_control_time_started(void)
+{
+    return g_traction_control_data.time_started;
+}
+
+void tcu_data_set_traction_control_time_started(float time_started)
+{
+    g_traction_control_data.time_started = time_started;
+}
+
+
 /*============================================================================*/
 /* Motor Request Data Access                                                  */
 /*============================================================================*/

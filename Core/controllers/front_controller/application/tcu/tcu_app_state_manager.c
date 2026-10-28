@@ -8,6 +8,10 @@
 #include "stm32h7xx_hal.h"
 #include "pdm_config.h"
 #include "acu_data.h"
+#include "ins_data.h"
+#include "whl_data.h"
+#include "pdm_config.h"
+#include "pdm_svc_channel.h"
 
 /*============================================================================*/
 /* Private Variables                                                          */
@@ -28,6 +32,8 @@ static tcu_app_state_t handle_idle_state(void);
 static tcu_app_state_t handle_rtd_state(void);
 // static tcu_app_state_t handle_reverse_state(void);
 // static tcu_app_state_t handle_motor_disabled_state(void);
+static tcu_app_state_t handle_lc_staged_state(void);
+static tcu_app_state_t handle_lc_active_state(void);
 
 static void on_state_entry(tcu_app_state_t state);
 static void on_state_exit(tcu_app_state_t state);
@@ -60,6 +66,15 @@ void tcu_app_state_machine_step(void)
             next_state = handle_rtd_state();
             break;
 
+        case TCU_APP_STATE_LC_STAGED:
+            next_state = handle_lc_staged_state();
+            break;
+
+        case TCU_APP_STATE_LC_ACTIVE:
+            next_state = handle_lc_active_state();
+            break;
+
+        
         // case TCU_APP_STATE_REVERSE:
         //     next_state = handle_reverse_state();
         //     break;
@@ -123,10 +138,51 @@ static tcu_app_state_t handle_rtd_state(void)
         return TCU_APP_STATE_IDLE;
     }
 
+    float wheel_rpm = ins_data_get_wheel_speed_rpm(FR_WHEEL_SPEED);
+    if (((whl_data_get_button_2() &&
+        tcu_data_get_brake_active() &&
+        wheel_rpm < 5.0f)) &&
+        (HAL_GetTick() - g_state_enter_time) >= 2000)
+    {
+        return TCU_APP_STATE_LC_STAGED;
+    }
+
     return TCU_APP_STATE_READY_TO_DRIVE;
 }
 
 
+static tcu_app_state_t handle_lc_staged_state(void)
+{
+
+    if (tcu_data_get_apps_percent() > 90.0f &&
+        !tcu_data_get_brake_active() &&
+        (HAL_GetTick() - g_state_enter_time) >= 2000)
+    {
+        return TCU_APP_STATE_LC_ACTIVE;
+    }
+
+    if ((HAL_GetTick() - g_state_enter_time) >= 15000)
+    {
+        return TCU_APP_STATE_READY_TO_DRIVE;
+    }
+
+    return TCU_APP_STATE_LC_STAGED;
+}
+
+
+static tcu_app_state_t handle_lc_active_state(void)
+{
+
+    if (tcu_data_get_brake_active() ||
+        tcu_data_get_apps_percent() < 10.0f ||
+        (HAL_GetTick() - g_state_enter_time) >= 15000)
+    {
+        return TCU_APP_STATE_READY_TO_DRIVE;
+    }
+
+    return TCU_APP_STATE_LC_ACTIVE;
+
+}
 // static tcu_app_state_t handle_reverse_state(void)
 // {
 //     // if (!tcu_data_get_motor_request_enabled())
@@ -157,6 +213,13 @@ static void on_state_entry(tcu_app_state_t state)
         case TCU_APP_STATE_IDLE:
         case TCU_APP_STATE_STARTUP:
         case TCU_APP_STATE_MOTOR_DISABLED:
+        case TCU_APP_STATE_LC_STAGED:
+            pdm_svc_channel_enable(LC_LIGHT, true);
+            break;
+        case TCU_APP_STATE_LC_ACTIVE:
+            pdm_svc_channel_enable(LC_LIGHT, true);
+            tcu_data_set_traction_control_time_started(HAL_GetTick());
+            break;
         default:
             break;
     }
@@ -167,6 +230,12 @@ static void on_state_exit(tcu_app_state_t state)
 {
     switch (state)
     {
+        case TCU_APP_STATE_LC_STAGED:
+            pdm_svc_channel_enable(LC_LIGHT, false);
+            break;
+        case TCU_APP_STATE_LC_ACTIVE:
+            pdm_svc_channel_enable(LC_LIGHT, false);
+            break;
         default:
             break;
     }

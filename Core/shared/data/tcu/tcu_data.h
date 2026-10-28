@@ -179,6 +179,7 @@ typedef struct
     float measured_slip_ratio;
     float desired_slip_ratio;
     float bamocar_n_lim_percent;
+    float time_started;
 } tcu_traction_control_data_t;
 
 /*============================================================================*/
@@ -270,6 +271,10 @@ void tcu_data_set_traction_control_desired_slip_ratio(float desired_slip_ratio);
 float tcu_data_get_traction_control_bamocar_n_lim_percent(void);
 
 void tcu_data_set_traction_control_bamocar_n_lim_percent(float bamocar_n_lim_percent);
+
+float tcu_data_get_traction_control_time_started(void);
+
+void tcu_data_set_traction_control_time_started(float time_started);
 
 /*============================================================================*/
 /* Motor Request Data Access                                                  */
