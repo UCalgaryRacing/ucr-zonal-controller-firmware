@@ -30,7 +30,7 @@ const prm_channel_config_t prm_default_config[PRM_TOTAL_NUMBER_CHANNELS] =
     },
 
     [EXTERNAL_5V_1] = {
-        .enabled = false,
+        .enabled = true,
         .hw = {
             .en_port = PRM_5V_EXTERNAL_1_EN_PORT,
             .en_pin = PRM_5V_EXTERNAL_1_EN_PIN
@@ -38,7 +38,7 @@ const prm_channel_config_t prm_default_config[PRM_TOTAL_NUMBER_CHANNELS] =
     },
 
     [EXTERNAL_5V_2] = {
-        .enabled = false,
+        .enabled = true,
         .hw = {
             .en_port = PRM_5V_EXTERNAL_2_EN_PORT,
             .en_pin = PRM_5V_EXTERNAL_2_EN_PIN
@@ -46,7 +46,7 @@ const prm_channel_config_t prm_default_config[PRM_TOTAL_NUMBER_CHANNELS] =
     },
 
     [EXTERNAL_12V_1] = {
-        .enabled = false,
+        .enabled = true,
         .hw = {
             .en_port = PRM_12V_EXTERNAL_1_EN_PORT,
             .en_pin = PRM_12V_EXTERNAL_1_EN_PIN
@@ -54,7 +54,7 @@ const prm_channel_config_t prm_default_config[PRM_TOTAL_NUMBER_CHANNELS] =
     },
 
     [EXTERNAL_12V_2] = {
-        .enabled = false,
+        .enabled = true,
         .hw = {
             .en_port = PRM_12V_EXTERNAL_2_EN_PORT,
             .en_pin = PRM_12V_EXTERNAL_2_EN_PIN
