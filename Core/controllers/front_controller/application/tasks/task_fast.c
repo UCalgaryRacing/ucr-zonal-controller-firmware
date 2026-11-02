@@ -35,12 +35,21 @@
 #include "ins_svc_logging.h"
 #include "ins_svc_wheel_speed.h"
 
+#include "task_timing_svc.h"
+
 static const uint32_t period = 10;
 static uint32_t nextWakeTime;
 
 void task_fast_init(void)
 {
 	nextWakeTime = osKernelGetTickCount();
+
+	//---------------- task timing ----------------//
+	CoreDebug->DEMCR |= CoreDebug_DEMCR_TRCENA_Msk;
+    DWT->LAR = 0xC5ACCE55;              // unlock, required on Cortex-M7
+    DWT->CYCCNT = 0;
+    DWT->CTRL |= DWT_CTRL_CYCCNTENA_Msk;
+
 
 	//---------------- PDM ----------------//
 	//CRITICAL
@@ -148,8 +157,9 @@ void task_fast_init(void)
 
 void task_fast_loop(void)
 {
+	uint32_t start_time = DWT->CYCCNT;
+	
 	nextWakeTime += period;
-
 
 	//---------------- PDM ----------------//
 	//only for updating vnf watchdog for now
@@ -193,6 +203,7 @@ void task_fast_loop(void)
 	//acu_svc_set_acu_fault_timeout();
 
 
+	task_timing_update_average((float)(DWT->CYCCNT - start_time), TASK_TIMING_FAST);
 
 	osDelayUntil(nextWakeTime);
 }

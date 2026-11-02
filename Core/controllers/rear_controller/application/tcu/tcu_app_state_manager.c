@@ -67,7 +67,7 @@ static void on_state_entry(tcu_app_state_t state)
     switch (state)
     {
         case TCU_APP_STATE_READY_TO_DRIVE:
-            rco_svc_buzzer_enable(2000);
+            rco_svc_buzzer_enable(800);
             mcu_svc_hsd_channel_enable(BAMOCAR_FRG, true);
             break;
 
@@ -76,8 +76,20 @@ static void on_state_entry(tcu_app_state_t state)
             break;
 
         case TCU_APP_STATE_IDLE:
+            mcu_svc_hsd_channel_enable(BAMOCAR_FRG, false);
+            break;
         case TCU_APP_STATE_STARTUP:
+            mcu_svc_hsd_channel_enable(BAMOCAR_FRG, false);
+            break;
         case TCU_APP_STATE_MOTOR_DISABLED:
+            mcu_svc_hsd_channel_enable(BAMOCAR_FRG, false);
+            break;
+        case TCU_APP_STATE_LC_STAGED:
+            mcu_svc_hsd_channel_enable(BAMOCAR_FRG, true);
+            break;
+        case TCU_APP_STATE_LC_ACTIVE:
+            mcu_svc_hsd_channel_enable(BAMOCAR_FRG, true);
+            break;
         default:
             break;
     }
@@ -89,8 +101,14 @@ static void on_state_exit(tcu_app_state_t state)
     switch (state)
     {
     	case TCU_APP_STATE_READY_TO_DRIVE:
-    		mcu_svc_hsd_channel_enable(BAMOCAR_FRG, false);
+    		//mcu_svc_hsd_channel_enable(BAMOCAR_FRG, false);
     		break;
+        case TCU_APP_STATE_LC_STAGED:
+            //mcu_svc_hsd_channel_enable(BAMOCAR_FRG, false);
+            break;
+        case TCU_APP_STATE_LC_ACTIVE:
+            //mcu_svc_hsd_channel_enable(BAMOCAR_FRG, false);
+            break;
         case TCU_APP_STATE_REVERSE:
             //tcu_svc_buzzer_stop();
             //tcu_svc_reverse_disable();

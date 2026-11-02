@@ -30,10 +30,10 @@ static const float *g_active_rpm_breakpoints = g_default_rpm_breakpoints;
 static const float *g_active_current_limit_rms_a = g_default_current_limit_rms_a;
 static uint32_t g_active_table_size = (uint32_t)(sizeof(g_default_rpm_breakpoints) / sizeof(g_default_rpm_breakpoints[0]));
 
-#define LC_START_PCT           15.0f
-#define LC_RAMP_RATE           150.0f
+#define LC_START_PCT           5.0f
+#define LC_RAMP_RATE           10.0f
 #define LC_RAMP_CAP_PCT        60.0f
-#define LC_RAMP_MAX_TIME_MS    300.0f
+#define LC_RAMP_MAX_TIME_MS    3000.0f
 #define LC_HANDOVER_SPEED_RPM  300.0f
 #define LC_TARGET_SLIP_RATIO   0.15f
 #define LC_KP                  0.5f
@@ -60,11 +60,11 @@ float mco_svc_launch_control_calculate_torque_percent(float requested_torque_per
 
     if (lc_ramp_active)
     {
-        lc_calculated_torque = LC_START_PCT + (LC_PCT_RATE_INCREASE * lc_time_elapsed / 1000.0f);
+        lc_calculated_torque = LC_START_PCT + (LC_RAMP_RATE * lc_time_elapsed / 1000.0f);
         lc_calculated_torque = mco_svc_traction_control_clamp(lc_calculated_torque, 0.0f, LC_RAMP_CAP_PCT);
         lc_calculated_torque = mco_svc_traction_control_clamp(lc_calculated_torque, 0.0f, requested_torque_percent);
 
-        if ((lc_time_elapsed >= LC_RAMP_MAX_TIME_MS) || (rpm_front >= LC_HANDOVER_SPEED_RPM) || (slip_ratio >= LC_TARGET_SLIP_RATIO))
+        if ((lc_time_elapsed >= LC_RAMP_MAX_TIME_MS) || (rpm_front >= LC_HANDOVER_SPEED_RPM))
         {
             lc_ramp_active = false;
             previous_slip_error = LC_TARGET_SLIP_RATIO - slip_ratio;

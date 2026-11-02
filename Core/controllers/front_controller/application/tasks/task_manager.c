@@ -18,6 +18,7 @@
 #include "cmsis_os2.h"
 #include "mco_svc_bamocar_regs.h"
 #include "mco_svc_regen.h"
+#include "mco_svc_traction_control.h"
 
 //Remove later
 #include "ins_data.h"
@@ -88,7 +89,7 @@ void task_manager_loop(void)
 	{
 		g_requested_torque = 100.0f;
 	}
-	if (tcu_app_state_machine_get_state() != (TCU_APP_STATE_READY_TO_DRIVE || TCU_APP_STATE_LC_ACTIVE))
+	if ((tcu_app_state_machine_get_state() != TCU_APP_STATE_READY_TO_DRIVE) && (tcu_app_state_machine_get_state() !=TCU_APP_STATE_LC_ACTIVE))
 	{
 		g_requested_torque = 0.0f;
 	}

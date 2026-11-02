@@ -154,7 +154,7 @@ static tcu_app_state_t handle_rtd_state(void)
 static tcu_app_state_t handle_lc_staged_state(void)
 {
 
-    if (tcu_data_get_apps_percent() > 90.0f &&
+    if (tcu_data_get_apps_percent() > 40.0f &&
         !tcu_data_get_brake_active() &&
         (HAL_GetTick() - g_state_enter_time) >= 2000)
     {
@@ -210,9 +210,17 @@ static void on_state_entry(tcu_app_state_t state)
     switch (state)
     {
         case TCU_APP_STATE_READY_TO_DRIVE:
+            pdm_svc_channel_enable(LC_LIGHT, false);
+            break;
         case TCU_APP_STATE_IDLE:
+            pdm_svc_channel_enable(LC_LIGHT, false);
+            break;
         case TCU_APP_STATE_STARTUP:
+            pdm_svc_channel_enable(LC_LIGHT, false);
+            break;
         case TCU_APP_STATE_MOTOR_DISABLED:
+            pdm_svc_channel_enable(LC_LIGHT, false);
+            break;
         case TCU_APP_STATE_LC_STAGED:
             pdm_svc_channel_enable(LC_LIGHT, true);
             break;
@@ -230,12 +238,6 @@ static void on_state_exit(tcu_app_state_t state)
 {
     switch (state)
     {
-        case TCU_APP_STATE_LC_STAGED:
-            pdm_svc_channel_enable(LC_LIGHT, false);
-            break;
-        case TCU_APP_STATE_LC_ACTIVE:
-            pdm_svc_channel_enable(LC_LIGHT, false);
-            break;
         default:
             break;
     }

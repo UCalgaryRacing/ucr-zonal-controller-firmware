@@ -10,7 +10,9 @@ typedef enum
     TCU_APP_STATE_IDLE,
     TCU_APP_STATE_READY_TO_DRIVE,
     TCU_APP_STATE_REVERSE,
-    TCU_APP_STATE_MOTOR_DISABLED
+    TCU_APP_STATE_MOTOR_DISABLED,
+    TCU_APP_STATE_LC_STAGED,
+    TCU_APP_STATE_LC_ACTIVE
 } tcu_app_state_t;
 
 tcu_app_state_t tcu_app_state_machine_get_state(void);
