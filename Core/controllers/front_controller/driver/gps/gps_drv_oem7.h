@@ -1,11 +1,11 @@
 #ifndef DRIVER_GPS_DRV_OEM7_H_
 #define DRIVER_GPS_DRV_OEM7_H_
 
-#include <stdint.h>
-#include <stdbool.h>
-#include "gps_typ_common.h"
 #include "gps_config.h"
+#include "gps_typ_common.h"
 #include "stm32h7xx_hal.h"
+#include <stdbool.h>
+#include <stdint.h>
 
 /*============================================================================*/
 /* Initialization                                                             */
@@ -50,6 +50,12 @@ gps_status_t gps_drv_oem7_start(const gps_hw_t *hw);
  */
 void gps_drv_oem7_rx_event_callback(UART_HandleTypeDef *huart, uint16_t size);
 
+/**
+ * @brief  Forward HAL_UART_ErrorCallback events into the driver.
+ *         Captures the UART error code and restarts DMA reception.
+ * @param  huart  UART handle from the HAL error callback.
+ */
+void gps_drv_oem7_error_callback(UART_HandleTypeDef *huart);
 /*============================================================================*/
 /* Command Transmit                                                           */
 /*============================================================================*/
