@@ -37,6 +37,8 @@
 
 #include "task_timing_svc.h"
 
+#include "gps_svc.h"
+
 static const uint32_t period = 10;
 static uint32_t nextWakeTime;
 
@@ -124,7 +126,7 @@ void task_fast_init(void)
 	mco_config_apply(&mco_default_config);
 	mco_svc_bamocar_request_data(BAMOCAR_REG_INVERTER_TEMP, BAMOCAR_REPEAT_100MS);
 	mco_svc_bamocar_request_data(BAMOCAR_REG_MOTOR_TEMP, BAMOCAR_REPEAT_100MS);
-	mco_svc_bamocar_request_data(BAMOCAR_REG_RPM_ACTUAL, BAMOCAR_REPEAT_10MS);
+	mco_svc_bamocar_request_data(BAMOCAR_REG_RPM_ACTUAL, BAMOCAR_REPEAT_3MS);
 	mco_svc_bamocar_request_data(BAMOCAR_REG_ACTIVE_CURRENT, BAMOCAR_REPEAT_10MS);
 	mco_svc_bamocar_request_data(BAMOCAR_REG_REACTIVE_CURRENT, BAMOCAR_REPEAT_10MS);
 	mco_svc_bamocar_request_data(BAMOCAR_REG_AC_CURRENT, BAMOCAR_REPEAT_10MS);
@@ -170,8 +172,11 @@ void task_fast_loop(void)
 	pdm_svc_channel_update(RTD_LIGHT);
 	pdm_svc_channel_update(LC_LIGHT);
 
+	ins_svc_wheel_speed_update(FL_WHEEL_SPEED);
+	ins_svc_wheel_speed_update(FR_WHEEL_SPEED);
+
 	//---------------- TCU ----------------//
-	tcu_svc_apps_update(APPS1, APPS2);
+	//tcu_svc_apps_update(APPS1, APPS2);
 	tcu_svc_bse_update(BSE1);
 
 	fco_svc_ptt_update();
@@ -188,16 +193,16 @@ void task_fast_loop(void)
 
 	//---------------- INSTRUMENTATION ----------------//
 	// suspension
-	ins_svc_update_front_pots(FL_SUSPENSION, FR_SUSPENSION);
-	ins_svc_can_tx_front_suspension_data();
+	//ins_svc_update_front_pots(FL_SUSPENSION, FR_SUSPENSION);
+	//ins_svc_can_tx_front_suspension_data();
 
 	// wheel speed
-	ins_svc_wheel_speed_update(FL_WHEEL_SPEED);
-	ins_svc_wheel_speed_update(FR_WHEEL_SPEED);
+
 	ins_svc_can_tx_front_wheel_speed_data();
 
 	
-
+	// //---------------- GPS ----------------//
+	gps_svc_update();
 
 	//---------------- ACCUMULATOR ----------------//
 	//acu_svc_set_acu_fault_timeout();

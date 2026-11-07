@@ -30,11 +30,11 @@ static const float *g_active_rpm_breakpoints = g_default_rpm_breakpoints;
 static const float *g_active_current_limit_rms_a = g_default_current_limit_rms_a;
 static uint32_t g_active_table_size = (uint32_t)(sizeof(g_default_rpm_breakpoints) / sizeof(g_default_rpm_breakpoints[0]));
 
-#define LC_START_PCT           5.0f
-#define LC_RAMP_RATE           10.0f
-#define LC_RAMP_CAP_PCT        60.0f
-#define LC_RAMP_MAX_TIME_MS    3000.0f
-#define LC_HANDOVER_SPEED_RPM  300.0f
+#define LC_START_PCT           6.0f
+#define LC_RAMP_RATE           75.0f
+#define LC_RAMP_CAP_PCT        80.0f
+#define LC_RAMP_MAX_TIME_MS    1000.0f
+#define LC_HANDOVER_SPEED_RPM  1000.0f
 #define LC_TARGET_SLIP_RATIO   0.15f
 #define LC_KP                  0.5f
 #define LC_KI                  0.1f

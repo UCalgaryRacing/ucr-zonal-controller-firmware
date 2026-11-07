@@ -9,7 +9,7 @@
 #define TCU_APPS_1_VOLTAGE_MAX_V             11.5f
 
 #define TCU_APPS_1_ACTIVE_MIN_V              4.9f
-#define TCU_APPS_1_ACTIVE_MAX_V              9.95f
+#define TCU_APPS_1_ACTIVE_MAX_V              9.94f
 
 #define TCU_APPS_1_SCALING_FACTOR            4.9f
 
@@ -23,7 +23,7 @@
 #define TCU_APPS_2_VOLTAGE_MAX_V             11.8f
 
 #define TCU_APPS_2_ACTIVE_MIN_V              8.15f
-#define TCU_APPS_2_ACTIVE_MAX_V              11.2f
+#define TCU_APPS_2_ACTIVE_MAX_V              11.02f
 
 #define TCU_APPS_2_SCALING_FACTOR            4.9f
 

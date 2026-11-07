@@ -1,4 +1,6 @@
 #include "task_manager.h"
+#include "cmsis_os2.h"
+
 
 #include <stdint.h>
 
@@ -24,12 +26,14 @@
 #include "ins_data.h"
 #include "whl_data.h"
 
+#include "task_timing_svc.h"
+
 
 #include "tcu_app_state_manager.h"
 
 static float g_requested_torque = 0;
 
-static const uint32_t period = 10;
+static const uint32_t period = 3;
 static uint32_t nextWakeTime;
 
 static bool regen_active = false;
@@ -44,6 +48,8 @@ void task_manager_init(void)
 
 void task_manager_loop(void)
 {
+	uint32_t start_time = DWT->CYCCNT;
+
 	nextWakeTime += period;
 
 
@@ -131,7 +137,7 @@ void task_manager_loop(void)
 
 
 
-
+	task_timing_update_average((float)(DWT->CYCCNT - start_time), TASK_TIMING_MANAGER);
 
 	osDelayUntil(nextWakeTime);
 }

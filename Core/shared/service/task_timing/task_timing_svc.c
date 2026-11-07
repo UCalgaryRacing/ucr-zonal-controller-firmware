@@ -21,14 +21,14 @@ void task_timing_update_average(float new_sample, task_timing_index_t index)
         timing_data.head = (timing_data.head + 1) % WINDOW_SIZE;
     }
 
-    timing_data.average = (float)timing_data.running_sum / (float)timing_data.count;
+    timing_data.average = (float)timing_data.running_sum / ((float)timing_data.count * 480000000.0f);
 
-    if (new_sample > timing_data.max) {
-        timing_data.max = new_sample;
+    if ((new_sample / 480000000.0f) > timing_data.max) {
+        timing_data.max = new_sample / 480000000.0f;
     }
 
-    if (new_sample < timing_data.min) {
-        timing_data.min = new_sample;
+    if ((new_sample / 480000000.0f) < timing_data.min) {
+        timing_data.min = new_sample / 480000000.0f;
     }
 
     task_timing_data_set_task(index, timing_data);

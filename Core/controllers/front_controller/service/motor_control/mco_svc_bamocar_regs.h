@@ -34,6 +34,7 @@
 /*============================================================================*/
 
 #define BAMOCAR_REPEAT_ONCE                 0x00U
+#define BAMOCAR_REPEAT_3MS                  0x03U
 #define BAMOCAR_REPEAT_10MS                 0x0AU
 #define BAMOCAR_REPEAT_20MS                 0x14U
 #define BAMOCAR_REPEAT_50MS                 0x32U

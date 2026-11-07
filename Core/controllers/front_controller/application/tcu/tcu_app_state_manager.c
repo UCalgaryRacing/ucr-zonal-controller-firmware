@@ -13,6 +13,8 @@
 #include "pdm_config.h"
 #include "pdm_svc_channel.h"
 
+#include "task_timing_svc.h"
+
 /*============================================================================*/
 /* Private Variables                                                          */
 /*============================================================================*/
@@ -50,6 +52,8 @@ void tcu_app_state_machine_init(void)
 
 void tcu_app_state_machine_step(void)
 {
+    uint32_t start_time = DWT->CYCCNT;
+
     tcu_app_state_t next_state = g_current_state;
 	tcu_data_set_state(g_current_state);
     switch (g_current_state)
@@ -93,6 +97,8 @@ void tcu_app_state_machine_step(void)
 
         on_state_entry(g_current_state);
     }
+
+    task_timing_update_average((float)(DWT->CYCCNT - start_time), TASK_TIMING_TCU_STATE_MANAGER);
 }
 
 
@@ -156,7 +162,7 @@ static tcu_app_state_t handle_lc_staged_state(void)
 
     if (tcu_data_get_apps_percent() > 40.0f &&
         !tcu_data_get_brake_active() &&
-        (HAL_GetTick() - g_state_enter_time) >= 2000)
+        (HAL_GetTick() - g_state_enter_time) >= 300)
     {
         return TCU_APP_STATE_LC_ACTIVE;
     }
